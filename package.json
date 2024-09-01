@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^16.11.11",
+    "tsx": "^1.0.0"
+  },
+  "scripts": {
+    "dev": "tsx index.ts"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.7",
+    "fastify": "^4.28.1",
+    "pino": "^9.3.2"
+  }
+}
