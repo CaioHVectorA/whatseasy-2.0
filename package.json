@@ -9,7 +9,7 @@
     "tsx": "^1.0.0"
   },
   "scripts": {
-    "dev": "tsx index.ts"
+    "dev": "tsx watch index.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
