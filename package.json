@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^16.11.11",
+    "@types/qrcode": "^1.5.5",
     "tsx": "^1.0.0"
   },
   "scripts": {
@@ -16,6 +17,7 @@
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.7",
     "fastify": "^4.28.1",
-    "pino": "^9.3.2"
+    "pino": "^9.3.2",
+    "qrcode": "^1.5.4"
   }
 }
