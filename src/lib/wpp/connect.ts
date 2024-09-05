@@ -14,6 +14,7 @@ export async function connect(uuid: string): Promise<ModifiedSock> {
     browser: Browsers.macOS('Desktop'),
     auth: state,
     logger: (pino({ level: 'silent' }) as any),
+    printQRInTerminal: true
   })) as ModifiedSock;
   //@ts-ignore
   sock.decodeJid = decodeJid;
