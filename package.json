@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.7",
+    "baileys": "github:WhiskeySockets/Baileys",
     "fastify": "^4.28.1",
     "pino": "^9.3.2",
     "qrcode": "^1.5.4"
