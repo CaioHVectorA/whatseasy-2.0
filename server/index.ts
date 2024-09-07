@@ -17,7 +17,6 @@ fastify.register(websocket)
 //   })
 fastify.register(async function (fastify) {
     fastify.get('/ws', { websocket: true }, (socket) => {
-        // socket.on('new-client', () => socket.send('new-client event!'))
         socket.on('connection', () => console.log('Client connected.'))
         socket.on('message', main(socket))
         // socket.on('')
@@ -25,5 +24,5 @@ fastify.register(async function (fastify) {
 })
 
 fastify.listen({
-    port: 3000
+    port: 3333
 })
