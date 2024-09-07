@@ -23,16 +23,22 @@ export async function handleConnection(state: Partial<ConnectionState>) {
       }
 }
 
-export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSocket) => {
+export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSocket, fallback: (uuid: string) => any, uuid: string) => {
   return async (state: Partial<ConnectionState>) => {
-    const { connection, lastDisconnect, qr } = state;
+    const { connection, lastDisconnect, qr, isNewLogin } = state;
     if (connection === "close") {
       const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
       const reconnect = [DisconnectReason.connectionClosed, DisconnectReason.connectionLost, DisconnectReason.restartRequired, DisconnectReason.timedOut].includes(statusCode);
       
       console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ''}`);
-      
-      if (reconnect) return handleConnectionSockClosure(sock, websocket);
+      if (reconnect) {
+        console.log('Chegou aqui reconnect')
+        return fallback(uuid)
+      };
+      if (isNewLogin) {
+        console.log('Chegou aqui isNewLogin')
+        return fallback(uuid)
+      }
       websocket.send(mountResponse(ClientSignals.CLIENT_FAIL, 'Conexão encerrada! Tente novamente.', sock.clientUuid))
       return process.exit();
     } 
