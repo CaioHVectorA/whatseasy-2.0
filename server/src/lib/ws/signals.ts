@@ -1,5 +1,6 @@
 export enum ServerSignals {
     NEW_CLIENT = 'new.client',
+    GET_CLIENT = 'get.client',
 }
 
 export enum ClientSignals {
