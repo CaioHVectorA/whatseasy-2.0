@@ -4,6 +4,7 @@ baileys_auth_info/
 # Logs
 logs
 auths/*
+**/**.db
 _.log
 npm-debug.log_
 yarn-debug.log*
