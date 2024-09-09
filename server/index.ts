@@ -6,6 +6,7 @@ import { userController } from '@/controllers/user.controller'
 import { authController } from '@/controllers/auth.controller'
 import { AppError } from '@/lib/appError'
 import { prisma } from '@/lib/prisma.client'
+import cors from '@fastify/cors'
 const fastify = Fastify({
     logger: true
 })
@@ -14,6 +15,11 @@ declare module 'fastify' {
       me?: any;
     }
   }
+await fastify.register(cors, { 
+    // put your options here
+    credentials: true,
+    origin: '*',
+})
 fastify.register(websocket)
 fastify.register(jwt, { secret: process.env.JWT_SECRET || "secret" })
 fastify.register(authController)
@@ -28,7 +34,16 @@ fastify.setErrorHandler(async (error, request, reply) => {
     }
     reply.status(error.statusCode || 500).send({ ...error, isOperational: false })
 })
+
+fastify.register(async function (fastify) {
+    fastify.get('/ws', { websocket: true }, (socket, req) => {
+        socket.on('connection', () => console.log('Client connected.'))
+        socket.on('message', main(socket))
+        // socket.on('')
+    })
+})
 fastify.addHook("onRequest", async (request, reply) => {
+    if (request.ws) return
     if (request.url.startsWith('/auth')) return
     try {
         await request.jwtVerify()
@@ -37,6 +52,7 @@ fastify.addHook("onRequest", async (request, reply) => {
     }
 })
 fastify.addHook("onRequest", async (request, reply) => {
+    if (request.ws) return
     try {
         // Supondo que request.user seja um JWT string
         const user = request.user as { id: string };
@@ -44,6 +60,7 @@ fastify.addHook("onRequest", async (request, reply) => {
         // Busca o usuário pelo ID do JWT
         request.me = await prisma.user.findUnique({
             where: { id: user.id },
+            select: { id: true, email: true, name: true, last_connection: true }
         });
 
         // Se o usuário não for encontrado, retorna erro
@@ -57,14 +74,6 @@ fastify.addHook("onRequest", async (request, reply) => {
     }
 })
 fastify.register(userController)
-
-fastify.register(async function (fastify) {
-    fastify.get('/ws', { websocket: true }, (socket, req) => {
-        socket.on('connection', () => console.log('Client connected.'))
-        socket.on('message', main(socket))
-        // socket.on('')
-    })
-})
 
 fastify.listen({
     port: 3333
