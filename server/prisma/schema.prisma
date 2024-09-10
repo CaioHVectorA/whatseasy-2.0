@@ -13,6 +13,7 @@ model User {
   name            String?
   password        String
   last_connection DateTime   @default(now())
+  isConnected     Boolean    @default(false)
   createdAt       DateTime   @default(now())
   Reactive        Reactive[]
 }

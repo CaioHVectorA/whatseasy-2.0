@@ -11,7 +11,7 @@ export const authController: FastifyPluginAsync = async (fastify: FastifyInstanc
         const salt = await genSalt(10);
         const hashedPassword = await hash(password, salt);
         if (await prisma.user.findUnique({ where: { email } })) {
-            throw new AppError('User already exists');
+            throw new AppError('Usuário já existe!');
         }
         const user = await prisma.user.create({
             data: {

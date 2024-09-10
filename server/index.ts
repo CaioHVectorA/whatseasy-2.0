@@ -52,7 +52,7 @@ fastify.addHook("onRequest", async (request, reply) => {
     }
 })
 fastify.addHook("onRequest", async (request, reply) => {
-    if (request.ws) return
+    if (request.ws || request.url.startsWith('/auth')) return
     try {
         // Supondo que request.user seja um JWT string
         const user = request.user as { id: string };
@@ -60,7 +60,7 @@ fastify.addHook("onRequest", async (request, reply) => {
         // Busca o usuário pelo ID do JWT
         request.me = await prisma.user.findUnique({
             where: { id: user.id },
-            select: { id: true, email: true, name: true, last_connection: true }
+            select: { id: true, email: true, name: true, last_connection: true, isConnect: true }
         });
 
         // Se o usuário não for encontrado, retorna erro
