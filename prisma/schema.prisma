@@ -8,14 +8,19 @@ datasource db {
 }
 
 model User {
-  id              String     @id @default(uuid())
-  email           String     @unique
+  id              String         @id @default(uuid())
+  email           String         @unique
   name            String?
   password        String
-  last_connection DateTime   @default(now())
-  isConnected     Boolean    @default(false)
-  createdAt       DateTime   @default(now())
+  last_connection DateTime?
+  last_sync       DateTime?
+  isConnected     Boolean        @default(false)
+  createdAt       DateTime       @default(now())
   Reactive        Reactive[]
+  Contacts        Contacts[]
+  SentMessages    SentMessages[]
+
+  @@map("users")
 }
 
 model Reactive {
@@ -26,4 +31,50 @@ model Reactive {
   updatedAt DateTime @updatedAt
   userId    String
   User      User     @relation(fields: [userId], references: [id])
+
+  @@map("reactives")
 }
+
+model Contacts {
+  id        Int            @id @default(autoincrement())
+  phone     String
+  name      String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  userId    String
+  User      User           @relation(fields: [userId], references: [id])
+  clusterId Int
+  Cluster   ContactCluster @relation(fields: [clusterId], references: [id])
+
+  @@map("contacts")
+}
+
+model ContactCluster {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Contacts Contacts[]
+}
+
+model SentMessages {
+  id        Int      @id @default(autoincrement())
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  phone     String
+
+  @@map("sent_messages")
+}
+
+// model ReceivedMessages {
+//   id        Int      @id @default(autoincrement())
+//   message   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   userId    String
+//   User      User     @relation(fields: [userId], references: [id])
+
+//   @@map("received_messages")
+// }
