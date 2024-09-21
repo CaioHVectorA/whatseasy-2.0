@@ -30,11 +30,11 @@ export const authController: FastifyPluginAsync = async (fastify: FastifyInstanc
             where: { email }
         });
         if (!user) {
-            throw new AppError('User not found');
+            throw new AppError('Usuário não encontrado. Tente um cadastro!');
         }
         const isPasswordValid = await compare(password, user.password);
         if (!isPasswordValid) {
-            throw new AppError('Invalid password');
+            throw new AppError('Password inválido');
         }
         const token = fastify.jwt.sign({ id: user.id });
         return { token };
