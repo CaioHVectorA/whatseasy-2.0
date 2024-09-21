@@ -14,7 +14,7 @@ const fastify = Fastify({
 declare module 'fastify' {
     interface FastifyRequest {
       me?: any;
-        clients: Client[];
+      clients: Client[];
     }
   }
 await fastify.register(cors, { 
