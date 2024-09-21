@@ -19,6 +19,7 @@ model User {
   Reactive        Reactive[]
   Contacts        Contacts[]
   SentMessages    SentMessages[]
+  Schedule        Schedule[]
 
   @@map("users")
 }
@@ -66,6 +67,19 @@ model SentMessages {
   phone     String
 
   @@map("sent_messages")
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  phone     String
+  time      DateTime
+
+  @@map("schedules")
 }
 
 // model ReceivedMessages {
