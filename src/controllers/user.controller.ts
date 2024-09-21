@@ -6,5 +6,26 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
     fastify.get('/user/me', async (req, reply) => {
         return req.me
     })
-    // other routes using req.me..
+    fastify.get('/clients', async (req, reply) => {
+        return req.clients.map((c) => c.clientUUid)
+    })
+
+    fastify.get('/user/initialData', async (req, reply) => {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.me.id
+            },
+            select: {
+                _count: {
+                    select: {
+                        Contacts: true,
+                        Reactive: true,
+                        SentMessages: true,
+                        Schedule: true
+                    }
+                }
+            }
+        })
+        return user
+    })
 }
