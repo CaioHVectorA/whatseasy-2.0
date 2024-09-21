@@ -7,12 +7,14 @@ import { authController } from '@/controllers/auth.controller'
 import { AppError } from '@/lib/appError'
 import { prisma } from '@/lib/prisma.client'
 import cors from '@fastify/cors'
+import type { Client } from '@/lib/wpp/Client'
 const fastify = Fastify({
     logger: true
 })
 declare module 'fastify' {
     interface FastifyRequest {
       me?: any;
+        clients: Client[];
     }
   }
 await fastify.register(cors, { 
@@ -20,8 +22,16 @@ await fastify.register(cors, {
     credentials: true,
     origin: '*',
 })
+
+const clients: Client[] = [];
+
 fastify.register(websocket)
 fastify.register(jwt, { secret: process.env.JWT_SECRET || "secret" })
+fastify.decorateRequest('clients', [])
+fastify.addHook('preHandler', (request, reply, done) => {
+    request.clients = clients
+    done()
+})
 fastify.register(authController)
 fastify.setErrorHandler(async (error, request, reply) => {
     if (error instanceof AppError) {
@@ -38,7 +48,7 @@ fastify.setErrorHandler(async (error, request, reply) => {
 fastify.register(async function (fastify) {
     fastify.get('/ws', { websocket: true }, (socket, req) => {
         socket.on('connection', () => console.log('Client connected.'))
-        socket.on('message', main(socket))
+        socket.on('message', main(socket, clients))
         // socket.on('')
     })
 })
@@ -78,3 +88,9 @@ fastify.register(userController)
 fastify.listen({
     port: 3333
 })
+
+setInterval(() => {
+    const mappedClients = clients.map((c) => c.clientUUid)
+    fastify.log.info('clients')
+    fastify.log.info(mappedClients)
+}, 3000)
