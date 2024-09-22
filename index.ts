@@ -8,12 +8,15 @@ import { AppError } from '@/lib/appError'
 import { prisma } from '@/lib/prisma.client'
 import cors from '@fastify/cors'
 import type { Client } from '@/lib/wpp/Client'
+import { readdirSync, readSync } from 'fs'
+import type { User } from '@prisma/client'
 const fastify = Fastify({
-    logger: true
+    logger: false
 })
+// { id: true, email: true, name: true, last_connection: true, isConnected: true }
 declare module 'fastify' {
     interface FastifyRequest {
-      me?: any;
+      me: { id: string, email: string, name: string, last_connection: Date, isConnected: boolean };
       clients: Client[];
     }
   }
@@ -22,7 +25,6 @@ await fastify.register(cors, {
     credentials: true,
     origin: '*',
 })
-
 const clients: Client[] = [];
 
 fastify.register(websocket)
@@ -68,10 +70,11 @@ fastify.addHook("onRequest", async (request, reply) => {
         const user = request.user as { id: string };
         console.log(user, request.user)
         // Busca o usuário pelo ID do JWT
-        request.me = await prisma.user.findUnique({
+        //@ts-ignore
+        request.me = (await prisma.user.findUnique({
             where: { id: user.id },
             select: { id: true, email: true, name: true, last_connection: true, isConnected: true }
-        });
+        }));
 
         // Se o usuário não for encontrado, retorna erro
         if (!request.me) {
