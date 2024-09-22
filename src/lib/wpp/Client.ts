@@ -18,8 +18,7 @@ export async function createClient(uuid: string, clients: Client[]): Promise<Cli
     const sock = await connect(uuid);
     sock.ev.on('messages.upsert', async (m) => {
         if (m.messages[0].message?.conversation === "Olá, mundo!" || !INCLUDED_CHATS.includes(getChatId({ ...m.messages[0].key })) ) return;
-        //@ts-ignore
-        if ((m.messages[0].messageTimestamp) < initDate) return;
+        // if ((m.messages[0].messageTimestamp) < initDate) return;
         if (m.messages[0].message?.conversation === '') return  (m.messages[0].messageTimestamp, init)
         console.log("Responderia!!!")
         // return;  
