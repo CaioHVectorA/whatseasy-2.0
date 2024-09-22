@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma.client";
+import type { Client } from "@/lib/wpp/Client";
 import { type FastifyInstance, type FastifyPluginAsync } from "fastify";
 
 export const userController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
@@ -10,7 +11,7 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
         return req.clients.map((c) => c.clientUUid)
     })
 
-    fastify.get('/user/initialData', async (req, reply) => {
+    fastify.get('/user/initial-data', async (req, reply) => {
         const user = await prisma.user.findUnique({
             where: {
                 id: req.me.id
@@ -26,6 +27,18 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
                 }
             }
         })
-        return user
+        const clientExists = req.clients.find((c: Client) => c.clientUUid === req.me.id)
+        if (!clientExists) {
+            return { ...user?._count, clientSync: false }
+        }
+        // check if client is sync
+        try {
+            //@ts-ignore
+            const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
+            return {...user?._count, clientSync }
+        } catch (err) {
+            console.log('DEU MERDA!!!!!!!!', err)
+            return { ...user?._count, clientSync: false }
+        }
     })
 }
