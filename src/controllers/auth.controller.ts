@@ -34,7 +34,7 @@ export const authController: FastifyPluginAsync = async (fastify: FastifyInstanc
         }
         const isPasswordValid = await compare(password, user.password);
         if (!isPasswordValid) {
-            throw new AppError('Password inválido');
+            throw new AppError('Senha incorreta!');
         }
         const token = fastify.jwt.sign({ id: user.id });
         return { token };
