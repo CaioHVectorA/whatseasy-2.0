@@ -10,6 +10,7 @@ import cors from '@fastify/cors'
 import type { Client } from '@/lib/wpp/Client'
 import { readdirSync, readSync } from 'fs'
 import type { User } from '@prisma/client'
+import { contactsController } from '@/controllers/contacts.controller'
 const fastify = Fastify({
     logger: false
 })
@@ -87,7 +88,7 @@ fastify.addHook("onRequest", async (request, reply) => {
     }
 })
 fastify.register(userController)
-
+fastify.register(contactsController)
 fastify.listen({
     port: 3333
 })
