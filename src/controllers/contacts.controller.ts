@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma.client";
 import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 
 export const contactsController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
@@ -5,9 +6,11 @@ export const contactsController: FastifyPluginAsync = async (fastify: FastifyIns
         const uuid = req.me.id
         const client = req.clients.find((c) => c.clientUUid === uuid)
         if (!client) {
-            return []
+            // return []
         }
         // const contacts = client.sock.ev.on
-        return []
+        fastify.log.info({ uuid })
+        const data = await prisma.contacts.findMany({ where: { userId: uuid }, include: { Cluster: true } })
+        return data
     })
 }
