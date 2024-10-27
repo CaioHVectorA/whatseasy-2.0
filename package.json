@@ -11,7 +11,7 @@
     "tsx": "^1.0.0"
   },
   "scripts": {
-    "dev": "tsx watch index.ts"
+    "dev": "npx tsx watch index.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -19,11 +19,15 @@
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@fastify/jwt": "^8.0.1",
+    "@fastify/websocket": "^10.0.0",
     "@prisma/client": "^5.19.1",
     "@whiskeysockets/baileys": "^6.7.8",
     "bcrypt": "^5.1.1",
     "fastify": "^4.28.1",
     "pino": "^9.3.2",
     "qrcode": "^1.5.4"
-  }
+  },
+  "trustedDependencies": [
+    "protobufjs"
+  ]
 }

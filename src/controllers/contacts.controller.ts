@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma.client";
 import type { Body } from "@/lib/types/utils";
+import type { Contacts } from "@prisma/client";
 import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 
 export const contactsController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
@@ -85,15 +86,25 @@ export const contactsController: FastifyPluginAsync = async (fastify: FastifyIns
         return "Deletado com sucesso!"
     })
     fastify.post<
-        Body<{ contactIds: number[], message: string }>
+        Body<{ contactIds: Contacts[], message: string }>
     >('/contacts/send-message', async (req, reply) => {
         const uuid = req.me.id
         const client = req.clients.find((c) => c.clientUUid === uuid)
         if (!client) {
             // return []
+            return reply.status(400).send("Usuário não encontrado!")
         }
         const { contactIds, message } = req.body
+        const promises = []
+        for (const id of contactIds) {
+            const jid = client.sock.decodeJid(id.phone)
+            console.log({ jid })
+            const pr = client.sock.sendMessage(jid, { text: message })
+            promises.push(pr)
+        }
+        const contacts = await Promise.allSettled(promises)
+        console.log({ contacts })
         fastify.log.info({ contactIds, message })
-        return { contactIds, message }
+        return { contacts }
     })
 }

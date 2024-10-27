@@ -69,7 +69,6 @@ fastify.addHook("onRequest", async (request, reply) => {
     try {
         // Supondo que request.user seja um JWT string
         const user = request.user as { id: string };
-        console.log(user, request.user)
         // Busca o usuário pelo ID do JWT
         //@ts-ignore
         request.me = (await prisma.user.findUnique({
@@ -90,7 +89,9 @@ fastify.addHook("onRequest", async (request, reply) => {
 fastify.register(userController)
 fastify.register(contactsController)
 fastify.listen({
-    port: 3333
+    port: 3333,
+}).then(() => {
+    console.log('Server running at http://localhost:3333')
 })
 
 setInterval(() => {

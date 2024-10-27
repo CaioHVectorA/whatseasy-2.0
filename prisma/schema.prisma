@@ -87,6 +87,12 @@ model Schedule {
   @@map("schedules")
 }
 
+// model Step {
+// }
+
+// model MultiForm {
+// }
+
 // model ReceivedMessages {
 //   id        Int      @id @default(autoincrement())
 //   message   String

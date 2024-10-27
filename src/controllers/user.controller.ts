@@ -35,6 +35,9 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
         try {
             //@ts-ignore
             const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
+            if (!clientSync) {
+                
+            }
             return {...user?._count, clientSync }
         } catch (err) {
             console.log('DEU MERDA!!!!!!!!', err)
