@@ -31,8 +31,8 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
     if (connection === "close") {
       const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
       const reconnect = [DisconnectReason.connectionClosed, DisconnectReason.connectionLost, DisconnectReason.restartRequired, DisconnectReason.timedOut].includes(statusCode);
-      
       console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ''}`);
+      await prisma.user.update({ where: { id: uuid }, data: { isConnected: false } })
       if (reconnect) {
         console.log('Chegou aqui reconnect')
         websocket.send(mountResponse(ClientSignals.CLIENT_SUCESS, 'Sua conexão será estabelecida em alguns segundos!', sock.clientUuid))

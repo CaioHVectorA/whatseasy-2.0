@@ -8,21 +8,37 @@ datasource db {
 }
 
 model User {
-  id              String           @id @default(uuid())
-  email           String           @unique
-  name            String?
-  password        String
-  last_connection DateTime?
-  last_sync       DateTime?
-  isConnected     Boolean          @default(false)
-  createdAt       DateTime         @default(now())
-  Reactive        Reactive[]
-  Contacts        Contacts[]
-  SentMessages    SentMessages[]
-  Schedule        Schedule[]
-  ContactCluster  ContactCluster[]
+  id             String           @id @unique @default(uuid())
+  email          String           @unique
+  name           String?
+  password       String
+  // last_connection DateTime?
+  // last_sync       DateTime?
+  // isConnected     Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  Reactive       Reactive[]
+  client_id      Int?
+  Client         Client?
+  Contacts       Contacts[]
+  SentMessages   SentMessages[]
+  Schedule       Schedule[]
+  ContactCluster ContactCluster[]
+  Trigger        Trigger[]
+  Form           Form[]
 
   @@map("users")
+}
+
+model Client {
+  id          Int      @id @unique @default(autoincrement())
+  last_sync   DateTime @default(now())
+  last_conn   DateTime @default(now())
+  isConnected Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String   @unique
+  qr          String
+  User        User     @relation(fields: [userId], references: [id])
 }
 
 model Reactive {
@@ -52,14 +68,15 @@ model Contacts {
 }
 
 model ContactCluster {
-  id          Int        @id @default(autoincrement())
-  name        String
-  userId      String
-  User        User       @relation(fields: [userId], references: [id])
-  description String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  Contacts    Contacts[]
+  id             Int              @id @default(autoincrement())
+  name           String
+  userId         String
+  User           User             @relation(fields: [userId], references: [id])
+  description    String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Contacts       Contacts[]
+  TriggerCluster TriggerCluster[]
 }
 
 model SentMessages {
@@ -87,11 +104,27 @@ model Schedule {
   @@map("schedules")
 }
 
-// model Step {
-// }
+model Step {
+  id          Int    @id @default(autoincrement())
+  question    String
+  validations String // JSON?
+  stepNumber  Int
+  formId      Int
+  Form        Form   @relation(fields: [formId], references: [id])
+  key         String
+}
 
-// model MultiForm {
-// }
+model Form {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  Steps     Step[]
+
+  @@map("forms")
+}
 
 // model ReceivedMessages {
 //   id        Int      @id @default(autoincrement())
@@ -103,3 +136,59 @@ model Schedule {
 
 //   @@map("received_messages")
 // }
+
+model Trigger {
+  id                Int                @id @default(autoincrement())
+  active            Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  order             Int                @default(0)
+  userId            String
+  User              User               @relation(fields: [userId], references: [id])
+  Responses         Response[]
+  TemporalCondition TemporalCondition?
+  TriggerClusters   TriggerCluster[]
+  TextTrigger       TextTrigger[]
+
+  @@map("triggers")
+}
+
+model TextTrigger {
+  id        Int     @id @default(autoincrement())
+  text      String
+  triggerId Int
+  Trigger   Trigger @relation(fields: [triggerId], references: [id])
+  type      String // ('EQUALS', 'REGEX', 'CONTAINS', 'STARTS_WITH', 'END_WITH')
+}
+
+model Response {
+  id        Int      @id @default(autoincrement())
+  type      String // ('TEXTO', 'IMAGEM', etc.) OU ativar um form
+  content   String
+  triggerId Int
+  Trigger   Trigger  @relation(fields: [triggerId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("responses")
+}
+
+model TemporalCondition {
+  id           Int      @id @default(autoincrement())
+  description  String
+  initial_date DateTime
+  final_date   DateTime
+  triggerId    Int      @unique
+  Trigger      Trigger  @relation(fields: [triggerId], references: [id])
+
+  @@map("temporal_conditions")
+}
+
+model TriggerCluster {
+  id        Int            @id @default(autoincrement())
+  triggerId Int
+  inside    Boolean        @default(true) // Se o trigger é para quem está dentro ou fora do cluster
+  clusterId Int
+  Trigger   Trigger        @relation(fields: [triggerId], references: [id])
+  Cluster   ContactCluster @relation(fields: [clusterId], references: [id])
+
+  @@map("trigger_clusters")
+}
