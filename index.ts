@@ -30,11 +30,12 @@ const clients: Client[] = [];
 
 fastify.register(websocket)
 fastify.register(jwt, { secret: process.env.JWT_SECRET || "secret" })
-fastify.decorateRequest('clients', [])
-fastify.addHook('preHandler', (request, reply, done) => {
-    request.clients = clients
-    done()
-})
+// fastify.decorateRequest('clients', [])
+// fastify.addHook('preHandler', (request, reply, done) => {
+//     request.clients = clients
+//     done()
+// })
+fastify.decorateRequest('clients', { getter: () => clients })
 fastify.register(authController)
 fastify.setErrorHandler(async (error, request, reply) => {
     if (error instanceof AppError) {

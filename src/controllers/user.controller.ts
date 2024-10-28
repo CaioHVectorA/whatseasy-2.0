@@ -1,14 +1,15 @@
 import { prisma } from "@/lib/prisma.client";
 import type { Client } from "@/lib/wpp/Client";
+import { mountApiResponse } from "@/lib/ws/mount-response";
 import { type FastifyInstance, type FastifyPluginAsync } from "fastify";
 
 export const userController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     // my fastify instance has a jwt plugin
     fastify.get('/user/me', async (req, reply) => {
-        return req.me
+        return mountApiResponse(req.me)
     })
     fastify.get('/clients', async (req, reply) => {
-        return req.clients.map((c) => c.clientUUid)
+        return mountApiResponse(req.clients.map((c) => c.clientUUid))
     })
 
     fastify.get('/user/initial-data', async (req, reply) => {
@@ -29,7 +30,7 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
         })
         const clientExists = req.clients.find((c: Client) => c.clientUUid === req.me.id)
         if (!clientExists) {
-            return { ...user?._count, clientSync: false }
+            return mountApiResponse({ ...user?._count, clientSync: false })
         }
         // check if client is sync
         try {
@@ -38,10 +39,10 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
             if (!clientSync) {
                 
             }
-            return {...user?._count, clientSync }
+            return mountApiResponse({...user?._count, clientSync })
         } catch (err) {
             console.log('DEU MERDA!!!!!!!!', err)
-            return { ...user?._count, clientSync: false }
+            return mountApiResponse({ ...user?._count, clientSync: false }, 'Erro ao sincronizar com o cliente', 'Erro ao sincronizar com o cliente')
         }
     })
 }

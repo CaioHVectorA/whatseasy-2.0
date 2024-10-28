@@ -5,6 +5,7 @@ import { genSalt, hash, compare } from 'bcrypt';
 import type { LoginRequest, RegisterRequest } from "../lib/types/dtos";
 import type { Body } from "../lib/types/utils";
 import { AppError } from '@/lib/appError';
+import { mountApiResponse } from "@/lib/ws/mount-response";
 export const authController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     fastify.post<Body<RegisterRequest>>('/auth/register', async (req, reply) => {
         const { email, password, name } = req.body;
@@ -21,7 +22,7 @@ export const authController: FastifyPluginAsync = async (fastify: FastifyInstanc
             }
         });
         const token = fastify.jwt.sign({ id: user.id });
-        return { token };
+        return mountApiResponse({ token }, 'Registrado com sucesso!');
     });
 
     fastify.post<Body<LoginRequest>>('/auth/login', async (req, reply) => {
@@ -37,6 +38,6 @@ export const authController: FastifyPluginAsync = async (fastify: FastifyInstanc
             throw new AppError('Senha incorreta!');
         }
         const token = fastify.jwt.sign({ id: user.id });
-        return { token };
+        return mountApiResponse({ token }, 'Logado com sucesso!');
     });
 };

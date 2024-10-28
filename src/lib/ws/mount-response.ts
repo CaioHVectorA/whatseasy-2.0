@@ -15,3 +15,11 @@ export function mountResponse(event: string, message: string, clientUUid: string
         send_date: new Date().toISOString()
     })
 }
+
+export function mountApiResponse(data: any, toastMessage?: string, message?: string) {
+    return {
+        message,
+        toastMessage: message,
+        data,
+    }
+}
