@@ -16,18 +16,19 @@ export async function createClient(uuid: string, clients: Client[]): Promise<Cli
     };
     const init = Date.now();
     const sock = await connect(uuid);
-    sock.ev.on('messages.upsert', async (m) => {
-        if (m.messages[0].message?.conversation === "Olá, mundo!" || !INCLUDED_CHATS.includes(getChatId({ ...m.messages[0].key })) ) return;
-        // if ((m.messages[0].messageTimestamp) < initDate) return;
-        if (m.messages[0].message?.conversation === '') return  (m.messages[0].messageTimestamp, init)
-        console.log("Responderia!!!")
-        // return;  
-        const response = 'Olá, mundo!';
-        if (!m.messages[0].key.remoteJid) return;
-        await sock.sendMessage(m.messages[0].key.remoteJid, {
-          text: response,
-        });
-    });
+    // sock.ev.on('messages.upsert', async (m) => {
+    //     console.log("msg!!!")
+    //     if (m.messages[0].message?.conversation === "Olá, mundo!" || !INCLUDED_CHATS.includes(getChatId({ ...m.messages[0].key }))) return;
+    //     // if ((m.messages[0].messageTimestamp) < initDate) return;
+    //     if (m.messages[0].message?.conversation === '') return (m.messages[0].messageTimestamp, init)
+    //     console.log("Responderia!!!")
+    //     // return;  
+    //     const response = 'Olá, mundo!';
+    //     if (!m.messages[0].key.remoteJid) return;
+    //     await sock.sendMessage(m.messages[0].key.remoteJid, {
+    //         text: response,
+    //     });
+    // });
     const client = {
         sock,
         clientUUid: uuid,

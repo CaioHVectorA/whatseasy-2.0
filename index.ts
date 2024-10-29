@@ -14,14 +14,13 @@ import { contactsController } from '@/controllers/contacts.controller'
 const fastify = Fastify({
     logger: false
 })
-// { id: true, email: true, name: true, last_connection: true, isConnected: true }
 declare module 'fastify' {
     interface FastifyRequest {
-      me: { id: string, email: string, name: string, last_connection: Date, isConnected: boolean };
-      clients: Client[];
+        me: { id: string, email: string, name: string, last_connection: Date, isConnected: boolean };
+        clients: Client[];
     }
-  }
-await fastify.register(cors, { 
+}
+await fastify.register(cors, {
     // put your options here
     credentials: true,
     origin: '*',
@@ -74,7 +73,7 @@ fastify.addHook("onRequest", async (request, reply) => {
         //@ts-ignore
         request.me = (await prisma.user.findUnique({
             where: { id: user.id },
-            select: { id: true, email: true, name: true, last_connection: true, isConnected: true }
+            select: { id: true, email: true, name: true, Client: { select: { isConnected: true, last_conn: true } } }
         }));
 
         // Se o usuário não for encontrado, retorna erro

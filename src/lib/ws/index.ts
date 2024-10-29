@@ -5,6 +5,7 @@ import { handleConnectionSockClosure } from '../wpp/handleConection'
 import { connect } from '../wpp/connect'
 import type { RawData } from 'ws'
 import { handleContacts } from '../wpp/handleContacts'
+import { handleMessages } from '../wpp/handleMessage'
 // const clients: Client[] = []
 export function main(socket: WebSocket, clients: Client[]) {
     return async (data: RawData) => {
@@ -13,14 +14,14 @@ export function main(socket: WebSocket, clients: Client[]) {
         const request = JSON.parse(data.toString()) as WebSocketRequest
         console.log({ request })
         if (request.event !== ServerSignals.NEW_CLIENT) return
-            const client = await createClient(request.uuid, clients)
-            console.log('Cliente criado!')
-            socket.send(JSON.stringify({ event: ClientSignals.CLIENT_UPDATE, message: "Seu cliente foi criado! Seu qrcode será enviado em breve", clientUUid: client.clientUUid }))
-            client.sock.ev.on('connection.update', handleConnectionSockClosure(client.sock, socket, connect, client.clientUUid))
-            //@ts-ignore
-            client.sock.ev.on('contacts.upsert', () => console.log('contacts.upsert'))
-            //@ts-ignore
-            client.sock.ev.on('contacts.update', handleContacts(client.sock, socket, connect, client.clientUUid))
+        const client = await createClient(request.uuid, clients)
+        console.log('Cliente criado!')
+        socket.send(JSON.stringify({ event: ClientSignals.CLIENT_UPDATE, message: "Seu cliente foi criado! Seu qrcode será enviado em breve", clientUUid: client.clientUUid }))
+        client.sock.ev.on('connection.update', handleConnectionSockClosure(client.sock, socket, connect, client.clientUUid))
+        // client.sock.ev.on('contacts.upsert', () => console.log('contacts.upsert'))
+        client.sock.ev.on('contacts.update', handleContacts(client.sock, socket as any, connect, client.clientUUid))
+
+        client.sock.ev.on('messages.upsert', handleMessages(client.sock, socket as any, connect, client.clientUUid))
     }
 }
 

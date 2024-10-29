@@ -9,7 +9,7 @@ import type { ModifiedSock } from "../types/modified.sock.type";
 const INCLUDED_CHATS = ['5521986723607@s.whatsapp.net'];
 export async function connect(uuid: string): Promise<ModifiedSock> {
   const initDate = Date.now() / 1000;
-  const { state, saveCreds } = await useMultiFileAuthState(process.cwd()+`/auths/${uuid}/`);
+  const { state, saveCreds } = await useMultiFileAuthState(process.cwd() + `/auths/${uuid}/`);
   const sock = (makeWASocket({
     browser: Browsers.macOS('Desktop'),
     auth: state,
