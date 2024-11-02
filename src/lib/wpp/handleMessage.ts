@@ -19,11 +19,18 @@ export function handleMessages(sock: ModifiedSock, websocket: WebSocket, fallbac
         // return;  
         // const response = 'Olá, mundo!';
         if (!m.messages[0].key.remoteJid) return;
-        const triggers = await prisma.trigger.findMany({ where: { userId: uuid }, include: { Responses: true, TextTrigger: true, TemporalCondition: true, TriggerClusters: true } })
+        const triggers = await prisma.trigger.findMany({
+            where: { userId: uuid },
+            select: {
+                TextTrigger: true,
+                TriggerClusterRelation: { include: { TriggerCluster: true } },
+                ResponseTriggerRelation: { include: { Response: true } }
+            }
+        })
         let filtered = [] as typeof triggers
         father: for (const trigger of triggers) {
             if (trigger.TextTrigger.length > 0) {
-                for (const triggerCluster of trigger.TriggerClusters) {
+                for (const { triggerId, triggerClusterId, TriggerCluster } of trigger.TriggerClusterRelation) {
                     // implement cluster logic
                 }
                 // implement temporal condition logic
@@ -36,10 +43,10 @@ export function handleMessages(sock: ModifiedSock, websocket: WebSocket, fallbac
             filtered.push(trigger)
         }
         if (filtered.length === 0) return;
-        const responses = filtered[0].Responses
-        for (const response of responses) {
+        const responses = filtered[0]
+        for (const response of responses.ResponseTriggerRelation) {
             await sock.sendMessage(m.messages[0].key.remoteJid, {
-                text: response.content,
+                text: response.Response.content,
             });
 
         }

@@ -11,6 +11,7 @@ import type { Client } from '@/lib/wpp/Client'
 import { readdirSync, readSync } from 'fs'
 import type { User } from '@prisma/client'
 import { contactsController } from '@/controllers/contacts.controller'
+import { reactiveController } from '@/controllers/reactives.controller'
 const fastify = Fastify({
     logger: false
 })
@@ -88,6 +89,7 @@ fastify.addHook("onRequest", async (request, reply) => {
 })
 fastify.register(userController)
 fastify.register(contactsController)
+fastify.register(reactiveController)
 fastify.listen({
     port: 3333,
 }).then(() => {

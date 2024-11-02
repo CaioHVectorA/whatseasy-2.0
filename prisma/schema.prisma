@@ -16,7 +16,7 @@ model User {
   // last_sync       DateTime?
   // isConnected     Boolean          @default(false)
   createdAt      DateTime         @default(now())
-  Reactive       Reactive[]
+  // Reactive       Reactive[]
   client_id      Int?
   Client         Client?
   Contacts       Contacts[]
@@ -41,17 +41,17 @@ model Client {
   User        User     @relation(fields: [userId], references: [id])
 }
 
-model Reactive {
-  id        Int      @id @default(autoincrement())
-  message   String
-  response  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  User      User     @relation(fields: [userId], references: [id])
+// model Reactive {
+//   id        Int      @id @default(autoincrement())
+//   message   String
+//   response  String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   userId    String
+//   User      User     @relation(fields: [userId], references: [id])
 
-  @@map("reactives")
-}
+//   @@map("reactives")
+// }
 
 model Contacts {
   id        Int             @id @default(autoincrement())
@@ -68,15 +68,16 @@ model Contacts {
 }
 
 model ContactCluster {
-  id             Int              @id @default(autoincrement())
-  name           String
-  userId         String
-  User           User             @relation(fields: [userId], references: [id])
-  description    String?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  Contacts       Contacts[]
-  TriggerCluster TriggerCluster[]
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  userId                 String
+  User                   User                     @relation(fields: [userId], references: [id])
+  description            String?
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  Contacts               Contacts[]
+  TriggerCluster         TriggerCluster[]
+  TriggerClusterRelation TriggerClusterRelation[]
 }
 
 model SentMessages {
@@ -138,57 +139,97 @@ model Form {
 // }
 
 model Trigger {
-  id                Int                @id @default(autoincrement())
-  active            Boolean            @default(true)
-  createdAt         DateTime           @default(now())
-  order             Int                @default(0)
-  userId            String
-  User              User               @relation(fields: [userId], references: [id])
-  Responses         Response[]
-  TemporalCondition TemporalCondition?
-  TriggerClusters   TriggerCluster[]
-  TextTrigger       TextTrigger[]
+  id                      Int                       @id @default(autoincrement())
+  active                  Boolean                   @default(true)
+  createdAt               DateTime                  @default(now())
+  name                    String                    @default("Gatilho")
+  order                   Int                       @default(0)
+  usageCount              Int                       @default(0)
+  userId                  String
+  count_used              Int                       @default(0)
+  User                    User                      @relation(fields: [userId], references: [id])
+  // Responses               Response[]
+  TemporalCondition       TemporalCondition?
+  // TriggerClusters         TriggerCluster[]
+  TextTrigger             TextTrigger[]
+  ResponseTriggerRelation ResponseTriggerRelation[]
+  TriggerClusterRelation  TriggerClusterRelation[]
+  TriggerLog              TriggerLog[]
 
   @@map("triggers")
+}
+
+model TriggerLog {
+  id        Int      @id @default(autoincrement())
+  triggerId Int
+  createdAt DateTime @default(now())
+  Trigger   Trigger  @relation(fields: [triggerId], references: [id], onDelete: NoAction)
+
+  @@map("trigger_logs")
 }
 
 model TextTrigger {
   id        Int     @id @default(autoincrement())
   text      String
   triggerId Int
-  Trigger   Trigger @relation(fields: [triggerId], references: [id])
+  Trigger   Trigger @relation(fields: [triggerId], references: [id], onDelete: Cascade)
   type      String // ('EQUALS', 'REGEX', 'CONTAINS', 'STARTS_WITH', 'END_WITH')
 }
 
 model Response {
-  id        Int      @id @default(autoincrement())
-  type      String // ('TEXTO', 'IMAGEM', etc.) OU ativar um form
-  content   String
-  triggerId Int
-  Trigger   Trigger  @relation(fields: [triggerId], references: [id])
-  createdAt DateTime @default(now())
+  id                      Int                       @id @default(autoincrement())
+  type                    String // ('TEXTO', 'IMAGEM', etc.) OU ativar um form
+  content                 String
+  asMessage               Boolean                   @default(true)
+  // triggerId    Int
+  // Trigger      Trigger @relation(fields: [triggerId], references: [id])
+  createdAt               DateTime                  @default(now())
+  // timesReplied            Int                       @default(0)
+  // Trigger                 Trigger?                  @relation(fields: [triggerId], references: [id])
+  // triggerId               Int?
+  ResponseTriggerRelation ResponseTriggerRelation[]
 
   @@map("responses")
 }
 
+model ResponseTriggerRelation {
+  id         Int      @id @default(autoincrement())
+  responseId Int
+  triggerId  Int
+  Response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  Trigger    Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+
+  @@map("response_trigger_relations")
+}
+
 model TemporalCondition {
   id           Int      @id @default(autoincrement())
-  description  String
   initial_date DateTime
   final_date   DateTime
   triggerId    Int      @unique
-  Trigger      Trigger  @relation(fields: [triggerId], references: [id])
+  Trigger      Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade)
 
   @@map("temporal_conditions")
 }
 
+model TriggerClusterRelation {
+  id               Int            @id @default(autoincrement())
+  triggerId        Int
+  Trigger          Trigger        @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  triggerClusterId Int
+  TriggerCluster   ContactCluster @relation(fields: [triggerClusterId], references: [id], onDelete: Cascade)
+
+  @@map("trigger_cluster_relations")
+}
+
 model TriggerCluster {
   id        Int            @id @default(autoincrement())
-  triggerId Int
+  // triggerId Int
   inside    Boolean        @default(true) // Se o trigger é para quem está dentro ou fora do cluster
   clusterId Int
-  Trigger   Trigger        @relation(fields: [triggerId], references: [id])
-  Cluster   ContactCluster @relation(fields: [clusterId], references: [id])
+  // Trigger   Trigger[]        @relation(fields: [triggerId], references: [id])
+  Cluster   ContactCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+  // Trigger   Trigger        @relation(fields: [triggerId], references: [id])
 
   @@map("trigger_clusters")
 }

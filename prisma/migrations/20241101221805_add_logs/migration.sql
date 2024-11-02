@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "trigger_logs" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "triggerId" INTEGER NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "trigger_logs_triggerId_fkey" FOREIGN KEY ("triggerId") REFERENCES "triggers" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
