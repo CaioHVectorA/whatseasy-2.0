@@ -168,6 +168,15 @@ model TriggerLog {
   @@map("trigger_logs")
 }
 
+model ResponseLog {
+  id         Int      @id @default(autoincrement())
+  responseId Int
+  createdAt  DateTime @default(now())
+  Response   Response @relation(fields: [responseId], references: [id], onDelete: NoAction)
+
+  @@map("response_logs")
+}
+
 model TextTrigger {
   id        Int     @id @default(autoincrement())
   text      String
@@ -188,6 +197,7 @@ model Response {
   // Trigger                 Trigger?                  @relation(fields: [triggerId], references: [id])
   // triggerId               Int?
   ResponseTriggerRelation ResponseTriggerRelation[]
+  ResponseLog             ResponseLog[]
 
   @@map("responses")
 }
