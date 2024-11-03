@@ -4,7 +4,6 @@
   "type": "module",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/bun": "latest",
     "@types/node": "^16.11.11",
     "@types/qrcode": "^1.5.5",
     "prisma": "^5.19.1",
