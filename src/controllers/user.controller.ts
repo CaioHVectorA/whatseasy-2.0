@@ -21,7 +21,7 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
                 _count: {
                     select: {
                         Contacts: true,
-                        Reactive: true,
+                        Trigger: true,
                         SentMessages: true,
                         Schedule: true
                     }
@@ -37,9 +37,9 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
             //@ts-ignore
             const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
             if (!clientSync) {
-                
+
             }
-            return mountApiResponse({...user?._count, clientSync })
+            return mountApiResponse({ ...user?._count, clientSync })
         } catch (err) {
             console.log('DEU MERDA!!!!!!!!', err)
             return mountApiResponse({ ...user?._count, clientSync: false }, 'Erro ao sincronizar com o cliente', 'Erro ao sincronizar com o cliente')
