@@ -11,7 +11,7 @@
     "tsx": "^4.19.2"
   },
   "scripts": {
-    "dev": "npx tsx watch index.ts",
+    "dev": "SET NODE_ENV=development && npx tsx watch index.ts",
     "store": "npx tsx prisma/store.ts",
     "seed": "npx tsx prisma/seed.ts"
   },

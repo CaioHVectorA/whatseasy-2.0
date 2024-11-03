@@ -7,11 +7,12 @@ import { authController } from '@/controllers/auth.controller'
 import { AppError } from '@/lib/appError'
 import { prisma } from '@/lib/prisma.client'
 import cors from '@fastify/cors'
-import type { Client } from '@/lib/wpp/Client'
-import { readdirSync, readSync } from 'fs'
+import { createClient, type Client } from '@/lib/wpp/Client'
+import { fstat, readdirSync, readSync } from 'fs'
 import type { User } from '@prisma/client'
 import { contactsController } from '@/controllers/contacts.controller'
 import { reactiveController } from '@/controllers/reactives.controller'
+import { connect } from '@/lib/wpp/connect'
 const fastify = Fastify({
     logger: false
 })
@@ -95,9 +96,6 @@ fastify.listen({
 }).then(() => {
     console.log('Server running at http://localhost:3333')
 })
-
-setInterval(() => {
-    const mappedClients = clients.map((c) => c.clientUUid)
-    fastify.log.info('clients')
-    fastify.log.info(mappedClients)
-}, 3000)
+// if (process.env.NODE_ENV) {
+//     readdirSync('auths').forEach((uuid) => createClient(uuid, clients))
+// }
