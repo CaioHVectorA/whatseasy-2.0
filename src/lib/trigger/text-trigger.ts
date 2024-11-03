@@ -5,14 +5,14 @@ export function textTriggerTest(
 ): boolean {
     switch (type) {
         case "EQUALS":
-            return textString === value;
+            return textString.toUpperCase() === value.toUpperCase();
         case "CONTAINS":
-            return textString.includes(value);
+            return textString.toUpperCase().includes(value.toUpperCase());
         case "STARTS_WITH":
-            return textString.startsWith(value);
+            return textString.toUpperCase().startsWith(value.toUpperCase());
         case "ENDS_WITH":
-            return textString.endsWith(value);
+            return textString.toUpperCase().endsWith(value.toUpperCase());
         case "REGEX":
-            return new RegExp(value).test(textString);
+            return new RegExp(value.toUpperCase()).test(textString.toUpperCase());
     }
 }

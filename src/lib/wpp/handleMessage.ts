@@ -44,11 +44,12 @@ export function handleMessages(sock: ModifiedSock, websocket: WebSocket, fallbac
         }
         if (filtered.length === 0) return;
         const responses = filtered[0]
+        await prisma.triggerLog.create({ data: { triggerId: responses.ResponseTriggerRelation[0].triggerId } })
         for (const response of responses.ResponseTriggerRelation) {
             await sock.sendMessage(m.messages[0].key.remoteJid, {
                 text: response.Response.content,
             });
-
+            await prisma.responseLog.create({ data: { responseId: response.responseId } })
         }
     }
 }
