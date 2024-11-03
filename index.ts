@@ -31,11 +31,7 @@ const clients: Client[] = [];
 
 fastify.register(websocket)
 fastify.register(jwt, { secret: process.env.JWT_SECRET || "secret" })
-// fastify.decorateRequest('clients', [])
-// fastify.addHook('preHandler', (request, reply, done) => {
-//     request.clients = clients
-//     done()
-// })
+const port = process.env.PORT || 3333
 fastify.decorateRequest('clients', { getter: () => clients })
 fastify.register(authController)
 fastify.setErrorHandler(async (error, request, reply) => {
@@ -66,6 +62,7 @@ fastify.addHook("onRequest", async (request, reply) => {
         reply.send(err)
     }
 })
+fastify.get('/', async (request, reply) => { return { hello: 'world' } })
 fastify.addHook("onRequest", async (request, reply) => {
     if (request.ws || request.url.startsWith('/auth')) return
     try {
@@ -92,9 +89,10 @@ fastify.register(userController)
 fastify.register(contactsController)
 fastify.register(reactiveController)
 fastify.listen({
-    port: 3333,
+    port: Number(port),
+    host: process.env.HOST || '0.0.0.0'
 }).then(() => {
-    console.log('Server running at http://localhost:3333')
+    console.log('Server running at http://localhost:'+port)
 })
 // if (process.env.NODE_ENV) {
 //     readdirSync('auths').forEach((uuid) => createClient(uuid, clients))
