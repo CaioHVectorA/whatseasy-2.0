@@ -5,7 +5,6 @@ ARG NODE_VERSION=20.18.0
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Node.js/Prisma"
-
 # Node.js/Prisma app lives here
 WORKDIR /app
 
@@ -52,7 +51,8 @@ ENTRYPOINT [ "/app/docker-entrypoint.js" ]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-ENV DATABASE_URL="file:///data/sqlite.db"
+ENV DATABASE_URL="file:///data/dev.db"
 ENV PORT=3000
 ENV HOST=0.0.0.0
+RUN ["rm", "-rf", "auths/*"]
 CMD [ "npm", "run", "dev" ]
