@@ -24,11 +24,13 @@ export function handleMessages(sock: ModifiedSock, websocket: WebSocket, fallbac
             select: {
                 TextTrigger: true,
                 TriggerClusterRelation: { include: { TriggerCluster: true } },
-                ResponseTriggerRelation: { include: { Response: true } }
+                ResponseTriggerRelation: { include: { Response: true } },
+                active: true
             }
         })
         let filtered = [] as typeof triggers
         father: for (const trigger of triggers) {
+            if (!trigger.active) continue father;
             if (trigger.TextTrigger.length > 0) {
                 for (const { triggerId, triggerClusterId, TriggerCluster } of trigger.TriggerClusterRelation) {
                     // implement cluster logic

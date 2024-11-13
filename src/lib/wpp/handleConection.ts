@@ -1,18 +1,20 @@
 import { DisconnectReason, type ConnectionState } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
+import * as fs from 'fs/promises'
 import qrcode from 'qrcode'
 import type { ModifiedSock } from "../types/modified.sock.type";
 import type { WebSocket } from "@fastify/websocket";
 import { mountResponse } from "../ws/mount-response";
 import { ClientSignals } from "../ws/signals";
 import { prisma } from "../prisma.client";
+import { AUTH_FOLDER } from "@/helpers/consts";
 export async function handleConnection(state: Partial<ConnectionState>) {
   const { connection, lastDisconnect, qr } = state;
   if (connection === "close") {
     const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
     const reconnect = [DisconnectReason.connectionClosed, DisconnectReason.connectionLost, DisconnectReason.restartRequired, DisconnectReason.timedOut].includes(statusCode);
 
-    console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ''}`);
+    console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ' restarting'}`);
 
     if (reconnect) return handleConnection(state);
     return process.exit();
@@ -48,6 +50,12 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
         return fallback(uuid)
       }
       websocket.send(mountResponse(ClientSignals.CLIENT_FAIL, 'Conexão encerrada! Tente novamente.', sock.clientUuid))
+      const folderExists = await fs.access(process.cwd() + '/auths/' + uuid).then(() => true).catch(() => false);
+      if (folderExists) {
+        await prisma.client.update({ where: { userId: uuid }, data: { isConnected: false } })
+        await fs.rmdir(process.cwd() + '/auths/' + uuid, { recursive: true })
+        return handleConnectionSockClosure(sock, websocket, fallback, uuid)
+      }
       return process.exit();
     }
     if (qr) {

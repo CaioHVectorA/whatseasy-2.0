@@ -101,7 +101,8 @@ export const reactiveController: FastifyPluginAsync = async (
       data: { active },
       select: { id: true, active: true },
     });
-    return mountApiResponse(trigger, "Reativo atualizado com sucesso!");
+    const message = active ? "Reativo ativado com sucesso!" : "Reativo desativado com sucesso!";
+    return mountApiResponse(trigger, message);
   })
   fastify.put<Body<ReactiveInput> & { Params: { id: string } }>(
     "/reactive/:id",
