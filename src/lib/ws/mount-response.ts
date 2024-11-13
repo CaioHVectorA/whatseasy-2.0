@@ -19,7 +19,7 @@ export function mountResponse(event: string, message: string, clientUUid: string
 export function mountApiResponse(data: any, toastMessage?: string, message?: string) {
     return {
         message,
-        toastMessage: message,
+        toastMessage: toastMessage,
         data,
     }
 }
