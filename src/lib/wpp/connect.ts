@@ -13,9 +13,9 @@ export async function connect(uuid: string): Promise<ModifiedSock> {
   const sock = (makeWASocket({
     browser: Browsers.macOS('Desktop'),
     auth: state,
-    // logger: (pino({ level: 'silent' }) as any),
+    logger: (pino({ level: 'silent' }) as any),
     printQRInTerminal: true,
-    version: [2, 3000, 1015901307],
+    version: [2, 3000, 1018022368],
   })) as ModifiedSock;
   sock.decodeJid = decodeJid;
   sock.ev.on("creds.update", saveCreds);

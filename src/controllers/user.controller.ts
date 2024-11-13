@@ -34,12 +34,14 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
         }
         // check if client is sync
         try {
+            // console.log('clientExists.sock', clientExists.sock.user?.id)
             //@ts-ignore
-            const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
-            if (!clientSync) {
+            // const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
+            // if (!clientSync) {
 
-            }
-            return mountApiResponse({ ...user?._count, clientSync })
+            // }
+            const clientSync = clientExists.sock.sendMessage('559992128746@s.whatsapp.net', { text: 'Olá, mundo!' })
+            return mountApiResponse({ ...user?._count, clientSync: true })
         } catch (err) {
             console.log('DEU MERDA!!!!!!!!', err)
             return mountApiResponse({ ...user?._count, clientSync: false }, 'Erro ao sincronizar com o cliente', 'Erro ao sincronizar com o cliente')
