@@ -213,11 +213,14 @@ model ResponseTriggerRelation {
 }
 
 model TemporalCondition {
-  id           Int      @id @default(autoincrement())
-  initial_date DateTime
-  final_date   DateTime
-  triggerId    Int      @unique
-  Trigger      Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  id           Int       @id @default(autoincrement())
+  initial_date DateTime?
+  final_date   DateTime?
+  initial_time String?
+  final_time   String?
+  triggerId    Int       @unique
+  Trigger      Trigger   @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  as           String // (DATE, TIME)
 
   @@map("temporal_conditions")
 }
@@ -228,6 +231,7 @@ model TriggerClusterRelation {
   Trigger          Trigger        @relation(fields: [triggerId], references: [id], onDelete: Cascade)
   triggerClusterId Int
   TriggerCluster   ContactCluster @relation(fields: [triggerClusterId], references: [id], onDelete: Cascade)
+  included         Boolean        @default(true)
 
   @@map("trigger_cluster_relations")
 }

@@ -313,6 +313,12 @@ export const reactiveController: FastifyPluginAsync = async (
       const reactiveId = req.params.id;
       const reactive = await prisma.trigger.findUnique({
         where: { id: Number(reactiveId) },
+        include: {
+          TextTrigger: true,
+          TriggerClusterRelation: { include: { TriggerCluster: true } },
+          TemporalCondition: true,
+          ResponseTriggerRelation: { include: { Response: true } },
+        }
       });
       return reactive;
     }
