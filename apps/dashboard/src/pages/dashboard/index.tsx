@@ -13,15 +13,20 @@ import {
   TabsTrigger
 } from '@/components/ui/tabs.js';
 import RecentSales from './components/recent-sales.js';
+import { withUser } from '@/hooks/use-user.js';
+import { User } from '@/types/user.js';
 
-export default function DashboardPage() {
+function DashboardPage({ user }: {
+  user: User;
+}) {
+  console.log({ user })
   return (
     <>
       <PageHead title="Dashboard | App" />
       <div className="max-h-screen flex-1 space-y-4 overflow-y-auto p-4 pt-6 md:p-8">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
+            Olá, bem vindo de volta {user.name}👋
           </h2>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
@@ -160,3 +165,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+export default withUser(DashboardPage);

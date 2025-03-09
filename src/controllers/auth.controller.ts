@@ -56,11 +56,11 @@ export const authController: FastifyPluginAsync = async (
       });
       const jwt = fastify.jwt.sign({ id: user.id });
       const { data, error } = await resend.emails.send({
-        from: "no-reply@whatseasy.co",
+        from: RESEND_EMAIL,
         to: email,
         subject: "Bem-vindo ao What's Easy",
         html: `
-                Clique <a href="${process.env.CLIENT_URL}/auth/callback?token=${jwt}">aqui</a> para se cadastrar.
+                Clique <a href="${process.env.CLIENT_URL}/auth/callback?token=${jwt}&new=true">aqui</a> para se cadastrar.
                 `,
       });
       if (error) {
