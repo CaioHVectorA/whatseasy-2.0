@@ -1,4 +1,4 @@
-import { getStudents } from '@/lib/api';
+import { getStudents } from '@/lib/api/get-students';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetStudents = (offset, pageLimit, country) => {
