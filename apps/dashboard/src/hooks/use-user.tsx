@@ -11,8 +11,8 @@ export function useUser() {
     const { data: user, isLoading, error } = useQuery<User>({
         queryKey: ['user'],
         queryFn: async () => {
-            const res = await api.get<User>('/user/me');
-            return res.data;
+            const res = await api.get<{ data: User }>('/user/me');
+            return res.data.data;
         }
     })
     return { user, isLoading, error };
