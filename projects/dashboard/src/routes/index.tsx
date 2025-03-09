@@ -1,7 +1,9 @@
+import { setCookie } from '@/lib/cookies';
+import { Callback } from '@/pages/callback';
 import FormPage from '@/pages/form';
 import NotFound from '@/pages/not-found';
-import { Suspense, lazy } from 'react';
-import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
+import { Navigate, Outlet, useRoutes, useSearchParams } from 'react-router-dom';
 
 const DashboardLayout = lazy(
   () => import('@/components/layout/dashboard-layout')
@@ -58,9 +60,13 @@ export default function AppRouter() {
       element: <NotFound />
     },
     {
+      path: "/auth/callback",
+      element: <Callback />
+    },
+    {
       path: '*',
       element: <Navigate to="/404" replace />
-    }
+    },
   ];
 
   const routes = useRoutes([...dashboardRoutes, ...publicRoutes]);
