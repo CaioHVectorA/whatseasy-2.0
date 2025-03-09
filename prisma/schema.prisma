@@ -38,7 +38,9 @@ model Client {
   updatedAt   DateTime @updatedAt
   userId      String   @unique
   qr          String
-  User        User     @relation(fields: [userId], references: [id])
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("clients")
 }
 
 // model Reactive {
@@ -62,7 +64,7 @@ model Contacts {
   userId    String
   User      User            @relation(fields: [userId], references: [id])
   clusterId Int?
-  Cluster   ContactCluster? @relation(fields: [clusterId], references: [id])
+  Cluster   ContactCluster? @relation(fields: [clusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("contacts")
 }
@@ -71,7 +73,7 @@ model ContactCluster {
   id                     Int                      @id @default(autoincrement())
   name                   String
   userId                 String
-  User                   User                     @relation(fields: [userId], references: [id])
+  User                   User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   description            String?
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
@@ -86,7 +88,7 @@ model SentMessages {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  User      User     @relation(fields: [userId], references: [id])
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   phone     String
 
   @@map("sent_messages")
@@ -98,7 +100,7 @@ model Schedule {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  User      User     @relation(fields: [userId], references: [id])
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   phone     String
   time      DateTime
 
@@ -111,7 +113,7 @@ model Step {
   validations String // JSON?
   stepNumber  Int
   formId      Int
-  Form        Form   @relation(fields: [formId], references: [id])
+  Form        Form   @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   key         String
 }
 
@@ -121,7 +123,7 @@ model Form {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  User      User     @relation(fields: [userId], references: [id])
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   Steps     Step[]
 
   @@map("forms")
@@ -147,7 +149,7 @@ model Trigger {
   usageCount              Int                       @default(0)
   userId                  String
   count_used              Int                       @default(0)
-  User                    User                      @relation(fields: [userId], references: [id])
+  User                    User                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   // Responses               Response[]
   TemporalCondition       TemporalCondition?
   // TriggerClusters         TriggerCluster[]
@@ -181,7 +183,7 @@ model TextTrigger {
   id        Int     @id @default(autoincrement())
   text      String
   triggerId Int
-  Trigger   Trigger @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  Trigger   Trigger @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   type      String // ('EQUALS', 'REGEX', 'CONTAINS', 'STARTS_WITH', 'END_WITH')
 }
 
@@ -206,8 +208,8 @@ model ResponseTriggerRelation {
   id         Int      @id @default(autoincrement())
   responseId Int
   triggerId  Int
-  Response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
-  Trigger    Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  Response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Trigger    Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("response_trigger_relations")
 }
@@ -219,7 +221,7 @@ model TemporalCondition {
   initial_time String?
   final_time   String?
   triggerId    Int       @unique
-  Trigger      Trigger   @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  Trigger      Trigger   @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   as           String // (DATE, TIME)
 
   @@map("temporal_conditions")
@@ -228,9 +230,9 @@ model TemporalCondition {
 model TriggerClusterRelation {
   id               Int            @id @default(autoincrement())
   triggerId        Int
-  Trigger          Trigger        @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  Trigger          Trigger        @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   triggerClusterId Int
-  TriggerCluster   ContactCluster @relation(fields: [triggerClusterId], references: [id], onDelete: Cascade)
+  TriggerCluster   ContactCluster @relation(fields: [triggerClusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   included         Boolean        @default(true)
 
   @@map("trigger_cluster_relations")
@@ -242,7 +244,7 @@ model TriggerCluster {
   inside    Boolean        @default(true) // Se o trigger é para quem está dentro ou fora do cluster
   clusterId Int
   // Trigger   Trigger[]        @relation(fields: [triggerId], references: [id])
-  Cluster   ContactCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+  Cluster   ContactCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   // Trigger   Trigger        @relation(fields: [triggerId], references: [id])
 
   @@map("trigger_clusters")
