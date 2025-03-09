@@ -11,7 +11,7 @@ model User {
   id             String           @id @unique @default(uuid())
   email          String           @unique
   name           String?
-  password       String
+  // password       String -> changed to magic link
   // last_connection DateTime?
   // last_sync       DateTime?
   // isConnected     Boolean          @default(false)
