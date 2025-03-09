@@ -2,16 +2,28 @@ import { NavItem } from '@/types';
 
 export const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
+    title: 'Análise',
     href: '/',
     icon: 'dashboard',
     label: 'Dashboard'
   },
   {
-    title: 'Students',
-    href: '/student',
+    title: 'Conexão',
+    href: '/status',
+    icon: 'connection',
+    label: 'Connection'
+  },
+  {
+    title: 'Contatos',
+    href: '/contatos',
     icon: 'user',
     label: 'Student'
+  },
+  {
+    title: 'Reativos',
+    href: '/reativos',
+    icon: 'reactive',
+    label: 'Reativos'
   },
   {
     title: 'Login',

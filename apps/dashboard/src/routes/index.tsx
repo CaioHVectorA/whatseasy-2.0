@@ -2,6 +2,8 @@ import { setCookie } from '@/lib/cookies';
 import { Callback } from '@/pages/callback';
 import FormPage from '@/pages/form';
 import NotFound from '@/pages/not-found';
+import { Reactives } from '@/pages/reactives';
+import { Status } from '@/pages/status';
 import { Suspense, lazy, useEffect } from 'react';
 import { Navigate, Outlet, useRoutes, useSearchParams } from 'react-router-dom';
 
@@ -34,8 +36,16 @@ export default function AppRouter() {
           index: true
         },
         {
-          path: 'student',
+          path: 'contatos',
           element: <StudentPage />
+        },
+        {
+          path: "status",
+          element: <Status />
+        },
+        {
+          path: "reativos",
+          element: <Reactives />
         },
         {
           path: 'student/details',
