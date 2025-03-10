@@ -39,17 +39,113 @@ export const userController: FastifyPluginAsync = async (
     return mountApiResponse(user);
   });
   fastify.get("/user/initial-data", async (req, reply) => {
-    const user = await prisma.user.findUnique({
+    const currentMonth = new Date();
+    const lastMonth = new Date();
+    lastMonth.setMonth(currentMonth.getMonth() - 1);
+
+    const currentMonthData = await prisma.user.findUnique({
       where: {
         id: req.me.id,
       },
       select: {
-        _count: {
-          select: {
-            Contacts: true,
-            Trigger: true,
-            SentMessages: true,
-            Schedule: true,
+        Contacts: {
+          where: {
+            createdAt: {
+              gte: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        Trigger: {
+          where: {
+            createdAt: {
+              gte: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        SentMessages: {
+          where: {
+            createdAt: {
+              gte: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        Schedule: {
+          where: {
+            createdAt: {
+              gte: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+      },
+    });
+
+    const lastMonthData = await prisma.user.findUnique({
+      where: {
+        id: req.me.id,
+      },
+      select: {
+        Contacts: {
+          where: {
+            createdAt: {
+              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
+              lt: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        Trigger: {
+          where: {
+            createdAt: {
+              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
+              lt: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        SentMessages: {
+          where: {
+            createdAt: {
+              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
+              lt: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
+          },
+        },
+        Schedule: {
+          where: {
+            createdAt: {
+              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
+              lt: new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+              ),
+            },
           },
         },
       },
@@ -57,8 +153,30 @@ export const userController: FastifyPluginAsync = async (
     const clientExists = req.clients.find(
       (c: Client) => c.clientUUid === req.me.id
     );
+    if (!currentMonthData || !lastMonthData) {
+      return mountApiResponse(
+        {},
+        "Erro ao buscar dados",
+        "Erro ao buscar dados"
+      );
+    }
+    const counts = {
+      currentMonth: {
+        Contacts: currentMonthData.Contacts.length,
+        Trigger: currentMonthData.Trigger.length,
+        SentMessages: currentMonthData.SentMessages.length,
+        Schedule: currentMonthData.Schedule.length,
+      },
+      lastMonth: {
+        Contacts: lastMonthData.Contacts.length,
+        Trigger: lastMonthData.Trigger.length,
+        SentMessages: lastMonthData.SentMessages.length,
+        Schedule: lastMonthData.Schedule.length,
+      },
+    };
+
     if (!clientExists) {
-      return mountApiResponse({ ...user?._count, clientSync: false });
+      return mountApiResponse({ ...counts, clientSync: false });
     }
     // check if client is sync
     try {
@@ -72,11 +190,11 @@ export const userController: FastifyPluginAsync = async (
         "559992128746@s.whatsapp.net",
         { text: "Olá, mundo!" }
       );
-      return mountApiResponse({ ...user?._count, clientSync: true });
+      return mountApiResponse({ ...counts, clientSync: true });
     } catch (err) {
       console.log("DEU MERDA!!!!!!!!", err);
       return mountApiResponse(
-        { ...user?._count, clientSync: false },
+        { ...counts, clientSync: false },
         "Erro ao sincronizar com o cliente",
         "Erro ao sincronizar com o cliente"
       );
