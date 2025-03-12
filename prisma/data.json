@@ -1,933 +1,933 @@
 {
-    "contacts": [
-        {
-            "id": 419,
-            "phone": "556192549801@s.whatsapp.net",
-            "name": "Adrian Sanches",
-            "createdAt": "2024-10-18T02:48:43.899Z",
-            "updatedAt": "2024-10-18T02:48:43.899Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 420,
-            "phone": "557588559867@s.whatsapp.net",
-            "name": "Moisés",
-            "createdAt": "2024-10-18T02:55:59.754Z",
-            "updatedAt": "2024-10-18T02:55:59.754Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 421,
-            "phone": "5555920003230@s.whatsapp.net",
-            "name": "rafa",
-            "createdAt": "2024-10-18T02:56:46.905Z",
-            "updatedAt": "2024-10-18T02:56:46.905Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 422,
-            "phone": "5521968376239@s.whatsapp.net",
-            "name": "Bianca Azevêdo",
-            "createdAt": "2024-10-18T03:05:30.743Z",
-            "updatedAt": "2024-10-18T03:05:30.743Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 423,
-            "phone": "5522997630025@s.whatsapp.net",
-            "name": "cornick",
-            "createdAt": "2024-10-18T03:38:45.608Z",
-            "updatedAt": "2024-10-18T03:38:45.608Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 424,
-            "phone": "5521981542613@s.whatsapp.net",
-            "name": "Fagner Gabriel",
-            "createdAt": "2024-10-18T03:44:29.055Z",
-            "updatedAt": "2024-10-18T03:44:29.055Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 425,
-            "phone": "555499597575@s.whatsapp.net",
-            "name": "José",
-            "createdAt": "2024-10-18T03:44:33.642Z",
-            "updatedAt": "2024-10-18T03:44:33.642Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 426,
-            "phone": "5511930298258@s.whatsapp.net",
-            "name": "~",
-            "createdAt": "2024-10-18T03:48:23.086Z",
-            "updatedAt": "2024-10-18T03:48:23.086Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 427,
-            "phone": "557788089904@s.whatsapp.net",
-            "name": "Alexandre",
-            "createdAt": "2024-10-18T03:49:12.672Z",
-            "updatedAt": "2024-10-18T03:49:12.672Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 428,
-            "phone": "5522998632861@s.whatsapp.net",
-            "name": "Wagner",
-            "createdAt": "2024-10-18T03:55:55.590Z",
-            "updatedAt": "2024-10-18T03:55:55.590Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 429,
-            "phone": "5511962252774@s.whatsapp.net",
-            "name": "Gabriel Silva",
-            "createdAt": "2024-10-18T05:31:35.304Z",
-            "updatedAt": "2024-10-18T05:31:35.304Z",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "clusterId": null
-        },
-        {
-            "id": 430,
-            "phone": "5521988664557@s.whatsapp.net",
-            "name": "Rafael Medeiros",
-            "createdAt": "2024-10-27T15:37:28.434Z",
-            "updatedAt": "2024-10-27T15:37:28.434Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 431,
-            "phone": "557988431485@s.whatsapp.net",
-            "name": "Felipe",
-            "createdAt": "2024-10-27T15:37:28.455Z",
-            "updatedAt": "2024-10-27T15:37:28.455Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 432,
-            "phone": "5521979522221@s.whatsapp.net",
-            "name": "Lukinhas",
-            "createdAt": "2024-10-27T15:37:28.466Z",
-            "updatedAt": "2024-10-27T15:37:28.466Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 433,
-            "phone": "556192549801@s.whatsapp.net",
-            "name": "Adrian Sanches",
-            "createdAt": "2024-10-27T15:37:42.925Z",
-            "updatedAt": "2024-10-27T15:37:42.925Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 434,
-            "phone": "559185464442@s.whatsapp.net",
-            "name": "Lanna",
-            "createdAt": "2024-10-27T15:38:35.204Z",
-            "updatedAt": "2024-10-27T15:38:35.204Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 435,
-            "phone": "5555920003230@s.whatsapp.net",
-            "name": "rafa",
-            "createdAt": "2024-10-27T15:43:16.341Z",
-            "updatedAt": "2024-10-27T15:43:16.341Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 436,
-            "phone": "553599622105@s.whatsapp.net",
-            "name": "João Pedro Ribeiro",
-            "createdAt": "2024-10-27T15:43:51.749Z",
-            "updatedAt": "2024-10-27T15:43:51.749Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 437,
-            "phone": "5527995002345@s.whatsapp.net",
-            "name": "Alecsandro Auer",
-            "createdAt": "2024-10-27T15:44:34.926Z",
-            "updatedAt": "2024-10-27T15:44:34.926Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 438,
-            "phone": "555496770429@s.whatsapp.net",
-            "name": "Daniel Klein",
-            "createdAt": "2024-10-27T15:46:32.320Z",
-            "updatedAt": "2024-10-27T15:46:32.320Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 439,
-            "phone": "5521979170220@s.whatsapp.net",
-            "name": "~lisa lisinha lisoca",
-            "createdAt": "2024-10-27T15:47:17.741Z",
-            "updatedAt": "2024-10-27T15:47:17.741Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 440,
-            "phone": "5524993210265@s.whatsapp.net",
-            "name": "Milena Bertges",
-            "createdAt": "2024-10-27T15:49:59.838Z",
-            "updatedAt": "2024-10-27T15:49:59.838Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 441,
-            "phone": "5513992119119@s.whatsapp.net",
-            "name": "Gabriel Marques F. Leal",
-            "createdAt": "2024-10-27T15:59:25.514Z",
-            "updatedAt": "2024-10-27T15:59:25.514Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 442,
-            "phone": "557491156370@s.whatsapp.net",
-            "name": "Lirio",
-            "createdAt": "2024-10-27T16:00:58.525Z",
-            "updatedAt": "2024-10-27T16:00:58.525Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 443,
-            "phone": "5521986220175@s.whatsapp.net",
-            "name": "Fillipy Balonecker",
-            "createdAt": "2024-10-27T16:08:59.072Z",
-            "updatedAt": "2024-10-27T16:08:59.072Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 444,
-            "phone": "5521996010299@s.whatsapp.net",
-            "name": "leticia 🐱",
-            "createdAt": "2024-10-27T16:15:09.809Z",
-            "updatedAt": "2024-10-27T16:15:09.809Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 445,
-            "phone": "5521998119882@s.whatsapp.net",
-            "name": "Yago",
-            "createdAt": "2024-10-27T16:15:30.567Z",
-            "updatedAt": "2024-10-27T16:15:30.567Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 446,
-            "phone": "555199171701@s.whatsapp.net",
-            "name": "rafael de bem",
-            "createdAt": "2024-10-27T16:15:59.503Z",
-            "updatedAt": "2024-10-27T16:15:59.503Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 447,
-            "phone": "556496764271@s.whatsapp.net",
-            "name": "saulo",
-            "createdAt": "2024-10-27T16:16:26.588Z",
-            "updatedAt": "2024-10-27T16:16:26.588Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 448,
-            "phone": "5521999897349@s.whatsapp.net",
-            "name": "Joao Valladão",
-            "createdAt": "2024-10-27T16:17:00.110Z",
-            "updatedAt": "2024-10-27T16:17:00.110Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 449,
-            "phone": "5521997858157@s.whatsapp.net",
-            "name": "bruna",
-            "createdAt": "2024-10-27T16:17:40.054Z",
-            "updatedAt": "2024-10-27T16:17:40.054Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 450,
-            "phone": "5521998138135@s.whatsapp.net",
-            "name": "Isabella💜",
-            "createdAt": "2024-10-27T16:19:17.992Z",
-            "updatedAt": "2024-10-27T16:19:17.992Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 451,
-            "phone": "5521970628564@s.whatsapp.net",
-            "name": "Jonata Rodrigues",
-            "createdAt": "2024-10-27T16:20:28.123Z",
-            "updatedAt": "2024-10-27T16:20:28.123Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 452,
-            "phone": "557588559867@s.whatsapp.net",
-            "name": "Moisés",
-            "createdAt": "2024-10-27T16:21:13.245Z",
-            "updatedAt": "2024-10-27T16:21:13.245Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 453,
-            "phone": "5521982889947@s.whatsapp.net",
-            "name": "Cauã Dutra",
-            "createdAt": "2024-10-27T16:21:29.624Z",
-            "updatedAt": "2024-10-27T16:21:29.624Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 454,
-            "phone": "5521980649165@s.whatsapp.net",
-            "name": "Luiz Magno",
-            "createdAt": "2024-10-27T16:29:04.328Z",
-            "updatedAt": "2024-10-27T16:29:04.328Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 455,
-            "phone": "552191382614@s.whatsapp.net",
-            "name": "Maria Ourique",
-            "createdAt": "2024-10-27T16:31:29.417Z",
-            "updatedAt": "2024-10-27T16:31:29.417Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 456,
-            "phone": "5522998632861@s.whatsapp.net",
-            "name": "Wagner",
-            "createdAt": "2024-10-27T16:33:58.485Z",
-            "updatedAt": "2024-10-27T16:33:58.485Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 457,
-            "phone": "5521979677553@s.whatsapp.net",
-            "name": "José Ricardo",
-            "createdAt": "2024-10-27T16:34:09.298Z",
-            "updatedAt": "2024-10-27T16:34:09.298Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 458,
-            "phone": "5521982543779@s.whatsapp.net",
-            "name": "João Júnior",
-            "createdAt": "2024-10-27T16:37:06.268Z",
-            "updatedAt": "2024-10-27T16:37:06.268Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 459,
-            "phone": "5521964170172@s.whatsapp.net",
-            "name": "Kauã",
-            "createdAt": "2024-10-27T16:37:54.809Z",
-            "updatedAt": "2024-10-27T16:37:54.809Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 460,
-            "phone": "556298697762@s.whatsapp.net",
-            "name": "Eduardo",
-            "createdAt": "2024-10-27T16:40:26.311Z",
-            "updatedAt": "2024-10-27T16:40:26.311Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 461,
-            "phone": "5521985609860@s.whatsapp.net",
-            "name": "Yeboah",
-            "createdAt": "2024-10-27T16:41:25.819Z",
-            "updatedAt": "2024-10-27T16:41:25.819Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 462,
-            "phone": "5521990058484@s.whatsapp.net",
-            "name": "pedro ✡️",
-            "createdAt": "2024-10-27T16:43:25.984Z",
-            "updatedAt": "2024-10-27T16:43:25.984Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 463,
-            "phone": "553172280540@s.whatsapp.net",
-            "name": "553172280540",
-            "createdAt": "2024-10-27T16:47:28.051Z",
-            "updatedAt": "2024-10-27T16:47:28.051Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 464,
-            "phone": "5521968065354@s.whatsapp.net",
-            "name": "Alice",
-            "createdAt": "2024-10-27T16:50:55.585Z",
-            "updatedAt": "2024-10-27T16:50:55.585Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 465,
-            "phone": "5521975501510@s.whatsapp.net",
-            "name": "Yasmin Fernanda",
-            "createdAt": "2024-10-27T16:52:04.474Z",
-            "updatedAt": "2024-10-27T16:52:04.474Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 466,
-            "phone": "5521996422955@s.whatsapp.net",
-            "name": "Lavínia Dias",
-            "createdAt": "2024-10-27T16:54:02.850Z",
-            "updatedAt": "2024-10-27T16:54:02.850Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 467,
-            "phone": "13135550002@s.whatsapp.net",
-            "name": "13135550002",
-            "createdAt": "2024-10-27T16:56:42.425Z",
-            "updatedAt": "2024-10-27T16:56:42.425Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 468,
-            "phone": "559992128746@s.whatsapp.net",
-            "name": "ravena",
-            "createdAt": "2024-10-27T16:57:38.435Z",
-            "updatedAt": "2024-10-27T18:18:08.727Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": 13
-        },
-        {
-            "id": 469,
-            "phone": "5514999030862@s.whatsapp.net",
-            "name": "Caio",
-            "createdAt": "2024-10-27T17:00:48.127Z",
-            "updatedAt": "2024-10-27T17:00:48.127Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 470,
-            "phone": "5521969701110@s.whatsapp.net",
-            "name": "Victor",
-            "createdAt": "2024-10-27T17:07:58.433Z",
-            "updatedAt": "2024-10-27T17:07:58.433Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 471,
-            "phone": "5521964920823@s.whatsapp.net",
-            "name": "Guxta",
-            "createdAt": "2024-10-27T17:10:00.461Z",
-            "updatedAt": "2024-10-27T17:10:00.461Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 472,
-            "phone": "5521991824465@s.whatsapp.net",
-            "name": "lorenna",
-            "createdAt": "2024-10-27T17:15:01.519Z",
-            "updatedAt": "2024-10-27T17:15:01.519Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 473,
-            "phone": "5521996419724@s.whatsapp.net",
-            "name": "Yisrael Fernando",
-            "createdAt": "2024-10-27T17:22:33.204Z",
-            "updatedAt": "2024-10-27T17:22:33.204Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 474,
-            "phone": "5521989797317@s.whatsapp.net",
-            "name": "Carla",
-            "createdAt": "2024-10-27T17:27:43.273Z",
-            "updatedAt": "2024-10-27T17:27:43.273Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 475,
-            "phone": "553199019780@s.whatsapp.net",
-            "name": "Wesley",
-            "createdAt": "2024-10-27T17:32:36.337Z",
-            "updatedAt": "2024-10-27T17:32:36.337Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 476,
-            "phone": "5521965252311@s.whatsapp.net",
-            "name": "Gabriel Costa",
-            "createdAt": "2024-10-27T17:39:18.532Z",
-            "updatedAt": "2024-10-27T17:39:18.532Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 477,
-            "phone": "556183729728@s.whatsapp.net",
-            "name": "Robson Soares",
-            "createdAt": "2024-10-27T17:45:30.931Z",
-            "updatedAt": "2024-10-27T17:45:30.931Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 478,
-            "phone": "5521968719069@s.whatsapp.net",
-            "name": "Briane Mello",
-            "createdAt": "2024-10-27T17:46:47.944Z",
-            "updatedAt": "2024-10-27T17:46:47.944Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 479,
-            "phone": "5521969842136@s.whatsapp.net",
-            "name": "Saulo Júnior",
-            "createdAt": "2024-10-27T17:47:56.238Z",
-            "updatedAt": "2024-10-27T17:47:56.238Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 480,
-            "phone": "5521965037879@s.whatsapp.net",
-            "name": "David PR",
-            "createdAt": "2024-10-27T17:49:51.927Z",
-            "updatedAt": "2024-10-27T17:49:51.927Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 481,
-            "phone": "5521982701159@s.whatsapp.net",
-            "name": "Zotti",
-            "createdAt": "2024-10-27T17:50:11.609Z",
-            "updatedAt": "2024-10-27T17:50:11.609Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 482,
-            "phone": "5527998515589@s.whatsapp.net",
-            "name": "Bruno Moura",
-            "createdAt": "2024-10-27T17:57:40.130Z",
-            "updatedAt": "2024-10-27T17:57:40.130Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 483,
-            "phone": "558581396362@s.whatsapp.net",
-            "name": "Catii",
-            "createdAt": "2024-10-27T17:59:26.125Z",
-            "updatedAt": "2024-10-27T17:59:26.125Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 484,
-            "phone": "5527988810106@s.whatsapp.net",
-            "name": "dudu",
-            "createdAt": "2024-10-27T17:59:52.422Z",
-            "updatedAt": "2024-10-27T17:59:52.422Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 485,
-            "phone": "553195802902@s.whatsapp.net",
-            "name": "Pedro BL",
-            "createdAt": "2024-10-27T18:50:45.040Z",
-            "updatedAt": "2024-10-27T18:50:45.040Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 486,
-            "phone": "5521974783301@s.whatsapp.net",
-            "name": "Gabriel Vieira",
-            "createdAt": "2024-10-27T18:59:09.072Z",
-            "updatedAt": "2024-10-27T18:59:09.072Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 487,
-            "phone": "5521973496784@s.whatsapp.net",
-            "name": "Christian",
-            "createdAt": "2024-10-27T19:23:35.185Z",
-            "updatedAt": "2024-10-27T19:23:35.185Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 488,
-            "phone": "558599524810@s.whatsapp.net",
-            "name": "Rodrigo M.",
-            "createdAt": "2024-10-27T19:34:31.236Z",
-            "updatedAt": "2024-10-27T19:34:31.236Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 489,
-            "phone": "5511937371429@s.whatsapp.net",
-            "name": "Pereira",
-            "createdAt": "2024-10-27T19:35:02.649Z",
-            "updatedAt": "2024-10-27T19:35:02.649Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 490,
-            "phone": "5513997071903@s.whatsapp.net",
-            "name": "lígia",
-            "createdAt": "2024-10-27T19:43:32.115Z",
-            "updatedAt": "2024-10-27T19:43:32.115Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 491,
-            "phone": "558591773999@s.whatsapp.net",
-            "name": "João Victor Barbosa",
-            "createdAt": "2024-10-27T19:50:05.698Z",
-            "updatedAt": "2024-10-27T19:50:05.698Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 492,
-            "phone": "5511950574707@s.whatsapp.net",
-            "name": "Babi❕",
-            "createdAt": "2024-10-28T02:23:11.306Z",
-            "updatedAt": "2024-10-28T02:23:11.306Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 493,
-            "phone": "5522997630025@s.whatsapp.net",
-            "name": "cornick",
-            "createdAt": "2024-10-28T02:23:11.325Z",
-            "updatedAt": "2024-10-28T02:23:11.325Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 494,
-            "phone": "558499881246@s.whatsapp.net",
-            "name": "Erick",
-            "createdAt": "2024-10-28T02:23:11.337Z",
-            "updatedAt": "2024-10-28T02:23:11.337Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 495,
-            "phone": "5511930298258@s.whatsapp.net",
-            "name": "~",
-            "createdAt": "2024-10-28T02:23:11.349Z",
-            "updatedAt": "2024-10-28T02:23:11.349Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 496,
-            "phone": "5511962252774@s.whatsapp.net",
-            "name": "Gabriel Silva",
-            "createdAt": "2024-10-28T02:23:11.361Z",
-            "updatedAt": "2024-10-28T02:23:11.361Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 497,
-            "phone": "5511949897839@s.whatsapp.net",
-            "name": "Marcelo",
-            "createdAt": "2024-10-28T02:23:11.373Z",
-            "updatedAt": "2024-10-28T02:23:11.373Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 498,
-            "phone": "5521976483094@s.whatsapp.net",
-            "name": "Renato Lima",
-            "createdAt": "2024-10-28T02:23:11.429Z",
-            "updatedAt": "2024-10-28T02:23:11.429Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 499,
-            "phone": "5521979824769@s.whatsapp.net",
-            "name": "Gus",
-            "createdAt": "2024-10-28T02:23:11.446Z",
-            "updatedAt": "2024-10-28T02:23:11.446Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 500,
-            "phone": "5521984105916@s.whatsapp.net",
-            "name": "França",
-            "createdAt": "2024-10-28T02:23:11.459Z",
-            "updatedAt": "2024-10-28T02:23:11.459Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 501,
-            "phone": "5527996868781@s.whatsapp.net",
-            "name": "Mariane",
-            "createdAt": "2024-10-28T02:23:11.470Z",
-            "updatedAt": "2024-10-28T02:23:11.470Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 502,
-            "phone": "5521969712216@s.whatsapp.net",
-            "name": "Gabriela Samary",
-            "createdAt": "2024-10-28T02:23:11.481Z",
-            "updatedAt": "2024-10-28T02:23:11.481Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 503,
-            "phone": "5521988875606@s.whatsapp.net",
-            "name": "maria antônia",
-            "createdAt": "2024-10-28T02:23:11.490Z",
-            "updatedAt": "2024-10-28T02:23:11.490Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 504,
-            "phone": "5517996607782@s.whatsapp.net",
-            "name": "Matheus Ravazzi",
-            "createdAt": "2024-10-28T02:23:11.500Z",
-            "updatedAt": "2024-10-28T02:23:11.500Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 505,
-            "phone": "5521998771736@s.whatsapp.net",
-            "name": "Julio",
-            "createdAt": "2024-10-28T02:23:11.510Z",
-            "updatedAt": "2024-10-28T02:23:11.510Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 506,
-            "phone": "5521979863149@s.whatsapp.net",
-            "name": "Lari 🌹",
-            "createdAt": "2024-10-28T02:23:11.518Z",
-            "updatedAt": "2024-10-28T02:23:11.518Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 507,
-            "phone": "5522998767544@s.whatsapp.net",
-            "name": "Mabe🚅",
-            "createdAt": "2024-10-28T02:23:11.528Z",
-            "updatedAt": "2024-10-28T02:23:11.528Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 508,
-            "phone": "5521999528523@s.whatsapp.net",
-            "name": "Rapha Azra",
-            "createdAt": "2024-10-28T02:23:11.536Z",
-            "updatedAt": "2024-10-28T02:23:11.536Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 509,
-            "phone": "5521967339453@s.whatsapp.net",
-            "name": "Marcos Dias",
-            "createdAt": "2024-10-28T03:06:13.268Z",
-            "updatedAt": "2024-10-28T03:06:13.268Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 510,
-            "phone": "5521967491321@s.whatsapp.net",
-            "name": "Leonardo Figueiredo",
-            "createdAt": "2024-10-28T03:22:37.643Z",
-            "updatedAt": "2024-10-28T03:22:37.643Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 511,
-            "phone": "5521996593575@s.whatsapp.net",
-            "name": "bia franco",
-            "createdAt": "2024-10-28T03:35:03.953Z",
-            "updatedAt": "2024-10-28T03:35:03.953Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 512,
-            "phone": "5521986723607",
-            "name": "Caio Henrique",
-            "createdAt": "2024-10-28T04:09:11.708Z",
-            "updatedAt": "2024-10-28T04:09:11.708Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        },
-        {
-            "id": 513,
-            "phone": "5521981542613@s.whatsapp.net",
-            "name": "Fagner Gabriel",
-            "createdAt": "2024-10-28T04:09:54.012Z",
-            "updatedAt": "2024-10-28T04:09:54.012Z",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "clusterId": null
-        }
-    ],
-    "clusters": [
-        {
-            "id": 1,
-            "name": "Clientes",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "description": "Clientes pagantes da assinaturaClientes pagantes da assinaturaClientes pagantes da assinaturaClientes pagantes da assinatura",
-            "createdAt": "2024-10-08T01:15:02.942Z",
-            "updatedAt": "2024-10-13T15:53:21.717Z"
-        },
-        {
-            "id": 9,
-            "name": "Clientes Premium",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "description": "Clientes pagantes de nível premium",
-            "createdAt": "2024-10-13T17:29:17.117Z",
-            "updatedAt": "2024-10-13T17:29:17.117Z"
-        },
-        {
-            "id": 10,
-            "name": "Caloteiros",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "description": "Que estão em pendência",
-            "createdAt": "2024-10-13T17:41:59.329Z",
-            "updatedAt": "2024-10-13T17:41:59.329Z"
-        },
-        {
-            "id": 11,
-            "name": "Caloteiros 3",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "description": "Que estão em pendência",
-            "createdAt": "2024-10-13T19:45:55.994Z",
-            "updatedAt": "2024-10-13T19:45:55.994Z"
-        },
-        {
-            "id": 12,
-            "name": "Caloteiros 5",
-            "userId": "40a878f9-65d9-48be-8e95-032f6e65e8aa",
-            "description": "Teste",
-            "createdAt": "2024-10-13T19:47:11.631Z",
-            "updatedAt": "2024-10-13T19:47:11.631Z"
-        },
-        {
-            "id": 13,
-            "name": "Para mandar msg",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "description": "O bot ravena",
-            "createdAt": "2024-10-27T18:00:58.390Z",
-            "updatedAt": "2024-10-27T18:00:58.390Z"
-        },
-        {
-            "id": 14,
-            "name": "Caio",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "description": "Grupo com caio eu",
-            "createdAt": "2024-10-28T04:09:24.606Z",
-            "updatedAt": "2024-10-28T04:09:24.606Z"
-        },
-        {
-            "id": 15,
-            "name": "ttttt",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "description": "dadaddsads",
-            "createdAt": "2024-10-28T04:09:36.934Z",
-            "updatedAt": "2024-10-28T04:09:36.934Z"
-        },
-        {
-            "id": 16,
-            "name": "TTTT",
-            "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
-            "description": "adasadsdssd",
-            "createdAt": "2024-10-28T04:11:04.681Z",
-            "updatedAt": "2024-10-28T04:11:04.681Z"
-        }
-    ]
+  "contacts": [
+    {
+      "id": 419,
+      "phone": "556192549801@s.whatsapp.net",
+      "name": "Adrian Sanches",
+      "createdAt": "2024-10-18T02:48:43.899Z",
+      "updatedAt": "2024-10-18T02:48:43.899Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 420,
+      "phone": "557588559867@s.whatsapp.net",
+      "name": "Moisés",
+      "createdAt": "2024-10-18T02:55:59.754Z",
+      "updatedAt": "2024-10-18T02:55:59.754Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 421,
+      "phone": "5555920003230@s.whatsapp.net",
+      "name": "rafa",
+      "createdAt": "2024-10-18T02:56:46.905Z",
+      "updatedAt": "2024-10-18T02:56:46.905Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 422,
+      "phone": "5521968376239@s.whatsapp.net",
+      "name": "Bianca Azevêdo",
+      "createdAt": "2024-10-18T03:05:30.743Z",
+      "updatedAt": "2024-10-18T03:05:30.743Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 423,
+      "phone": "5522997630025@s.whatsapp.net",
+      "name": "cornick",
+      "createdAt": "2024-10-18T03:38:45.608Z",
+      "updatedAt": "2024-10-18T03:38:45.608Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 424,
+      "phone": "5521981542613@s.whatsapp.net",
+      "name": "Fagner Gabriel",
+      "createdAt": "2024-10-18T03:44:29.055Z",
+      "updatedAt": "2024-10-18T03:44:29.055Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 425,
+      "phone": "555499597575@s.whatsapp.net",
+      "name": "José",
+      "createdAt": "2024-10-18T03:44:33.642Z",
+      "updatedAt": "2024-10-18T03:44:33.642Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 426,
+      "phone": "5511930298258@s.whatsapp.net",
+      "name": "~",
+      "createdAt": "2024-10-18T03:48:23.086Z",
+      "updatedAt": "2024-10-18T03:48:23.086Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 427,
+      "phone": "557788089904@s.whatsapp.net",
+      "name": "Alexandre",
+      "createdAt": "2024-10-18T03:49:12.672Z",
+      "updatedAt": "2024-10-18T03:49:12.672Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 428,
+      "phone": "5522998632861@s.whatsapp.net",
+      "name": "Wagner",
+      "createdAt": "2024-10-18T03:55:55.590Z",
+      "updatedAt": "2024-10-18T03:55:55.590Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 429,
+      "phone": "5511962252774@s.whatsapp.net",
+      "name": "Gabriel Silva",
+      "createdAt": "2024-10-18T05:31:35.304Z",
+      "updatedAt": "2024-10-18T05:31:35.304Z",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "clusterId": null
+    },
+    {
+      "id": 430,
+      "phone": "5521988664557@s.whatsapp.net",
+      "name": "Rafael Medeiros",
+      "createdAt": "2024-10-27T15:37:28.434Z",
+      "updatedAt": "2024-10-27T15:37:28.434Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 431,
+      "phone": "557988431485@s.whatsapp.net",
+      "name": "Felipe",
+      "createdAt": "2024-10-27T15:37:28.455Z",
+      "updatedAt": "2024-10-27T15:37:28.455Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 432,
+      "phone": "5521979522221@s.whatsapp.net",
+      "name": "Lukinhas",
+      "createdAt": "2024-10-27T15:37:28.466Z",
+      "updatedAt": "2024-10-27T15:37:28.466Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 433,
+      "phone": "556192549801@s.whatsapp.net",
+      "name": "Adrian Sanches",
+      "createdAt": "2024-10-27T15:37:42.925Z",
+      "updatedAt": "2024-10-27T15:37:42.925Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 434,
+      "phone": "559185464442@s.whatsapp.net",
+      "name": "Lanna",
+      "createdAt": "2024-10-27T15:38:35.204Z",
+      "updatedAt": "2024-10-27T15:38:35.204Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 435,
+      "phone": "5555920003230@s.whatsapp.net",
+      "name": "rafa",
+      "createdAt": "2024-10-27T15:43:16.341Z",
+      "updatedAt": "2024-10-27T15:43:16.341Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 436,
+      "phone": "553599622105@s.whatsapp.net",
+      "name": "João Pedro Ribeiro",
+      "createdAt": "2024-10-27T15:43:51.749Z",
+      "updatedAt": "2024-10-27T15:43:51.749Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 437,
+      "phone": "5527995002345@s.whatsapp.net",
+      "name": "Alecsandro Auer",
+      "createdAt": "2024-10-27T15:44:34.926Z",
+      "updatedAt": "2024-10-27T15:44:34.926Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 438,
+      "phone": "555496770429@s.whatsapp.net",
+      "name": "Daniel Klein",
+      "createdAt": "2024-10-27T15:46:32.320Z",
+      "updatedAt": "2024-10-27T15:46:32.320Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 439,
+      "phone": "5521979170220@s.whatsapp.net",
+      "name": "~lisa lisinha lisoca",
+      "createdAt": "2024-10-27T15:47:17.741Z",
+      "updatedAt": "2024-10-27T15:47:17.741Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 440,
+      "phone": "5524993210265@s.whatsapp.net",
+      "name": "Milena Bertges",
+      "createdAt": "2024-10-27T15:49:59.838Z",
+      "updatedAt": "2024-10-27T15:49:59.838Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 441,
+      "phone": "5513992119119@s.whatsapp.net",
+      "name": "Gabriel Marques F. Leal",
+      "createdAt": "2024-10-27T15:59:25.514Z",
+      "updatedAt": "2024-10-27T15:59:25.514Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 442,
+      "phone": "557491156370@s.whatsapp.net",
+      "name": "Lirio",
+      "createdAt": "2024-10-27T16:00:58.525Z",
+      "updatedAt": "2024-10-27T16:00:58.525Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 443,
+      "phone": "5521986220175@s.whatsapp.net",
+      "name": "Fillipy Balonecker",
+      "createdAt": "2024-10-27T16:08:59.072Z",
+      "updatedAt": "2024-10-27T16:08:59.072Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 444,
+      "phone": "5521996010299@s.whatsapp.net",
+      "name": "leticia 🐱",
+      "createdAt": "2024-10-27T16:15:09.809Z",
+      "updatedAt": "2024-10-27T16:15:09.809Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 445,
+      "phone": "5521998119882@s.whatsapp.net",
+      "name": "Yago",
+      "createdAt": "2024-10-27T16:15:30.567Z",
+      "updatedAt": "2024-10-27T16:15:30.567Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 446,
+      "phone": "555199171701@s.whatsapp.net",
+      "name": "rafael de bem",
+      "createdAt": "2024-10-27T16:15:59.503Z",
+      "updatedAt": "2024-10-27T16:15:59.503Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 447,
+      "phone": "556496764271@s.whatsapp.net",
+      "name": "saulo",
+      "createdAt": "2024-10-27T16:16:26.588Z",
+      "updatedAt": "2024-10-27T16:16:26.588Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 448,
+      "phone": "5521999897349@s.whatsapp.net",
+      "name": "Joao Valladão",
+      "createdAt": "2024-10-27T16:17:00.110Z",
+      "updatedAt": "2024-10-27T16:17:00.110Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 449,
+      "phone": "5521997858157@s.whatsapp.net",
+      "name": "bruna",
+      "createdAt": "2024-10-27T16:17:40.054Z",
+      "updatedAt": "2024-10-27T16:17:40.054Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 450,
+      "phone": "5521998138135@s.whatsapp.net",
+      "name": "Isabella💜",
+      "createdAt": "2024-10-27T16:19:17.992Z",
+      "updatedAt": "2024-10-27T16:19:17.992Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 451,
+      "phone": "5521970628564@s.whatsapp.net",
+      "name": "Jonata Rodrigues",
+      "createdAt": "2024-10-27T16:20:28.123Z",
+      "updatedAt": "2024-10-27T16:20:28.123Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 452,
+      "phone": "557588559867@s.whatsapp.net",
+      "name": "Moisés",
+      "createdAt": "2024-10-27T16:21:13.245Z",
+      "updatedAt": "2024-10-27T16:21:13.245Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 453,
+      "phone": "5521982889947@s.whatsapp.net",
+      "name": "Cauã Dutra",
+      "createdAt": "2024-10-27T16:21:29.624Z",
+      "updatedAt": "2024-10-27T16:21:29.624Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 454,
+      "phone": "5521980649165@s.whatsapp.net",
+      "name": "Luiz Magno",
+      "createdAt": "2024-10-27T16:29:04.328Z",
+      "updatedAt": "2024-10-27T16:29:04.328Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 455,
+      "phone": "552191382614@s.whatsapp.net",
+      "name": "Maria Ourique",
+      "createdAt": "2024-10-27T16:31:29.417Z",
+      "updatedAt": "2024-10-27T16:31:29.417Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 456,
+      "phone": "5522998632861@s.whatsapp.net",
+      "name": "Wagner",
+      "createdAt": "2024-10-27T16:33:58.485Z",
+      "updatedAt": "2024-10-27T16:33:58.485Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 457,
+      "phone": "5521979677553@s.whatsapp.net",
+      "name": "José Ricardo",
+      "createdAt": "2024-10-27T16:34:09.298Z",
+      "updatedAt": "2024-10-27T16:34:09.298Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 458,
+      "phone": "5521982543779@s.whatsapp.net",
+      "name": "João Júnior",
+      "createdAt": "2024-10-27T16:37:06.268Z",
+      "updatedAt": "2024-10-27T16:37:06.268Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 459,
+      "phone": "5521964170172@s.whatsapp.net",
+      "name": "Kauã",
+      "createdAt": "2024-10-27T16:37:54.809Z",
+      "updatedAt": "2024-10-27T16:37:54.809Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 460,
+      "phone": "556298697762@s.whatsapp.net",
+      "name": "Eduardo",
+      "createdAt": "2024-10-27T16:40:26.311Z",
+      "updatedAt": "2024-10-27T16:40:26.311Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 461,
+      "phone": "5521985609860@s.whatsapp.net",
+      "name": "Yeboah",
+      "createdAt": "2024-10-27T16:41:25.819Z",
+      "updatedAt": "2024-10-27T16:41:25.819Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 462,
+      "phone": "5521990058484@s.whatsapp.net",
+      "name": "pedro ✡️",
+      "createdAt": "2024-10-27T16:43:25.984Z",
+      "updatedAt": "2024-10-27T16:43:25.984Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 463,
+      "phone": "553172280540@s.whatsapp.net",
+      "name": "553172280540",
+      "createdAt": "2024-10-27T16:47:28.051Z",
+      "updatedAt": "2024-10-27T16:47:28.051Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 464,
+      "phone": "5521968065354@s.whatsapp.net",
+      "name": "Alice",
+      "createdAt": "2024-10-27T16:50:55.585Z",
+      "updatedAt": "2024-10-27T16:50:55.585Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 465,
+      "phone": "5521975501510@s.whatsapp.net",
+      "name": "Yasmin Fernanda",
+      "createdAt": "2024-10-27T16:52:04.474Z",
+      "updatedAt": "2024-10-27T16:52:04.474Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 466,
+      "phone": "5521996422955@s.whatsapp.net",
+      "name": "Lavínia Dias",
+      "createdAt": "2024-10-27T16:54:02.850Z",
+      "updatedAt": "2024-10-27T16:54:02.850Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 467,
+      "phone": "13135550002@s.whatsapp.net",
+      "name": "13135550002",
+      "createdAt": "2024-10-27T16:56:42.425Z",
+      "updatedAt": "2024-10-27T16:56:42.425Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 468,
+      "phone": "559992128746@s.whatsapp.net",
+      "name": "ravena",
+      "createdAt": "2024-10-27T16:57:38.435Z",
+      "updatedAt": "2024-10-27T18:18:08.727Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": 13
+    },
+    {
+      "id": 469,
+      "phone": "5514999030862@s.whatsapp.net",
+      "name": "Caio",
+      "createdAt": "2024-10-27T17:00:48.127Z",
+      "updatedAt": "2024-10-27T17:00:48.127Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 470,
+      "phone": "5521969701110@s.whatsapp.net",
+      "name": "Victor",
+      "createdAt": "2024-10-27T17:07:58.433Z",
+      "updatedAt": "2024-10-27T17:07:58.433Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 471,
+      "phone": "5521964920823@s.whatsapp.net",
+      "name": "Guxta",
+      "createdAt": "2024-10-27T17:10:00.461Z",
+      "updatedAt": "2024-10-27T17:10:00.461Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 472,
+      "phone": "5521991824465@s.whatsapp.net",
+      "name": "lorenna",
+      "createdAt": "2024-10-27T17:15:01.519Z",
+      "updatedAt": "2024-10-27T17:15:01.519Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 473,
+      "phone": "5521996419724@s.whatsapp.net",
+      "name": "Yisrael Fernando",
+      "createdAt": "2024-10-27T17:22:33.204Z",
+      "updatedAt": "2024-10-27T17:22:33.204Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 474,
+      "phone": "5521989797317@s.whatsapp.net",
+      "name": "Carla",
+      "createdAt": "2024-10-27T17:27:43.273Z",
+      "updatedAt": "2024-10-27T17:27:43.273Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 475,
+      "phone": "553199019780@s.whatsapp.net",
+      "name": "Wesley",
+      "createdAt": "2024-10-27T17:32:36.337Z",
+      "updatedAt": "2024-10-27T17:32:36.337Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 476,
+      "phone": "5521965252311@s.whatsapp.net",
+      "name": "Gabriel Costa",
+      "createdAt": "2024-10-27T17:39:18.532Z",
+      "updatedAt": "2024-10-27T17:39:18.532Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 477,
+      "phone": "556183729728@s.whatsapp.net",
+      "name": "Robson Soares",
+      "createdAt": "2024-10-27T17:45:30.931Z",
+      "updatedAt": "2024-10-27T17:45:30.931Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 478,
+      "phone": "5521968719069@s.whatsapp.net",
+      "name": "Briane Mello",
+      "createdAt": "2024-10-27T17:46:47.944Z",
+      "updatedAt": "2024-10-27T17:46:47.944Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 479,
+      "phone": "5521969842136@s.whatsapp.net",
+      "name": "Saulo Júnior",
+      "createdAt": "2024-10-27T17:47:56.238Z",
+      "updatedAt": "2024-10-27T17:47:56.238Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 480,
+      "phone": "5521965037879@s.whatsapp.net",
+      "name": "David PR",
+      "createdAt": "2024-10-27T17:49:51.927Z",
+      "updatedAt": "2024-10-27T17:49:51.927Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 481,
+      "phone": "5521982701159@s.whatsapp.net",
+      "name": "Zotti",
+      "createdAt": "2024-10-27T17:50:11.609Z",
+      "updatedAt": "2024-10-27T17:50:11.609Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 482,
+      "phone": "5527998515589@s.whatsapp.net",
+      "name": "Bruno Moura",
+      "createdAt": "2024-10-27T17:57:40.130Z",
+      "updatedAt": "2024-10-27T17:57:40.130Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 483,
+      "phone": "558581396362@s.whatsapp.net",
+      "name": "Catii",
+      "createdAt": "2024-10-27T17:59:26.125Z",
+      "updatedAt": "2024-10-27T17:59:26.125Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 484,
+      "phone": "5527988810106@s.whatsapp.net",
+      "name": "dudu",
+      "createdAt": "2024-10-27T17:59:52.422Z",
+      "updatedAt": "2024-10-27T17:59:52.422Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 485,
+      "phone": "553195802902@s.whatsapp.net",
+      "name": "Pedro BL",
+      "createdAt": "2024-10-27T18:50:45.040Z",
+      "updatedAt": "2024-10-27T18:50:45.040Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 486,
+      "phone": "5521974783301@s.whatsapp.net",
+      "name": "Gabriel Vieira",
+      "createdAt": "2024-10-27T18:59:09.072Z",
+      "updatedAt": "2024-10-27T18:59:09.072Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 487,
+      "phone": "5521973496784@s.whatsapp.net",
+      "name": "Christian",
+      "createdAt": "2024-10-27T19:23:35.185Z",
+      "updatedAt": "2024-10-27T19:23:35.185Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 488,
+      "phone": "558599524810@s.whatsapp.net",
+      "name": "Rodrigo M.",
+      "createdAt": "2024-10-27T19:34:31.236Z",
+      "updatedAt": "2024-10-27T19:34:31.236Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 489,
+      "phone": "5511937371429@s.whatsapp.net",
+      "name": "Pereira",
+      "createdAt": "2024-10-27T19:35:02.649Z",
+      "updatedAt": "2024-10-27T19:35:02.649Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 490,
+      "phone": "5513997071903@s.whatsapp.net",
+      "name": "lígia",
+      "createdAt": "2024-10-27T19:43:32.115Z",
+      "updatedAt": "2024-10-27T19:43:32.115Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 491,
+      "phone": "558591773999@s.whatsapp.net",
+      "name": "João Victor Barbosa",
+      "createdAt": "2024-10-27T19:50:05.698Z",
+      "updatedAt": "2024-10-27T19:50:05.698Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 492,
+      "phone": "5511950574707@s.whatsapp.net",
+      "name": "Babi❕",
+      "createdAt": "2024-10-28T02:23:11.306Z",
+      "updatedAt": "2024-10-28T02:23:11.306Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 493,
+      "phone": "5522997630025@s.whatsapp.net",
+      "name": "cornick",
+      "createdAt": "2024-10-28T02:23:11.325Z",
+      "updatedAt": "2024-10-28T02:23:11.325Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 494,
+      "phone": "558499881246@s.whatsapp.net",
+      "name": "Erick",
+      "createdAt": "2024-10-28T02:23:11.337Z",
+      "updatedAt": "2024-10-28T02:23:11.337Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 495,
+      "phone": "5511930298258@s.whatsapp.net",
+      "name": "~",
+      "createdAt": "2024-10-28T02:23:11.349Z",
+      "updatedAt": "2024-10-28T02:23:11.349Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 496,
+      "phone": "5511962252774@s.whatsapp.net",
+      "name": "Gabriel Silva",
+      "createdAt": "2024-10-28T02:23:11.361Z",
+      "updatedAt": "2024-10-28T02:23:11.361Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 497,
+      "phone": "5511949897839@s.whatsapp.net",
+      "name": "Marcelo",
+      "createdAt": "2024-10-28T02:23:11.373Z",
+      "updatedAt": "2024-10-28T02:23:11.373Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 498,
+      "phone": "5521976483094@s.whatsapp.net",
+      "name": "Renato Lima",
+      "createdAt": "2024-10-28T02:23:11.429Z",
+      "updatedAt": "2024-10-28T02:23:11.429Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 499,
+      "phone": "5521979824769@s.whatsapp.net",
+      "name": "Gus",
+      "createdAt": "2024-10-28T02:23:11.446Z",
+      "updatedAt": "2024-10-28T02:23:11.446Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 500,
+      "phone": "5521984105916@s.whatsapp.net",
+      "name": "França",
+      "createdAt": "2024-10-28T02:23:11.459Z",
+      "updatedAt": "2024-10-28T02:23:11.459Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 501,
+      "phone": "5527996868781@s.whatsapp.net",
+      "name": "Mariane",
+      "createdAt": "2024-10-28T02:23:11.470Z",
+      "updatedAt": "2024-10-28T02:23:11.470Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 502,
+      "phone": "5521969712216@s.whatsapp.net",
+      "name": "Gabriela Samary",
+      "createdAt": "2024-10-28T02:23:11.481Z",
+      "updatedAt": "2024-10-28T02:23:11.481Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 503,
+      "phone": "5521988875606@s.whatsapp.net",
+      "name": "maria antônia",
+      "createdAt": "2024-10-28T02:23:11.490Z",
+      "updatedAt": "2024-10-28T02:23:11.490Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 504,
+      "phone": "5517996607782@s.whatsapp.net",
+      "name": "Matheus Ravazzi",
+      "createdAt": "2024-10-28T02:23:11.500Z",
+      "updatedAt": "2024-10-28T02:23:11.500Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 505,
+      "phone": "5521998771736@s.whatsapp.net",
+      "name": "Julio",
+      "createdAt": "2024-10-28T02:23:11.510Z",
+      "updatedAt": "2024-10-28T02:23:11.510Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 506,
+      "phone": "5521979863149@s.whatsapp.net",
+      "name": "Lari 🌹",
+      "createdAt": "2024-10-28T02:23:11.518Z",
+      "updatedAt": "2024-10-28T02:23:11.518Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 507,
+      "phone": "5522998767544@s.whatsapp.net",
+      "name": "Mabe🚅",
+      "createdAt": "2024-10-28T02:23:11.528Z",
+      "updatedAt": "2024-10-28T02:23:11.528Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 508,
+      "phone": "5521999528523@s.whatsapp.net",
+      "name": "Rapha Azra",
+      "createdAt": "2024-10-28T02:23:11.536Z",
+      "updatedAt": "2024-10-28T02:23:11.536Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 509,
+      "phone": "5521967339453@s.whatsapp.net",
+      "name": "Marcos Dias",
+      "createdAt": "2024-10-28T03:06:13.268Z",
+      "updatedAt": "2024-10-28T03:06:13.268Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 510,
+      "phone": "5521967491321@s.whatsapp.net",
+      "name": "Leonardo Figueiredo",
+      "createdAt": "2024-10-28T03:22:37.643Z",
+      "updatedAt": "2024-10-28T03:22:37.643Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 511,
+      "phone": "5521996593575@s.whatsapp.net",
+      "name": "bia franco",
+      "createdAt": "2024-10-28T03:35:03.953Z",
+      "updatedAt": "2024-10-28T03:35:03.953Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 512,
+      "phone": "5521986723607",
+      "name": "Caio Henrique",
+      "createdAt": "2024-10-28T04:09:11.708Z",
+      "updatedAt": "2024-10-28T04:09:11.708Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    },
+    {
+      "id": 513,
+      "phone": "5521981542613@s.whatsapp.net",
+      "name": "Fagner Gabriel",
+      "createdAt": "2024-10-28T04:09:54.012Z",
+      "updatedAt": "2024-10-28T04:09:54.012Z",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "clusterId": null
+    }
+  ],
+  "clusters": [
+    {
+      "id": 1,
+      "name": "Clientes",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "description": "Clientes pagantes da assinaturaClientes pagantes da assinaturaClientes pagantes da assinaturaClientes pagantes da assinatura",
+      "createdAt": "2024-10-08T01:15:02.942Z",
+      "updatedAt": "2024-10-13T15:53:21.717Z"
+    },
+    {
+      "id": 9,
+      "name": "Clientes Premium",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "description": "Clientes pagantes de nível premium",
+      "createdAt": "2024-10-13T17:29:17.117Z",
+      "updatedAt": "2024-10-13T17:29:17.117Z"
+    },
+    {
+      "id": 10,
+      "name": "Caloteiros",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "description": "Que estão em pendência",
+      "createdAt": "2024-10-13T17:41:59.329Z",
+      "updatedAt": "2024-10-13T17:41:59.329Z"
+    },
+    {
+      "id": 11,
+      "name": "Caloteiros 3",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "description": "Que estão em pendência",
+      "createdAt": "2024-10-13T19:45:55.994Z",
+      "updatedAt": "2024-10-13T19:45:55.994Z"
+    },
+    {
+      "id": 12,
+      "name": "Caloteiros 5",
+      "userId": "2815e454-be3c-4812-aa91-808d66883cd6",
+      "description": "Teste",
+      "createdAt": "2024-10-13T19:47:11.631Z",
+      "updatedAt": "2024-10-13T19:47:11.631Z"
+    },
+    {
+      "id": 13,
+      "name": "Para mandar msg",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "description": "O bot ravena",
+      "createdAt": "2024-10-27T18:00:58.390Z",
+      "updatedAt": "2024-10-27T18:00:58.390Z"
+    },
+    {
+      "id": 14,
+      "name": "Caio",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "description": "Grupo com caio eu",
+      "createdAt": "2024-10-28T04:09:24.606Z",
+      "updatedAt": "2024-10-28T04:09:24.606Z"
+    },
+    {
+      "id": 15,
+      "name": "ttttt",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "description": "dadaddsads",
+      "createdAt": "2024-10-28T04:09:36.934Z",
+      "updatedAt": "2024-10-28T04:09:36.934Z"
+    },
+    {
+      "id": 16,
+      "name": "TTTT",
+      "userId": "595551f4-039f-421c-8a8a-84422d27ee92",
+      "description": "adasadsdssd",
+      "createdAt": "2024-10-28T04:11:04.681Z",
+      "updatedAt": "2024-10-28T04:11:04.681Z"
+    }
+  ]
 }
