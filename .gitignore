@@ -1,5 +1,5 @@
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
-prisma/data.json
+prisma/*.json
 baileys_auth_info/
 # Logs
 logs
