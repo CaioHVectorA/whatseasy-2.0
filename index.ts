@@ -13,6 +13,7 @@ import type { User } from '@prisma/client';
 import { contactsController } from '@/controllers/contacts.controller';
 import { reactiveController } from '@/controllers/reactives.controller';
 import { connect } from '@/lib/wpp/connect';
+import { messageController } from '@/controllers/message.controller';
 const fastify = Fastify({
   logger: false,
 });
@@ -102,6 +103,7 @@ fastify.addHook('onRequest', async (request, reply) => {
 fastify.register(userController);
 fastify.register(contactsController);
 fastify.register(reactiveController);
+fastify.register(messageController);
 fastify
   .listen({
     port: Number(port),
