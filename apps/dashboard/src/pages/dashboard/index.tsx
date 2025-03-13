@@ -7,6 +7,7 @@ import { User } from '@/types/user.js';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api/index.js';
 import { Send, Calendar, ChefHatIcon, Users } from 'lucide-react';
+import Overview, { MessageData } from './components/overview.js';
 type ApiResponse = {
   currentMonth: {
     Contacts: number;
@@ -21,6 +22,7 @@ type ApiResponse = {
     Schedule: number;
   };
   clientSync: boolean;
+  sentMessages: MessageData[]
 };
 
 const dashboardData = [
@@ -47,7 +49,8 @@ const dashboardData = [
     value: 0,
     change: 0,
     icon: <Calendar className="h-4 w-4 text-muted-foreground" />
-  }
+  },
+
 ];
 
 function DashboardCard({ title, value, change, icon }) {
@@ -105,9 +108,11 @@ function DashboardPage({ user }: { user: User }) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>Número de mensagens enviadas</CardTitle>
                 </CardHeader>
-                <CardContent className="pl-2">{/* <Overview /> */}</CardContent>
+                <CardContent className="pl-0">
+                  <Overview data={data?.sentMessages || []} />
+                </CardContent>
               </Card>
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
