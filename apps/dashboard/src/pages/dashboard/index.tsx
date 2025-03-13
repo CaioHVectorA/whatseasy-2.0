@@ -116,9 +116,9 @@ function DashboardPage({ user }: { user: User }) {
               </Card>
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Mensages</CardTitle>
                   <p className="text-xs text-muted-foreground">
-                    You made 265 sales this month.
+                    As últimas mensagens enviadas
                   </p>
                 </CardHeader>
                 <CardContent>
