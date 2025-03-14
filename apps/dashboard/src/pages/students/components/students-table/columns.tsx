@@ -1,47 +1,64 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { Employee } from '@/constants/data';
+import { Contact } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
+import { useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<Contact>[] = [
   {
     id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Selecione todos"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Selecione uma linha"
       />
     ),
     enableSorting: false,
     enableHiding: false
   },
   {
-    accessorKey: 'first_name',
-    header: 'NAME'
+    accessorKey: 'name',
+    header: 'NOME'
   },
   {
-    accessorKey: 'country',
-    header: 'COUNTRY'
+    accessorKey: 'phone',
+    header: 'NÚMERO',
+    cell: ({ getValue }) => {
+      const phone = getValue() as string;
+      const [showPhone, setShowPhone] = useState(false);
+
+      return (
+        <div className="flex items-center">
+          <span className=' min-w-56'>{showPhone ? phone : '••••••••••'}</span>
+          <button
+            type="button"
+            onClick={() => setShowPhone(!showPhone)}
+            className="ml-2"
+            aria-label="Toggle phone visibility"
+          >
+            {showPhone ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+          </button>
+        </div>
+      );
+    },
   },
   {
-    accessorKey: 'email',
-    header: 'EMAIL'
+    accessorKey: 'createdAt',
+    header: 'CRIADO EM',
+    cell: ({ getValue }) => new Date(getValue() as string).toLocaleDateString()
   },
   {
-    accessorKey: 'job',
-    header: 'COMPANY'
-  },
-  {
-    accessorKey: 'gender',
-    header: 'GENDER'
+    accessorKey: 'clusterName',
+    header: 'CLUSTER'
   },
   {
     id: 'actions',
