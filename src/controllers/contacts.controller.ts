@@ -98,6 +98,21 @@ export const contactsController: FastifyPluginAsync = async (fastify: FastifyIns
     });
     return mountApiResponse({}, 'Contatos movidos com sucesso!', 'Contatos movidos com sucesso!');
   });
+  fastify.patch<{
+    Body: { contactId: number; name: string };
+  }>('/set-contact-name/', async (req, reply) => {
+    const uuid = req.me.id;
+    const { contactId, name } = req.body;
+    const data = await prisma.contacts.update({
+      where: {
+        id: contactId,
+      },
+      data: {
+        name,
+      },
+    });
+    return mountApiResponse({}, 'Nome do contato atualizado com sucesso!', 'Nome do contato atualizado com sucesso!');
+  });
   fastify.delete<Body<{ contactsId: number[] }>>('/contacts', async (req, reply) => {
     const uuid = req.me.id;
     const { contactsId } = req.body;
