@@ -1,5 +1,6 @@
 import { setCookie } from '@/lib/cookies';
 import { Callback } from '@/pages/callback';
+import { Clusters } from '@/pages/clusters';
 import FormPage from '@/pages/form';
 import NotFound from '@/pages/not-found';
 import { Reactives } from '@/pages/reactives';
@@ -38,6 +39,10 @@ export default function AppRouter() {
         {
           path: 'contatos',
           element: <StudentPage />
+        },
+        {
+          path: "Clusters",
+          element: <Clusters />
         },
         {
           path: "status",

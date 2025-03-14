@@ -10,6 +10,7 @@ import {
   CreditCard,
   File,
   FileText,
+  Group,
   HelpCircle,
   Image,
   Laptop,
@@ -29,6 +30,7 @@ import {
   Twitter,
   User,
   User2Icon,
+  Users,
   UserX2Icon,
   X
 } from 'lucide-react';
@@ -64,6 +66,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  clusters: Users,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

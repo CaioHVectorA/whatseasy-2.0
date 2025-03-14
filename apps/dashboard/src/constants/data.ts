@@ -20,6 +20,12 @@ export const navItems: NavItem[] = [
     label: 'Student'
   },
   {
+    title: 'Clusters',
+    href: '/clusters',
+    icon: 'clusters',
+    label: 'Clusters'
+  },
+  {
     title: 'Reativos',
     href: '/reativos',
     icon: 'reactive',
