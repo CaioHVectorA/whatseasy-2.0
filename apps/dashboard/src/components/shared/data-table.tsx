@@ -98,9 +98,9 @@ export default function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -142,13 +142,13 @@ export default function DataTable<TData, TValue>({
       <div className="flex flex-col items-center justify-end gap-2 space-x-2 py-4 sm:flex-row">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{' '}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} de{' '}
+            {table.getFilteredRowModel().rows.length} linha(s) selecionadas.
           </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
               <p className="whitespace-nowrap text-sm font-medium">
-                Rows per page
+                Linhas por página
               </p>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -167,6 +167,9 @@ export default function DataTable<TData, TValue>({
                       {pageSize}
                     </SelectItem>
                   ))}
+                  <SelectItem key={table.getState().pagination.pageSize * pageCount} value={`${table.getState().pagination.pageSize * pageCount}`}>
+                    Todos
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
