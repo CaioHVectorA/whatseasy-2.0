@@ -15,7 +15,7 @@ export default function PopupModal({ renderModal }: TPopupModalProps) {
   return (
     <>
       <Button className="text-xs md:text-sm" onClick={() => setIsOpen(true)}>
-        <Plus className="mr-2 h-4 w-4" /> Add New
+        <Plus className="mr-2 h-4 w-4" /> Adicionar novo
       </Button>
       <Modal
         isOpen={isOpen}
