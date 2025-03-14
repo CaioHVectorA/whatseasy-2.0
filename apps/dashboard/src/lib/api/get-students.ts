@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api } from '.';
 // ---------------------------- Student API ------------------------------------------------- //
 // export async function resendEmail(email: string) {
 //     try {
@@ -16,8 +17,8 @@ export async function getStudents(
   country: string
 ) {
   try {
-    const res = await axios.get(
-      `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
+    const res = await api.get(
+      `/contacts?page=${offset / pageLimit + 1}&limit=${pageLimit}` +
         (country ? `&search=${country}` : '')
     );
     return res.data;
