@@ -17,6 +17,7 @@ export async function handleConnection(state: Partial<ConnectionState>) {
       DisconnectReason.connectionLost,
       DisconnectReason.restartRequired,
       DisconnectReason.timedOut,
+      DisconnectReason.loggedOut,
     ].includes(statusCode);
 
     console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ' restarting'}`);
@@ -35,6 +36,8 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
   return async (state: Partial<ConnectionState>) => {
     const { connection, lastDisconnect, qr, isNewLogin } = state;
     console.log(`Chegou aqui`);
+    console.log({ sock: sock.clientUuid, uuid });
+    let clientExists = await prisma.client.findFirst({ where: { userId: sock.clientUuid || uuid } });
     if (connection === 'close') {
       const statusCode = (lastDisconnect?.error as Boom)?.output?.statusCode;
       const reconnect = [
@@ -44,12 +47,14 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
         DisconnectReason.timedOut,
       ].includes(statusCode);
       console.log(`Connection closed due to ${DisconnectReason[statusCode]}${reconnect ? ', reconnecting...' : ''}`);
-      const clientExists = await prisma.client.findFirst({ where: { userId: sock.clientUuid } });
-      if (clientExists && !!sock.clientUuid) {
-        await prisma.client.update({ where: { userId: sock.clientUuid }, data: { isConnected: false } });
+      let clientExists = await prisma.client.findFirst({ where: { userId: sock.clientUuid || uuid } });
+      if (clientExists) {
+        clientExists = await prisma.client.update({ where: { id: clientExists.id }, data: { isConnected: false } });
       } else {
-        await prisma.client.create({ data: { userId: uuid, isConnected: false, qr: qr ?? '' } });
+        clientExists = await prisma.client.create({ data: { userId: uuid || sock.clientUuid, isConnected: false, qr: qr ?? '' } });
       }
+      await prisma.clientLog.create({ data: { clientId: clientExists.id, type: 'DISCONNECT' } });
+
       if (reconnect) {
         console.log('Chegou aqui reconnect');
         websocket.send(mountResponse(ClientSignals.CLIENT_SUCESS, 'Sua conexão será estabelecida em alguns segundos!', sock.clientUuid));
@@ -66,7 +71,7 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
         .catch(() => false);
       if (folderExists) {
         await prisma.client.update({ where: { userId: uuid }, data: { isConnected: false } });
-        await fs.rmdir(process.cwd() + '/auths/' + uuid, { recursive: true });
+        await fs.rm(process.cwd() + '/auths/' + uuid, { recursive: true });
         return handleConnectionSockClosure(sock, websocket, fallback, uuid);
       }
       return process.exit();
@@ -78,13 +83,14 @@ export const handleConnectionSockClosure = (sock: ModifiedSock, websocket: WebSo
 
     if (connection === 'open') {
       console.log('Connection open!');
+      console.log({ clientExists, uuid });
       // await prisma.user.update({ where: { id: uuid }, data: { last_connection: new Date(), isConnected: true } })
-      const clientExists = await prisma.client.findFirst({ where: { userId: sock.clientUuid } });
-      if (!clientExists) {
-        await prisma.client.create({ data: { userId: uuid, qr: qr ?? '', last_conn: new Date(), isConnected: true } });
+      if (clientExists) {
+        clientExists = await prisma.client.update({ where: { id: clientExists.id }, data: { isConnected: true, last_conn: new Date() } });
       } else {
-        await prisma.client.update({ where: { userId: uuid }, data: { isConnected: true, last_conn: new Date() } });
+        clientExists = await prisma.client.create({ data: { userId: uuid, qr: qr ?? '', last_conn: new Date(), isConnected: true } });
       }
+      await prisma.clientLog.create({ data: { clientId: clientExists.id, type: 'CONNECT' } });
       return websocket.send(mountResponse(ClientSignals.CLIENT_SUCESS, 'Conexão estabelecida com sucesso!', sock.clientUuid));
     }
     console.log('Chegou até aqui!!');

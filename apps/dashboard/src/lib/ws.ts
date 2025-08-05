@@ -21,7 +21,11 @@ export function mountRequest(event: string, uuid: string, data?: any) {
 
 export type WebSocketResponse = {
   event: (typeof ClientSignals)[keyof typeof ClientSignals];
-  data: any;
+  data: {
+    isConnected?: boolean;
+    qr?: string;
+    [key: string]: any;
+  };
   uuid: string;
   message: string;
   send_date: string;

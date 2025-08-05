@@ -11,9 +11,9 @@
     "tsx": "^4.19.2"
   },
   "scripts": {
-    "dev": "bun --watch index.ts",
-    "store": "bun prisma/store.ts",
-    "seed": "bun prisma/seed.ts"
+    "dev": "npx tsx watch index.ts",
+    "store": "npx tsx prisma/store.ts",
+    "seed": "npx tsx prisma/seed.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
