@@ -174,4 +174,47 @@ export const userController: FastifyPluginAsync = async (fastify: FastifyInstanc
       );
     }
   });
+
+  fastify.get('/user/client-logs', async (req, reply) => {
+    const logs = await prisma.clientLog.findMany({
+      where: {
+        Client: {
+          userId: req.me.id,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
+
+    const totalSyncs = await prisma.clientLog.count({
+      where: {
+        Client: {
+          userId: req.me.id,
+        },
+        type: 'SYNC',
+      },
+    });
+
+    const lastConnection = await prisma.clientLog.findFirst({
+      where: {
+        Client: {
+          userId: req.me.id,
+        },
+        type: 'CONNECT',
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return mountApiResponse({
+      logs,
+      metrics: {
+        totalSyncs,
+        lastConnection: lastConnection?.createdAt || null,
+      },
+    });
+  });
 };

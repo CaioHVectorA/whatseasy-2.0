@@ -1,15 +1,13 @@
-import type { PrismaClient } from "@prisma/client";
-import { prisma } from "../lib/prisma.client";
-import { type FastifyInstance, type FastifyPluginAsync } from "fastify";
-import { genSalt, hash, compare } from "bcrypt";
-import type { LoginRequest, RegisterRequest } from "../lib/types/dtos";
-import type { Body } from "../lib/types/utils";
-import { AppError } from "@/lib/appError";
-import { mountApiResponse } from "@/lib/ws/mount-response";
-import { resend, RESEND_EMAIL } from "@/lib/resend";
-export const authController: FastifyPluginAsync = async (
-  fastify: FastifyInstance
-) => {
+import type { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/prisma.client';
+import { type FastifyInstance, type FastifyPluginAsync } from 'fastify';
+import { genSalt, hash, compare } from 'bcrypt';
+import type { LoginRequest, RegisterRequest } from '../lib/types/dtos';
+import type { Body } from '../lib/types/utils';
+import { AppError } from '@/lib/appError';
+import { mountApiResponse } from '@/lib/ws/mount-response';
+import { resend, RESEND_EMAIL } from '@/lib/resend';
+export const authController: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // fastify.post<Body<RegisterRequest>>('/auth/register', async (req, reply) => {
   //     const { email, password, name } = req.body;
   //     const salt = await genSalt(10);
@@ -43,7 +41,7 @@ export const authController: FastifyPluginAsync = async (
   //     const token = fastify.jwt.sign({ id: user.id });
   //     return mountApiResponse({ token }, 'Logado com sucesso!');
   // });
-  fastify.post<Body<{ email: string }>>("/enter", async (req, reply) => {
+  fastify.post<Body<{ email: string }>>('/enter', async (req, reply) => {
     const { email } = req.body;
     const userExists = await prisma.user.findUnique({
       where: { email },
@@ -65,7 +63,7 @@ export const authController: FastifyPluginAsync = async (
       });
       if (error) {
         console.log({ error });
-        throw new AppError("Erro ao enviar e-mail");
+        throw new AppError('Erro ao enviar e-mail');
       }
       return mountApiResponse({});
     }
@@ -80,36 +78,28 @@ export const authController: FastifyPluginAsync = async (
     });
     if (error) {
       console.log({ error });
-      throw new AppError("Erro ao enviar e-mail");
+      throw new AppError('Erro ao enviar e-mail');
     }
     return mountApiResponse({});
   });
-  fastify.post<Body<{ email: string }>>(
-    "/enter-development",
-    async (req, reply) => {
-      const { email } = req.body;
-      if (process.env.npm_lifecycle_event !== "dev") {
-        throw new AppError(
-          "Rota disponível apenas em ambiente de desenvolvimento"
-        );
-      }
-      const userExists = await prisma.user.findUnique({
-        where: { email },
+  fastify.post<Body<{ email: string }>>('/enter-development', async (req, reply) => {
+    const { email } = req.body;
+    // if (process.env.npm_lifecycle_event && process.env.npm_lifecycle_event !== 'dev') {
+    // throw new AppError('Rota disponível apenas em ambiente de desenvolvimento: ' + process.env.npm_lifecycle_event);
+    // }
+    const userExists = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!userExists) {
+      const user = await prisma.user.create({
+        data: {
+          email,
+        },
       });
-      if (!userExists) {
-        const user = await prisma.user.create({
-          data: {
-            email,
-          },
-        });
-        const jwt = fastify.jwt.sign({ id: user.id });
-        return mountApiResponse({ token: jwt }, "Usuário criado com sucesso!");
-      }
-      const jwt = fastify.jwt.sign({ id: userExists.id });
-      return mountApiResponse(
-        { token: jwt },
-        "Usuário encontrado com sucesso!"
-      );
+      const jwt = fastify.jwt.sign({ id: user.id });
+      return mountApiResponse({ token: jwt }, 'Usuário criado com sucesso!');
     }
-  );
+    const jwt = fastify.jwt.sign({ id: userExists.id });
+    return mountApiResponse({ token: jwt }, 'Usuário encontrado com sucesso!');
+  });
 };
