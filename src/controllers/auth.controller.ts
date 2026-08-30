@@ -7,6 +7,7 @@ import type { Body } from "../lib/types/utils";
 import { AppError } from "@/lib/appError";
 import { mountApiResponse } from "@/lib/ws/mount-response";
 import { resend, RESEND_EMAIL } from "@/lib/resend";
+
 export const authController: FastifyPluginAsync = async (
   fastify: FastifyInstance
 ) => {
@@ -52,6 +53,7 @@ export const authController: FastifyPluginAsync = async (
       const token = fastify.jwt.sign({ id: user.id });
       return mountApiResponse({ token }, 'Logado com sucesso!');
   });
+
   fastify.post<Body<{ email: string }>>("/enter", async (req, reply) => {
     const { email } = req.body;
     const userExists = await prisma.user.findUnique({
@@ -93,6 +95,7 @@ export const authController: FastifyPluginAsync = async (
     }
     return mountApiResponse({});
   });
+
   fastify.post<Body<{ email: string }>>(
     "/enter-development",
     async (req, reply) => {

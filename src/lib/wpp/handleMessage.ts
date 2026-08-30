@@ -1,36 +1,18 @@
-import {
-  getChatId,
-  type MessageUpsertType,
-  type WAMessage,
-} from "@whiskeysockets/baileys";
-import type { ModifiedSock } from "../types/modified.sock.type";
-import { INCLUDED_CHATS } from "@/helpers/consts";
-import { prisma } from "../prisma.client";
-import type { Trigger } from "@prisma/client";
-import { textTriggerTest } from "../trigger/text-trigger";
+import { getChatId, type MessageUpsertType, type WAMessage } from '@whiskeysockets/baileys';
+import type { ModifiedSock } from '../types/modified.sock.type';
+import { INCLUDED_CHATS } from '@/helpers/consts';
+import { prisma } from '../prisma.client';
+import type { Trigger } from '@prisma/client';
+import { textTriggerTest } from '../trigger/text-trigger';
 
-export function handleMessages(
-  sock: ModifiedSock,
-  websocket: WebSocket,
-  fallback: (uuid: string) => any,
-  uuid: string
-) {
-  return async (m: {
-    messages: WAMessage[];
-    type: MessageUpsertType;
-    requestId?: string;
-  }) => {
-    console.log("msg!!!");
+export function handleMessages(sock: ModifiedSock, websocket: WebSocket, fallback: (uuid: string) => any, uuid: string) {
+  return async (m: { messages: WAMessage[]; type: MessageUpsertType; requestId?: string }) => {
+    console.log('msg!!!');
     console.log(m.messages[0].message?.conversation);
-    if (
-      m.messages[0].message?.conversation === "Olá, mundo!" ||
-      !INCLUDED_CHATS.includes(getChatId({ ...m.messages[0].key }))
-    )
-      return;
+    if (m.messages[0].message?.conversation === 'Olá, mundo!' || !INCLUDED_CHATS.includes(getChatId({ ...m.messages[0].key }))) return;
     // if ((m.messages[0].messageTimestamp) < initDate) return;
-    if (m.messages[0].message?.conversation === "")
-      return m.messages[0].messageTimestamp, Date.now();
-    console.log("Responderia!!!");
+    if (m.messages[0].message?.conversation === '') return m.messages[0].messageTimestamp, Date.now();
+    console.log('Responderia!!!');
     // return;
     // const response = 'Olá, mundo!';
     if (!m.messages[0].key.remoteJid) return;
@@ -44,14 +26,11 @@ export function handleMessages(
       },
     });
     let filtered = [] as typeof triggers;
+    console.log({ triggers });
     father: for (const trigger of triggers) {
       if (!trigger.active) continue father;
       if (trigger.TextTrigger.length > 0) {
-        for (const {
-          triggerId,
-          triggerClusterId,
-          TriggerCluster,
-        } of trigger.TriggerClusterRelation) {
+        for (const { triggerId, triggerClusterId, TriggerCluster } of trigger.TriggerClusterRelation) {
           // implement cluster logic
         }
         // implement temporal condition logic
@@ -67,6 +46,7 @@ export function handleMessages(
       }
       filtered.push(trigger);
     }
+    console.log({ filtered });
     if (filtered.length === 0) return;
     const responses = filtered[0];
     await prisma.triggerLog.create({
