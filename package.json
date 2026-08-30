@@ -7,11 +7,14 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^16.11.11",
     "@types/qrcode": "^1.5.5",
+    "concurrently": "^10.0.5",
     "prisma": "^5.19.1",
     "tsx": "^4.19.2"
   },
   "scripts": {
-    "dev": "bun --watch index.ts",
+    "dev": "concurrently -n \"server,dashboard\" -c \"cyan,magenta\" \"bun --watch index.ts\" \"bun --cwd apps/dashboard dev\"",
+    "dev:server": "bun --watch index.ts",
+    "dev:dashboard": "bun --cwd apps/dashboard dev",
     "store": "bun prisma/store.ts",
     "seed": "bun prisma/seed.ts"
   },

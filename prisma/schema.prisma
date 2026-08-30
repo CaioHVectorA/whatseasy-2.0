@@ -11,10 +11,7 @@ model User {
   id             String           @id @unique @default(uuid())
   email          String           @unique
   name           String?
-  // password       String -> changed to magic link
-  // last_connection DateTime?
-  // last_sync       DateTime?
-  // isConnected     Boolean          @default(false)
+  password       String?
   createdAt      DateTime         @default(now())
   // Reactive       Reactive[]
   client_id      Int?

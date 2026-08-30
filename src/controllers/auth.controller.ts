@@ -10,39 +10,48 @@ import { resend, RESEND_EMAIL } from "@/lib/resend";
 export const authController: FastifyPluginAsync = async (
   fastify: FastifyInstance
 ) => {
-  // fastify.post<Body<RegisterRequest>>('/auth/register', async (req, reply) => {
-  //     const { email, password, name } = req.body;
-  //     const salt = await genSalt(10);
-  //     const hashedPassword = await hash(password, salt);
-  //     if (await prisma.user.findUnique({ where: { email } })) {
-  //         throw new AppError('Usuário já existe!');
-  //     }
-  //     const user = await prisma.user.create({
-  //         data: {
-  //             email,
-  //             password: hashedPassword,
-  //             name
-  //         }
-  //     });
-  //     const token = fastify.jwt.sign({ id: user.id });
-  //     return mountApiResponse({ token }, 'Registrado com sucesso!');
-  // });
+  fastify.post<Body<{ email: string; password: string; name?: string }>>('/register', async (req, reply) => {
+      const { email, password, name } = req.body;
+      if (!email || !password) {
+          throw new AppError('E-mail e senha são obrigatórios!');
+      }
+      if (await prisma.user.findUnique({ where: { email } })) {
+          throw new AppError('Usuário já existe! Tente fazer login.');
+      }
+      const salt = await genSalt(10);
+      const hashedPassword = await hash(password, salt);
+      const user = await prisma.user.create({
+          data: {
+              email,
+              password: hashedPassword,
+              name
+          }
+      });
+      const token = fastify.jwt.sign({ id: user.id });
+      return mountApiResponse({ token }, 'Registrado com sucesso!');
+  });
 
-  // fastify.post<Body<LoginRequest>>('/auth/login', async (req, reply) => {
-  //     const { email, password } = req.body;
-  //     const user = await prisma.user.findUnique({
-  //         where: { email }
-  //     });
-  //     if (!user) {
-  //         throw new AppError('Usuário não encontrado. Tente um cadastro!');
-  //     }
-  //     const isPasswordValid = await compare(password, user.password);
-  //     if (!isPasswordValid) {
-  //         throw new AppError('Senha incorreta!');
-  //     }
-  //     const token = fastify.jwt.sign({ id: user.id });
-  //     return mountApiResponse({ token }, 'Logado com sucesso!');
-  // });
+  fastify.post<Body<{ email: string; password: string }>>('/login', async (req, reply) => {
+      const { email, password } = req.body;
+      if (!email || !password) {
+          throw new AppError('E-mail e senha são obrigatórios!');
+      }
+      const user = await prisma.user.findUnique({
+          where: { email }
+      });
+      if (!user) {
+          throw new AppError('Usuário não encontrado. Crie uma conta!');
+      }
+      if (!user.password) {
+          throw new AppError('Este usuário foi criado sem senha. Cadastre uma senha!');
+      }
+      const isPasswordValid = await compare(password, user.password);
+      if (!isPasswordValid) {
+          throw new AppError('Senha incorreta!');
+      }
+      const token = fastify.jwt.sign({ id: user.id });
+      return mountApiResponse({ token }, 'Logado com sucesso!');
+  });
   fastify.post<Body<{ email: string }>>("/enter", async (req, reply) => {
     const { email } = req.body;
     const userExists = await prisma.user.findUnique({
@@ -88,7 +97,7 @@ export const authController: FastifyPluginAsync = async (
     "/enter-development",
     async (req, reply) => {
       const { email } = req.body;
-      if (process.env.npm_lifecycle_event !== "dev") {
+      if (process.env.NODE_ENV === "production") {
         throw new AppError(
           "Rota disponível apenas em ambiente de desenvolvimento"
         );
