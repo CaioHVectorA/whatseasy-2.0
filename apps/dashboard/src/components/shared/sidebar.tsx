@@ -3,7 +3,7 @@ import DashboardNav from '@/components/shared/dashboard-nav';
 import { navItems } from '@/constants/data';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { cn } from '@/lib/utils';
-import { ChevronsLeft } from 'lucide-react';
+import { ChevronsLeft, MessageSquareCode } from 'lucide-react';
 import { useState } from 'react';
 
 type SidebarProps = {
@@ -19,10 +19,11 @@ export default function Sidebar({ className }: SidebarProps) {
     toggle();
     setTimeout(() => setStatus(false), 500);
   };
+
   return (
     <nav
       className={cn(
-        `relative z-10 hidden h-screen flex-none  px-3 md:block`,
+        `relative z-10 hidden h-screen flex-none px-3 md:block border-r bg-card/60 backdrop-blur-sm`,
         status && 'duration-500',
         !isMinimized ? 'w-72' : 'w-[80px]',
         className
@@ -31,13 +32,23 @@ export default function Sidebar({ className }: SidebarProps) {
       <div
         className={cn(
           'flex items-center px-0 py-5 md:px-2',
-          isMinimized ? 'justify-center ' : 'justify-between'
+          isMinimized ? 'justify-center' : 'justify-between'
         )}
       >
-        {!isMinimized && <h1 className="text-2xl font-bold">Logo</h1>}
+        {!isMinimized && (
+          <div className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white shadow">
+              <MessageSquareCode className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold tracking-tight text-foreground">WhatsEasy</h1>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-500">v2.0 MVP</span>
+            </div>
+          </div>
+        )}
         <ChevronsLeft
           className={cn(
-            'size-8 cursor-pointer rounded-full border bg-background text-foreground',
+            'size-8 cursor-pointer rounded-full border bg-background text-foreground hover:bg-accent transition-transform',
             isMinimized && 'rotate-180'
           )}
           onClick={handleToggle}

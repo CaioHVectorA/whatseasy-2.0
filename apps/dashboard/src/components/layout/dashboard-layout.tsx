@@ -29,7 +29,7 @@ export default function DashboardLayout({
           </button>
           <Header />
         </div>
-        <main className="relative mx-2 my-3 mr-2 flex-1 overflow-hidden rounded-xl  bg-background focus:outline-none md:mx-0 md:my-4 md:mr-4 ">
+        <main className="relative mx-2 my-3 mr-2 flex-1 overflow-y-auto rounded-2xl border border-border/40 bg-background/95 p-4 sm:p-6 md:p-8 focus:outline-none md:mx-0 md:my-4 md:mr-4 shadow-sm backdrop-blur-sm">
           {children}
         </main>
       </div>

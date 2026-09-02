@@ -61,13 +61,18 @@ export default function DataTable<TData, TValue>({
   });
 
   React.useEffect(() => {
-    // Update the URL with the new page number and limit
-    setSearchParams({
-      ...Object.fromEntries(searchParams), // Spread the existing search params
-      page: (pageIndex + 1).toString(), // Update the page number (assuming pageIndex is 0-based)
-      limit: pageSize.toString() // Update the limit
-    });
-    // if search is there setting filter value
+    const currentPage = searchParams?.get('page');
+    const currentLimit = searchParams?.get('limit');
+    const targetPage = (pageIndex + 1).toString();
+    const targetLimit = pageSize.toString();
+
+    if (currentPage !== targetPage || currentLimit !== targetLimit) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        page: targetPage,
+        limit: targetLimit
+      });
+    }
   }, [pageIndex, pageSize, searchParams, setSearchParams]);
 
   const table = useReactTable({

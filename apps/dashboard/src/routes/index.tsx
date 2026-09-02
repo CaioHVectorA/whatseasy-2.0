@@ -1,23 +1,19 @@
-import { setCookie } from '@/lib/cookies';
-import { Callback } from '@/pages/callback';
-import FormPage from '@/pages/form';
-import NotFound from '@/pages/not-found';
-import { Reactives } from '@/pages/reactives';
-import { Status } from '@/pages/status';
-import { Suspense, lazy, useEffect } from 'react';
-import { Navigate, Outlet, useRoutes, useSearchParams } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 const DashboardLayout = lazy(
   () => import('@/components/layout/dashboard-layout')
 );
 const SignInPage = lazy(() => import('@/pages/auth/signin'));
+const SignUpPage = lazy(() => import('@/pages/auth/signup'));
 const DashboardPage = lazy(() => import('@/pages/dashboard'));
-const StudentPage = lazy(() => import('@/pages/students'));
-const StudentDetailPage = lazy(
-  () => import('@/pages/students/StudentDetailPage')
-);
-
-// ----------------------------------------------------------------------
+const ContactsPage = lazy(() => import('@/pages/contacts'));
+const CustomFieldsPage = lazy(() => import('@/pages/custom-fields'));
+const StatusPage = lazy(() => import('@/pages/status'));
+const ReactivesPage = lazy(() => import('@/pages/reactives'));
+const TriggersPage = lazy(() => import('@/pages/triggers'));
+const LogsPage = lazy(() => import('@/pages/logs'));
+const NotFound = lazy(() => import('@/pages/not-found'));
 
 export default function AppRouter() {
   const dashboardRoutes = [
@@ -25,7 +21,7 @@ export default function AppRouter() {
       path: '/',
       element: (
         <DashboardLayout>
-          <Suspense>
+          <Suspense fallback={<div className="h-full flex items-center justify-center">Carregando...</div>}>
             <Outlet />
           </Suspense>
         </DashboardLayout>
@@ -33,49 +29,53 @@ export default function AppRouter() {
       children: [
         {
           element: <DashboardPage />,
-          index: true
+          index: true,
+        },
+        {
+          path: 'status',
+          element: <StatusPage />,
         },
         {
           path: 'contatos',
-          element: <StudentPage />
+          element: <ContactsPage />,
         },
         {
-          path: "status",
-          element: <Status />
+          path: 'banco-dados',
+          element: <CustomFieldsPage />,
         },
         {
-          path: "reativos",
-          element: <Reactives />
+          path: 'reativos',
+          element: <ReactivesPage />,
         },
         {
-          path: 'student/details',
-          element: <StudentDetailPage />
+          path: 'gatilhos',
+          element: <TriggersPage />,
         },
         {
-          path: 'form',
-          element: <FormPage />
-        }
-      ]
-    }
+          path: 'logs',
+          element: <LogsPage />,
+        },
+      ],
+    },
   ];
 
   const publicRoutes = [
     {
       path: '/login',
       element: <SignInPage />,
-      index: true
+      index: true,
+    },
+    {
+      path: '/register',
+      element: <SignUpPage />,
     },
     {
       path: '/404',
-      element: <NotFound />
-    },
-    {
-      path: "/auth/callback",
-      element: <Callback />
+      element: <NotFound />,
     },
     {
       path: '*',
-      element: <Navigate to="/404" replace />
+      element: <Navigate to="/404" replace />,
     },
   ];
 

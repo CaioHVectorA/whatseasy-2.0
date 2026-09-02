@@ -10,21 +10,19 @@ datasource db {
 model User {
   id             String           @id @unique @default(uuid())
   email          String           @unique
+  password       String?
   name           String?
-  // password       String -> changed to magic link
-  // last_connection DateTime?
-  // last_sync       DateTime?
-  // isConnected     Boolean          @default(false)
   createdAt      DateTime         @default(now())
-  // Reactive       Reactive[]
-  client_id      Int?
+  updatedAt      DateTime         @default(now()) @updatedAt
   Client         Client?
   Contacts       Contacts[]
   SentMessages   SentMessages[]
   Schedule       Schedule[]
   ContactCluster ContactCluster[]
   Trigger        Trigger[]
-  Form           Form[]
+  Form                   Form[]
+  ActivityLogs           ActivityLog[]
+  CustomFieldDefinitions CustomFieldDefinition[]
 
   @@map("users")
 }
@@ -34,37 +32,31 @@ model Client {
   last_sync   DateTime @default(now())
   last_conn   DateTime @default(now())
   isConnected Boolean  @default(false)
+  status      String   @default("DISCONNECTED") // DISCONNECTED, CONNECTING, QR_READY, CONNECTED, RECONNECTING, ERROR
+  qr          String?
+  phone       String?
+  name        String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   userId      String   @unique
-  qr          String
   User        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("clients")
 }
 
-// model Reactive {
-//   id        Int      @id @default(autoincrement())
-//   message   String
-//   response  String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   userId    String
-//   User      User     @relation(fields: [userId], references: [id])
-
-//   @@map("reactives")
-// }
-
 model Contacts {
-  id        Int             @id @default(autoincrement())
-  phone     String
-  name      String
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  userId    String
-  User      User            @relation(fields: [userId], references: [id])
-  clusterId Int?
-  Cluster   ContactCluster? @relation(fields: [clusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id              Int                      @id @default(autoincrement())
+  phone           String
+  name            String
+  customFields    String?                  @default("{}") // JSON chave-valor dinâmico
+  lastInteraction DateTime?
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  userId          String
+  User            User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  clusterId       Int?                     // Legado mantido para compatibilidade
+  Cluster         ContactCluster?          @relation(fields: [clusterId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  Clusters        ContactClusterRelation[]
 
   @@map("contacts")
 }
@@ -72,14 +64,41 @@ model Contacts {
 model ContactCluster {
   id                     Int                      @id @default(autoincrement())
   name                   String
+  description            String?
   userId                 String
   User                   User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  description            String?
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime                 @updatedAt
-  Contacts               Contacts[]
-  TriggerCluster         TriggerCluster[]
+  Contacts               Contacts[]               // Legado
+  ContactRelations       ContactClusterRelation[]
   TriggerClusterRelation TriggerClusterRelation[]
+
+  @@map("contact_clusters")
+}
+
+model ContactClusterRelation {
+  id        Int            @id @default(autoincrement())
+  contactId Int
+  clusterId Int
+  Contact   Contacts       @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  Cluster   ContactCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
+
+  @@unique([contactId, clusterId])
+  @@map("contact_cluster_relations")
+}
+
+model CustomFieldDefinition {
+  id        Int      @id @default(autoincrement())
+  key       String   // e.g. empresa, cargo, ticket_medio, plano
+  label     String   // Nome amigável exibido na interface
+  type      String   @default("TEXT") // TEXT, NUMBER, CURRENCY, DATE, SELECT
+  options   String?  // JSON array com opções caso seja SELECT
+  userId    String
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, key])
+  @@map("custom_field_definitions")
 }
 
 model SentMessages {
@@ -103,6 +122,7 @@ model Schedule {
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   phone     String
   time      DateTime
+  status    String   @default("PENDING") // PENDING, SENT, FAILED
 
   @@map("schedules")
 }
@@ -110,11 +130,13 @@ model Schedule {
 model Step {
   id          Int    @id @default(autoincrement())
   question    String
-  validations String // JSON?
+  validations String
   stepNumber  Int
   formId      Int
   Form        Form   @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   key         String
+
+  @@map("steps")
 }
 
 model Form {
@@ -129,30 +151,21 @@ model Form {
   @@map("forms")
 }
 
-// model ReceivedMessages {
-//   id        Int      @id @default(autoincrement())
-//   message   String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   userId    String
-//   User      User     @relation(fields: [userId], references: [id])
-
-//   @@map("received_messages")
-// }
-
 model Trigger {
   id                      Int                       @id @default(autoincrement())
+  kind                    String                    @default("REACTIVE") // REACTIVE (quando msg recebida) ou SCHEDULED (tempo/evento)
+  name                    String                    @default("Automação")
   active                  Boolean                   @default(true)
-  createdAt               DateTime                  @default(now())
-  name                    String                    @default("Gatilho")
   order                   Int                       @default(0)
   usageCount              Int                       @default(0)
   userId                  String
-  count_used              Int                       @default(0)
   User                    User                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  // Responses               Response[]
+  delaySeconds            Int                       @default(0)
+  actionType              String?                   // SEND_MESSAGE, ADD_CLUSTER, REMOVE_CLUSTER, MULTI_STEP
+  actionConfig            String?                   // JSON com configurações extras
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @default(now()) @updatedAt
   TemporalCondition       TemporalCondition?
-  // TriggerClusters         TriggerCluster[]
   TextTrigger             TextTrigger[]
   ResponseTriggerRelation ResponseTriggerRelation[]
   TriggerClusterRelation  TriggerClusterRelation[]
@@ -165,7 +178,7 @@ model TriggerLog {
   id        Int      @id @default(autoincrement())
   triggerId Int
   createdAt DateTime @default(now())
-  Trigger   Trigger  @relation(fields: [triggerId], references: [id], onDelete: NoAction)
+  Trigger   Trigger  @relation(fields: [triggerId], references: [id], onDelete: Cascade)
 
   @@map("trigger_logs")
 }
@@ -174,7 +187,7 @@ model ResponseLog {
   id         Int      @id @default(autoincrement())
   responseId Int
   createdAt  DateTime @default(now())
-  Response   Response @relation(fields: [responseId], references: [id], onDelete: NoAction)
+  Response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
 
   @@map("response_logs")
 }
@@ -182,22 +195,19 @@ model ResponseLog {
 model TextTrigger {
   id        Int     @id @default(autoincrement())
   text      String
+  type      String  // EQUALS, REGEX, CONTAINS, STARTS_WITH, ENDS_WITH
   triggerId Int
   Trigger   Trigger @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  type      String // ('EQUALS', 'REGEX', 'CONTAINS', 'STARTS_WITH', 'END_WITH')
+
+  @@map("text_triggers")
 }
 
 model Response {
   id                      Int                       @id @default(autoincrement())
-  type                    String // ('TEXTO', 'IMAGEM', etc.) OU ativar um form
+  type                    String                    @default("TEXTO") // TEXTO, IMAGEM, SEQUENCIA
   content                 String
   asMessage               Boolean                   @default(true)
-  // triggerId    Int
-  // Trigger      Trigger @relation(fields: [triggerId], references: [id])
   createdAt               DateTime                  @default(now())
-  // timesReplied            Int                       @default(0)
-  // Trigger                 Trigger?                  @relation(fields: [triggerId], references: [id])
-  // triggerId               Int?
   ResponseTriggerRelation ResponseTriggerRelation[]
   ResponseLog             ResponseLog[]
 
@@ -216,13 +226,14 @@ model ResponseTriggerRelation {
 
 model TemporalCondition {
   id           Int       @id @default(autoincrement())
+  type         String    @default("SPECIFIC_TIME") // SPECIFIC_TIME, RECURRING_DAILY, INACTIVITY_DAYS, ON_CLUSTER_ENTER
+  cron         String?
+  inactivityDays Int?
+  targetTime   String?   // HH:mm
   initial_date DateTime?
   final_date   DateTime?
-  initial_time String?
-  final_time   String?
   triggerId    Int       @unique
   Trigger      Trigger   @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  as           String // (DATE, TIME)
 
   @@map("temporal_conditions")
 }
@@ -233,19 +244,24 @@ model TriggerClusterRelation {
   Trigger          Trigger        @relation(fields: [triggerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   triggerClusterId Int
   TriggerCluster   ContactCluster @relation(fields: [triggerClusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  included         Boolean        @default(true)
+  included         Boolean        @default(true) // true = se estiver no cluster; false = se NÃO estiver
 
   @@map("trigger_cluster_relations")
 }
 
-model TriggerCluster {
-  id        Int            @id @default(autoincrement())
-  // triggerId Int
-  inside    Boolean        @default(true) // Se o trigger é para quem está dentro ou fora do cluster
-  clusterId Int
-  // Trigger   Trigger[]        @relation(fields: [triggerId], references: [id])
-  Cluster   ContactCluster @relation(fields: [clusterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  // Trigger   Trigger        @relation(fields: [triggerId], references: [id])
+model ActivityLog {
+  id             Int      @id @default(autoincrement())
+  userId         String
+  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  contactPhone   String?
+  contactName    String?
+  eventType      String   // WPP_CONNECT, WPP_DISCONNECT, MSG_RECEIVED, MSG_SENT, CONTACT_CREATED, CLUSTER_ADDED, REACTIVE_TRIGGERED, TRIGGER_EXECUTED, ERROR
+  description    String
+  automationType String?  // REACTIVE, TRIGGER, MANUAL, SYSTEM
+  automationId   Int?
+  status         String   @default("SUCCESS") // SUCCESS, ERROR, INFO, WARNING
+  metadata       String?  // JSON string
+  createdAt      DateTime @default(now())
 
-  @@map("trigger_clusters")
+  @@map("activity_logs")
 }

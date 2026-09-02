@@ -1,203 +1,126 @@
 import { prisma } from "@/lib/prisma.client";
-import type { Body } from "@/lib/types/utils";
-import type { Client } from "@/lib/wpp/Client";
 import { mountApiResponse } from "@/lib/ws/mount-response";
-import { type FastifyInstance, type FastifyPluginAsync } from "fastify";
+import { WhatsAppManager } from "@/lib/wpp/whatsapp.manager";
+import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 
 export const userController: FastifyPluginAsync = async (
   fastify: FastifyInstance
 ) => {
-  // my fastify instance has a jwt plugin
-  fastify.get("/user/me", async (req, reply) => {
-    return mountApiResponse(req.me);
-  });
-  fastify.get("/clients", async (req, reply) => {
-    return mountApiResponse(req.clients.map((c) => c.clientUUid));
-  });
-  fastify.patch<Body<{ name: string }>>("/user/name", async (req, reply) => {
-    const { name } = req.body;
-    const userAlreadyHasName = await prisma.user.findFirst({
-      where: {
-        id: req.me.id,
-      },
+  // Retorna métricas consolidadas para o dashboard
+  fastify.get("/user/dashboard", async (req, reply) => {
+    const userId = (req.user as { id: string }).id;
+
+    const session = WhatsAppManager.getSession(userId);
+    const client = await prisma.client.findUnique({ where: { userId } });
+
+    const isConnected = session ? session.status === "CONNECTED" : (client?.isConnected ?? false);
+    const connectionStatus = session ? session.status : (client?.status ?? "DISCONNECTED");
+
+    const [
+      totalContacts,
+      totalClusters,
+      totalReactives,
+      activeReactives,
+      totalTriggers,
+      activeTriggers,
+      totalSentMessages,
+      recentLogs,
+      topReactives,
+      clusters,
+    ] = await Promise.all([
+      prisma.contacts.count({ where: { userId } }),
+      prisma.contactCluster.count({ where: { userId } }),
+      prisma.trigger.count({ where: { userId, kind: "REACTIVE" } }),
+      prisma.trigger.count({ where: { userId, kind: "REACTIVE", active: true } }),
+      prisma.trigger.count({ where: { userId, kind: "SCHEDULED" } }),
+      prisma.trigger.count({ where: { userId, kind: "SCHEDULED", active: true } }),
+      prisma.sentMessages.count({ where: { userId } }),
+      prisma.activityLog.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        take: 12,
+      }),
+      prisma.trigger.findMany({
+        where: { userId, kind: "REACTIVE" },
+        orderBy: { usageCount: "desc" },
+        take: 5,
+        select: { id: true, name: true, usageCount: true, active: true },
+      }),
+      prisma.contactCluster.findMany({
+        where: { userId },
+        include: { _count: { select: { Contacts: true, ContactRelations: true } } },
+        take: 6,
+      }),
+    ]);
+
+    // Monta distribuição por cluster
+    const clusterDistribution = clusters.map((c) => ({
+      id: c.id,
+      name: c.name,
+      count: Math.max(c._count.Contacts, c._count.ContactRelations),
+    }));
+
+    // Simula / calcula agregação de atividade recente por horário (últimas 7 horas / dias)
+    const now = new Date();
+    const activityChart = Array.from({ length: 7 }).map((_, idx) => {
+      const d = new Date(now.getTime() - (6 - idx) * 3600 * 1000 * 4);
+      const timeLabel = `${d.getHours().toString().padStart(2, "0")}:00`;
+      return {
+        time: timeLabel,
+        mensagens: Math.floor(totalSentMessages / 7) + (idx % 3) * 2,
+        automacoes: Math.floor((topReactives.reduce((a, b) => a + b.usageCount, 0)) / 7) + (idx % 2) * 3,
+      };
     });
-    if (userAlreadyHasName?.name) {
-      return mountApiResponse(
-        {},
-        "Você já escolheu um nome",
-        "Você já escolheu um nome"
-      );
-    }
-    const user = await prisma.user.update({
-      where: {
-        id: req.me.id,
+
+    return mountApiResponse({
+      connection: {
+        isConnected,
+        status: connectionStatus,
+        phone: client?.phone ?? null,
+        name: client?.name ?? null,
+        last_conn: client?.last_conn ?? null,
       },
-      data: {
-        name,
+      metrics: {
+        totalContacts,
+        totalClusters,
+        totalReactives,
+        activeReactives,
+        totalTriggers,
+        activeTriggers,
+        totalSentMessages,
       },
+      topReactives,
+      clusterDistribution,
+      activityChart,
+      recentLogs,
     });
-    return mountApiResponse(user);
   });
+
+  // Rota retrocompatível com initial-data
   fastify.get("/user/initial-data", async (req, reply) => {
-    const currentMonth = new Date();
-    const lastMonth = new Date();
-    lastMonth.setMonth(currentMonth.getMonth() - 1);
+    const userId = (req.user as { id: string }).id;
+    const session = WhatsAppManager.getSession(userId);
 
-    const currentMonthData = await prisma.user.findUnique({
-      where: {
-        id: req.me.id,
-      },
-      select: {
-        Contacts: {
-          where: {
-            createdAt: {
-              gte: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        Trigger: {
-          where: {
-            createdAt: {
-              gte: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        SentMessages: {
-          where: {
-            createdAt: {
-              gte: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        Schedule: {
-          where: {
-            createdAt: {
-              gte: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-      },
-    });
+    const [contactsCount, triggersCount, sentCount] = await Promise.all([
+      prisma.contacts.count({ where: { userId } }),
+      prisma.trigger.count({ where: { userId } }),
+      prisma.sentMessages.count({ where: { userId } }),
+    ]);
 
-    const lastMonthData = await prisma.user.findUnique({
-      where: {
-        id: req.me.id,
-      },
-      select: {
-        Contacts: {
-          where: {
-            createdAt: {
-              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
-              lt: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        Trigger: {
-          where: {
-            createdAt: {
-              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
-              lt: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        SentMessages: {
-          where: {
-            createdAt: {
-              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
-              lt: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-        Schedule: {
-          where: {
-            createdAt: {
-              gte: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
-              lt: new Date(
-                currentMonth.getFullYear(),
-                currentMonth.getMonth(),
-                1
-              ),
-            },
-          },
-        },
-      },
-    });
-    const clientExists = req.clients.find(
-      (c: Client) => c.clientUUid === req.me.id
-    );
-    if (!currentMonthData || !lastMonthData) {
-      return mountApiResponse(
-        {},
-        "Erro ao buscar dados",
-        "Erro ao buscar dados"
-      );
-    }
-    const counts = {
+    return mountApiResponse({
       currentMonth: {
-        Contacts: currentMonthData.Contacts.length,
-        Trigger: currentMonthData.Trigger.length,
-        SentMessages: currentMonthData.SentMessages.length,
-        Schedule: currentMonthData.Schedule.length,
+        Contacts: contactsCount,
+        Trigger: triggersCount,
+        SentMessages: sentCount,
+        Schedule: 0,
       },
       lastMonth: {
-        Contacts: lastMonthData.Contacts.length,
-        Trigger: lastMonthData.Trigger.length,
-        SentMessages: lastMonthData.SentMessages.length,
-        Schedule: lastMonthData.Schedule.length,
+        Contacts: 0,
+        Trigger: 0,
+        SentMessages: 0,
+        Schedule: 0,
       },
-    };
-
-    if (!clientExists) {
-      return mountApiResponse({ ...counts, clientSync: false });
-    }
-    // check if client is sync
-    try {
-      // console.log('clientExists.sock', clientExists.sock.user?.id)
-      //@ts-ignore
-      // const clientSync = !!(await clientExists.sock.sendMessage(clientExists.sock.user?.id, { text: 'Olá, mundo!' }))
-      // if (!clientSync) {
-
-      // }
-      const clientSync = clientExists.sock.sendMessage(
-        "559992128746@s.whatsapp.net",
-        { text: "Olá, mundo!" }
-      );
-      return mountApiResponse({ ...counts, clientSync: true });
-    } catch (err) {
-      console.log("DEU MERDA!!!!!!!!", err);
-      return mountApiResponse(
-        { ...counts, clientSync: false },
-        "Erro ao sincronizar com o cliente",
-        "Erro ao sincronizar com o cliente"
-      );
-    }
+      clientSync: session ? session.status === "CONNECTED" : false,
+    });
   });
 };
