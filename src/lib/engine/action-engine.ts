@@ -2,24 +2,134 @@ import { prisma } from "../prisma.client";
 import { LoggerService } from "../services/logger.service";
 import type { Contacts } from "@prisma/client";
 import type { WASocket } from "@whiskeysockets/baileys";
+import type { IMessagingChannel, OutboundMessage } from "./messaging.channel";
+import { WhatsAppBaileysAdapter } from "../wpp/baileys.adapter";
+import { ConversationStateManager, type MenuOption } from "./conversation-state";
 
 export interface IncomingMessageContext {
   userId: string;
-  contact: Contacts;
+  contact: Contacts | any;
   messageText: string;
-  remoteJid: string;
-  sock: WASocket;
+  remoteJid?: string;
+  sock?: WASocket;
+  channel?: IMessagingChannel;
 }
 
 export class ActionEngine {
   /**
-   * Avalia e executa reativos correspondentes a uma mensagem recebida
+   * Resolve o canal de mensageria apropriado (Playground ou Baileys real)
+   */
+  private static resolveChannel(ctx: IncomingMessageContext): IMessagingChannel {
+    if (ctx.channel) return ctx.channel;
+    if (ctx.sock) return new WhatsAppBaileysAdapter(ctx.sock);
+    throw new Error("Nenhum canal de mensageria ou socket Baileys fornecido para o ActionEngine.");
+  }
+
+  /**
+   * Avalia e executa mensagens recebidas (tanto do WhatsApp real quanto do Playground)
    */
   static async handleIncomingMessage(ctx: IncomingMessageContext): Promise<void> {
-    const { userId, contact, messageText, remoteJid, sock } = ctx;
-    const cleanText = messageText.trim().toLowerCase();
+    const { userId, contact, messageText } = ctx;
+    const cleanText = messageText.trim();
+    const cleanLower = cleanText.toLowerCase();
+    const channel = this.resolveChannel(ctx);
+    const targetRecipient = ctx.remoteJid || contact.phone;
 
-    // Busca todos os reativos ativos do usuário com suas relações
+    // ================= 1. VERIFICAÇÃO DE SESSÃO CONVERSACIONAL ATIVA ================= //
+    const activeSession = ConversationStateManager.getSession(userId, contact.phone);
+
+    if (activeSession && activeSession.waitingInput) {
+      const validation = ConversationStateManager.validateInput(activeSession, cleanText);
+
+      // Se a entrada for inválida para o menu/pergunta atual
+      if (!validation.isValid) {
+        const errorText = validation.errorFeedback || "Opção inválida!";
+        await channel.sendMessage(targetRecipient, { text: errorText });
+
+        // Se houver texto do menu armazenado, reenvia para o usuário não se perder
+        if (activeSession.menuRawText) {
+          await channel.sendMessage(targetRecipient, { text: activeSession.menuRawText });
+        }
+
+        await LoggerService.log({
+          userId,
+          eventType: "REACTIVE_TRIGGERED",
+          contactPhone: contact.phone,
+          contactName: contact.name,
+          automationType: "REACTIVE",
+          description: `Resposta inválida de ${contact.name}: "${cleanText}". Menu reenviado.`,
+        });
+
+        return;
+      }
+
+      // Se a entrada for válida, salva o dado capturado
+      const parsedValue = validation.parsedValue;
+
+      // Atualiza variáveis em memória
+      if (activeSession.targetFieldKey) {
+        activeSession.variables[activeSession.targetFieldKey] = parsedValue;
+
+        // Persiste nos campos customizados do contato se for contato real
+        let currentFields: Record<string, any> = {};
+        try {
+          if (contact.customFields) {
+            currentFields =
+              typeof contact.customFields === "string"
+                ? JSON.parse(contact.customFields)
+                : contact.customFields;
+          }
+        } catch {}
+        currentFields[activeSession.targetFieldKey] = parsedValue;
+        contact.customFields = currentFields;
+
+        if (contact.id && contact.id !== 999999) {
+          await prisma.contacts
+            .update({
+              where: { id: contact.id },
+              data: { customFields: JSON.stringify(currentFields) },
+            })
+            .catch(() => {});
+        }
+      }
+
+      // Se a opção selecionada tiver ação direta associada (ex: vincular a cluster)
+      if (validation.matchedOption?.targetClusterId) {
+        const cId = Number(validation.matchedOption.targetClusterId);
+        contact.clusterId = cId;
+        if (contact.id && contact.id !== 999999) {
+          await prisma.contactClusterRelation
+            .upsert({
+              where: { contactId_clusterId: { contactId: contact.id, clusterId: cId } },
+              create: { contactId: contact.id, clusterId: cId },
+              update: {},
+            })
+            .catch(() => {});
+        }
+      }
+
+      // Resposta de confirmação ou próximo nó do fluxo
+      if (validation.matchedOption?.actionConfig?.replyText) {
+        const reply = this.formatVariables(validation.matchedOption.actionConfig.replyText, contact);
+        await channel.sendMessage(targetRecipient, { text: reply });
+      }
+
+      // Encerra ou avança a sessão conversacional
+      ConversationStateManager.clearSession(userId, contact.phone);
+
+      await LoggerService.log({
+        userId,
+        eventType: "REACTIVE_TRIGGERED",
+        contactPhone: contact.phone,
+        contactName: contact.name,
+        automationType: "REACTIVE",
+        description: `Opção/dado processado com sucesso para ${contact.name}: "${parsedValue}".`,
+      });
+
+      return;
+    }
+
+    // ================= 2. VERIFICAÇÃO DE REATIVOS ATIVOS ================= //
     const reactives = await prisma.trigger.findMany({
       where: {
         userId,
@@ -44,7 +154,7 @@ export class ActionEngine {
     });
 
     for (const reactive of reactives) {
-      // 1. Verificação de Cluster (se houver restrição)
+      // 1. Verificação de Cluster
       if (reactive.TriggerClusterRelation.length > 0) {
         let matchesCluster = false;
         for (const rel of reactive.TriggerClusterRelation) {
@@ -67,16 +177,16 @@ export class ActionEngine {
           const pattern = trigger.text.trim().toLowerCase();
           switch (trigger.type) {
             case "EQUALS":
-              if (cleanText === pattern) matchedText = true;
+              if (cleanLower === pattern) matchedText = true;
               break;
             case "CONTAINS":
-              if (cleanText.includes(pattern)) matchedText = true;
+              if (cleanLower.includes(pattern)) matchedText = true;
               break;
             case "STARTS_WITH":
-              if (cleanText.startsWith(pattern)) matchedText = true;
+              if (cleanLower.startsWith(pattern)) matchedText = true;
               break;
             case "ENDS_WITH":
-              if (cleanText.endsWith(pattern)) matchedText = true;
+              if (cleanLower.endsWith(pattern)) matchedText = true;
               break;
             case "REGEX":
               try {
@@ -93,19 +203,23 @@ export class ActionEngine {
       }
 
       // 3. Execução das Ações do Reativo
-      await this.executeReactiveActions(reactive, contact, remoteJid, sock, userId);
+      await this.executeReactiveActions(reactive, contact, targetRecipient, channel, userId);
 
-      // Incrementa contador de uso
-      await prisma.trigger.update({
-        where: { id: reactive.id },
-        data: {
-          usageCount: { increment: 1 },
-        },
-      });
+      // Incrementa contador de uso no banco
+      if (reactive.id) {
+        await prisma.trigger
+          .update({
+            where: { id: reactive.id },
+            data: { usageCount: { increment: 1 } },
+          })
+          .catch(() => {});
 
-      await prisma.triggerLog.create({
-        data: { triggerId: reactive.id },
-      });
+        await prisma.triggerLog
+          .create({
+            data: { triggerId: reactive.id },
+          })
+          .catch(() => {});
+      }
 
       await LoggerService.log({
         userId,
@@ -117,75 +231,90 @@ export class ActionEngine {
         description: `Reativo "${reactive.name}" acionado pela mensagem "${messageText}".`,
       });
 
-      // Se encontrou e executou um reativo com prioridade, encerra o processamento para esta mensagem
+      // Encerra após encontrar o reativo correspondente com prioridade
       break;
     }
   }
 
   /**
-   * Executa a lista de respostas e ações de um reativo
+   * Executa a lista de respostas e blocos de um reativo ou nó do canvas
    */
-  private static async executeReactiveActions(
+  static async executeReactiveActions(
     reactive: any,
-    contact: Contacts,
-    remoteJid: string,
-    sock: WASocket,
+    contact: any,
+    targetRecipient: string,
+    channel: IMessagingChannel,
     userId: string
   ): Promise<void> {
     const delayMs = (reactive.delaySeconds || 0) * 1000;
 
-    const executeResponses = async () => {
-      for (const rel of reactive.ResponseTriggerRelation) {
-        const response = rel.Response;
-        if (!response || !response.content) continue;
+    const executeAll = async () => {
+      // 1. Executa respostas simples
+      if (Array.isArray(reactive.ResponseTriggerRelation)) {
+        for (const rel of reactive.ResponseTriggerRelation) {
+          const response = rel.Response;
+          if (!response || !response.content) continue;
 
-        // Substituição de variáveis dinâmicas no texto
-        const parsedContent = this.formatVariables(response.content, contact);
+          const parsedContent = this.formatVariables(response.content, contact);
+          try {
+            await channel.sendMessage(targetRecipient, { text: parsedContent });
 
-        try {
-          await sock.sendMessage(remoteJid, { text: parsedContent });
+            if (response.id) {
+              await prisma.responseLog.create({ data: { responseId: response.id } }).catch(() => {});
+            }
 
-          await prisma.responseLog.create({
-            data: { responseId: response.id },
-          });
-
-          await prisma.sentMessages.create({
-            data: {
-              userId,
-              phone: contact.phone,
-              message: parsedContent,
-            },
-          });
-
-          await LoggerService.log({
-            userId,
-            eventType: "MSG_SENT",
-            contactPhone: contact.phone,
-            contactName: contact.name,
-            automationType: "REACTIVE",
-            automationId: reactive.id,
-            description: `Resposta automática enviada para ${contact.name}: "${parsedContent}"`,
-          });
-        } catch (err: any) {
-          console.error("Error sending reactive response:", err);
-          await LoggerService.log({
-            userId,
-            eventType: "ERROR",
-            contactPhone: contact.phone,
-            automationType: "REACTIVE",
-            automationId: reactive.id,
-            status: "ERROR",
-            description: `Falha ao enviar resposta automática: ${err.message}`,
-          });
+            if (userId && contact.phone && contact.id !== 999999) {
+              await prisma.sentMessages
+                .create({
+                  data: {
+                    userId,
+                    phone: contact.phone,
+                    message: parsedContent,
+                  },
+                })
+                .catch(() => {});
+            }
+          } catch (err: any) {
+            console.error("Error sending response:", err);
+          }
         }
       }
 
-      // Executa fluxos de blocos avançados se configurados
+      // 2. Executa fluxos de blocos / Menus avançados se configurados
       if (reactive.actionConfig) {
         try {
-          const config = JSON.parse(reactive.actionConfig);
+          const config =
+            typeof reactive.actionConfig === "string"
+              ? JSON.parse(reactive.actionConfig)
+              : reactive.actionConfig;
 
-          // Se for fluxo em blocos (multi-step)
+          // Se for envio de MENU interativo
+          if (config.menu && Array.isArray(config.menu.options) && config.menu.options.length > 0) {
+            const menuTitle = this.formatVariables(config.menu.title || "Menu de Opções", contact);
+            const menuFooter = config.menu.footer || "Digite o número da opção desejada:";
+            const formattedMenuText = ConversationStateManager.formatMenuText(
+              menuTitle,
+              config.menu.options,
+              menuFooter
+            );
+
+            await channel.sendMessage(targetRecipient, { text: formattedMenuText });
+
+            // Registra a máquina de estados para aguardar a escolha do usuário
+            ConversationStateManager.setSession(userId, contact.phone, {
+              flowId: reactive.id,
+              waitingInput: true,
+              validationType: "OPTION",
+              validOptions: config.menu.options,
+              menuTitle,
+              menuRawText: formattedMenuText,
+              fallbackMessage: config.menu.fallbackMessage,
+            });
+
+            return; // Interrompe para aguardar a resposta do usuário
+          }
+
+          // Se for fluxo de passos (Multi-Step / Canvas Blocks)
           if (Array.isArray(config.steps) && config.steps.length > 0) {
             for (const step of config.steps) {
               if (step.delaySeconds && step.delaySeconds > 0) {
@@ -194,69 +323,108 @@ export class ActionEngine {
 
               if (step.type === "SEND_MESSAGE" && step.content) {
                 const text = this.formatVariables(step.content, contact);
-                await sock.sendMessage(remoteJid, { text });
-                await prisma.sentMessages.create({
-                  data: { userId, phone: contact.phone, message: text },
+                const outboundMsg: OutboundMessage = { text };
+                if (step.mediaUrl) {
+                  outboundMsg.media = {
+                    url: step.mediaUrl,
+                    type: step.mediaType || "image",
+                    caption: text,
+                  };
+                }
+                await channel.sendMessage(targetRecipient, outboundMsg);
+              } else if (step.type === "SEND_MENU" && Array.isArray(step.options)) {
+                const title = this.formatVariables(step.title || "Escolha uma opção:", contact);
+                const menuText = ConversationStateManager.formatMenuText(title, step.options, step.footer);
+                await channel.sendMessage(targetRecipient, { text: menuText });
+
+                ConversationStateManager.setSession(userId, contact.phone, {
+                  flowId: reactive.id,
+                  waitingInput: true,
+                  validationType: "OPTION",
+                  validOptions: step.options,
+                  menuTitle: title,
+                  menuRawText: menuText,
+                  fallbackMessage: step.fallbackMessage,
                 });
+                break; // Aguarda resposta
+              } else if (step.type === "WAIT_INPUT") {
+                if (step.prompt) {
+                  const promptText = this.formatVariables(step.prompt, contact);
+                  await channel.sendMessage(targetRecipient, { text: promptText });
+                }
+                ConversationStateManager.setSession(userId, contact.phone, {
+                  flowId: reactive.id,
+                  waitingInput: true,
+                  validationType: step.validationType || "TEXT",
+                  targetFieldKey: step.fieldKey,
+                  fallbackMessage: step.fallbackMessage,
+                });
+                break; // Aguarda resposta
               } else if (step.type === "ADD_CLUSTER" && step.clusterId) {
                 const targetClusterId = Number(step.clusterId);
-                await prisma.contactClusterRelation.upsert({
-                  where: {
-                    contactId_clusterId: { contactId: contact.id, clusterId: targetClusterId },
-                  },
-                  create: { contactId: contact.id, clusterId: targetClusterId },
-                  update: {},
-                });
-                await prisma.contacts.update({
-                  where: { id: contact.id },
-                  data: { clusterId: targetClusterId },
-                });
+                contact.clusterId = targetClusterId;
+                if (contact.id && contact.id !== 999999) {
+                  await prisma.contactClusterRelation
+                    .upsert({
+                      where: { contactId_clusterId: { contactId: contact.id, clusterId: targetClusterId } },
+                      create: { contactId: contact.id, clusterId: targetClusterId },
+                      update: {},
+                    })
+                    .catch(() => {});
+                  await prisma.contacts
+                    .update({
+                      where: { id: contact.id },
+                      data: { clusterId: targetClusterId },
+                    })
+                    .catch(() => {});
+                }
               } else if (step.type === "REMOVE_CLUSTER" && step.clusterId) {
                 const targetClusterId = Number(step.clusterId);
-                await prisma.contactClusterRelation.deleteMany({
-                  where: { contactId: contact.id, clusterId: targetClusterId },
-                });
+                if (contact.id && contact.id !== 999999) {
+                  await prisma.contactClusterRelation
+                    .deleteMany({
+                      where: { contactId: contact.id, clusterId: targetClusterId },
+                    })
+                    .catch(() => {});
+                }
               } else if (step.type === "UPDATE_FIELD" && step.fieldKey) {
                 let currentFields: Record<string, any> = {};
                 try {
-                  if (contact.customFields) currentFields = JSON.parse(contact.customFields);
+                  if (contact.customFields) {
+                    currentFields =
+                      typeof contact.customFields === "string"
+                        ? JSON.parse(contact.customFields)
+                        : contact.customFields;
+                  }
                 } catch {}
                 currentFields[step.fieldKey] = this.formatVariables(step.fieldValue || "", contact);
-                await prisma.contacts.update({
-                  where: { id: contact.id },
-                  data: { customFields: JSON.stringify(currentFields) },
-                });
+                contact.customFields = currentFields;
+                if (contact.id && contact.id !== 999999) {
+                  await prisma.contacts
+                    .update({
+                      where: { id: contact.id },
+                      data: { customFields: JSON.stringify(currentFields) },
+                    })
+                    .catch(() => {});
+                }
               }
             }
-          } else if (reactive.actionType === "ADD_CLUSTER" && config.clusterId) {
-            const targetClusterId = Number(config.clusterId);
-            await prisma.contactClusterRelation.upsert({
-              where: {
-                contactId_clusterId: { contactId: contact.id, clusterId: targetClusterId },
-              },
-              create: { contactId: contact.id, clusterId: targetClusterId },
-              update: {},
-            });
-            await prisma.contacts.update({
-              where: { id: contact.id },
-              data: { clusterId: targetClusterId },
-            });
           }
         } catch (err) {
-          console.error("Error executing reactive flow blocks:", err);
+          console.error("Error executing reactive action block:", err);
         }
       }
     };
 
     if (delayMs > 0) {
-      setTimeout(executeResponses, delayMs);
+      setTimeout(executeAll, delayMs);
     } else {
-      await executeResponses();
+      await executeAll();
     }
   }
 
   /**
-   * Substitui tags dinâmicas padrão ({nome}, {telefone}) e qualquer campo chave-valor customizado ({empresa}, {cargo}, etc.)
+   * Substitui tags dinâmicas padrão ({nome}, {primeiro_nome}, {telefone}) e qualquer campo chave-valor customizado ({empresa}, {cargo}, etc.)
    */
   static formatVariables(template: string, contact: any): string {
     if (!template) return "";
@@ -268,7 +436,10 @@ export class ActionEngine {
     // Interpolação de campos dinâmicos customizados
     if (contact.customFields) {
       try {
-        const fields = typeof contact.customFields === "string" ? JSON.parse(contact.customFields) : contact.customFields;
+        const fields =
+          typeof contact.customFields === "string"
+            ? JSON.parse(contact.customFields)
+            : contact.customFields;
         if (typeof fields === "object" && fields !== null) {
           for (const [key, val] of Object.entries(fields)) {
             const regex = new RegExp(`{${key}}`, "gi");

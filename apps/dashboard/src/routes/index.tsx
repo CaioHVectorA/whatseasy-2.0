@@ -12,6 +12,8 @@ const CustomFieldsPage = lazy(() => import('@/pages/custom-fields'));
 const StatusPage = lazy(() => import('@/pages/status'));
 const ReactivesPage = lazy(() => import('@/pages/reactives'));
 const TriggersPage = lazy(() => import('@/pages/triggers'));
+const FlowsPage = lazy(() => import('@/pages/flows'));
+const PlaygroundPage = lazy(() => import('@/pages/playground'));
 const LogsPage = lazy(() => import('@/pages/logs'));
 const NotFound = lazy(() => import('@/pages/not-found'));
 
@@ -42,6 +44,14 @@ export default function AppRouter() {
         {
           path: 'banco-dados',
           element: <CustomFieldsPage />,
+        },
+        {
+          path: 'fluxos',
+          element: <FlowsPage />,
+        },
+        {
+          path: 'playground',
+          element: <PlaygroundPage />,
         },
         {
           path: 'reativos',

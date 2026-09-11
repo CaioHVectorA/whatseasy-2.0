@@ -412,3 +412,98 @@ export function useLogs(params?: { eventType?: string; status?: string }) {
     refetchInterval: 5000,
   });
 }
+
+// ================= PLAYGROUND / SIMULADOR ================= //
+export function usePlaygroundSession() {
+  return useQuery({
+    queryKey: ["playground-session"],
+    queryFn: () => apiFetch<any>("/playground/session"),
+    refetchInterval: 3000,
+  });
+}
+
+export function useSimulateMessage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { text: string; contact?: any }) =>
+      apiFetch<any>("/playground/simulate", { method: "POST", body: JSON.stringify(data) }),
+    onSuccess: (data) => {
+      qc.setQueryData(["playground-session"], data);
+    },
+    onError: (err: any) => toast.error("Erro na simulação", { description: err.message }),
+  });
+}
+
+export function useUpdatePlaygroundContact() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { name?: string; phone?: string; customFields?: Record<string, any> }) =>
+      apiFetch<any>("/playground/contact", { method: "PUT", body: JSON.stringify(data) }),
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["playground-session"] });
+      toast.success("Dados do contato simulado atualizados!");
+    },
+    onError: (err: any) => toast.error("Erro ao atualizar contato", { description: err.message }),
+  });
+}
+
+export function useResetPlaygroundSession() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiFetch<any>("/playground/session", { method: "DELETE" }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["playground-session"] });
+      toast.success("Sessão do simulador reiniciada!");
+    },
+    onError: (err: any) => toast.error("Erro ao resetar", { description: err.message }),
+  });
+}
+
+// ================= CANVAS FLOW BUILDER ================= //
+export function useFlows() {
+  return useQuery({
+    queryKey: ["canvas-flows"],
+    queryFn: () => apiFetch<any[]>("/flows"),
+  });
+}
+
+export function useFlow(id?: number | string | null) {
+  return useQuery({
+    queryKey: ["canvas-flow", id],
+    queryFn: () => apiFetch<any>(`/flows/${id}`),
+    enabled: Boolean(id),
+  });
+}
+
+export function useSaveFlow() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...data }: { id?: number; name: string; active?: boolean; nodes: any[]; edges: any[]; triggerKeywords?: string[]; triggerType?: string }) => {
+      if (id) {
+        return apiFetch<any>(`/flows/${id}`, { method: "PUT", body: JSON.stringify(data) });
+      }
+      return apiFetch<any>("/flows", { method: "POST", body: JSON.stringify(data) });
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["canvas-flows"] });
+      qc.invalidateQueries({ queryKey: ["reactives"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+      toast.success("Fluxo Canvas salvo com sucesso!");
+    },
+    onError: (err: any) => toast.error("Erro ao salvar fluxo", { description: err.message }),
+  });
+}
+
+export function useDeleteFlow() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => apiFetch<any>(`/flows/${id}`, { method: "DELETE" }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["canvas-flows"] });
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+      toast.success("Fluxo excluído com sucesso!");
+    },
+    onError: (err: any) => toast.error("Erro ao excluir", { description: err.message }),
+  });
+}
+

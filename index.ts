@@ -10,6 +10,8 @@ import { reactiveController } from "@/controllers/reactives.controller";
 import { triggersController } from "@/controllers/triggers.controller";
 import { logsController } from "@/controllers/logs.controller";
 import { whatsappController } from "@/controllers/whatsapp.controller";
+import { playgroundController } from "@/controllers/playground.controller";
+import { flowsController } from "@/controllers/flows.controller";
 import { WhatsAppManager } from "@/lib/wpp/whatsapp.manager";
 import { SchedulerService } from "@/lib/engine/scheduler";
 
@@ -155,6 +157,8 @@ async function bootstrap() {
   fastify.register(reactiveController);
   fastify.register(triggersController);
   fastify.register(logsController);
+  fastify.register(playgroundController);
+  fastify.register(flowsController);
 
   const port = Number(process.env.PORT || 3333);
   const host = process.env.HOST || "0.0.0.0";

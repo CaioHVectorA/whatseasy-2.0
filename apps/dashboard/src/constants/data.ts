@@ -26,6 +26,18 @@ export const navItems: NavItem[] = [
     label: 'Banco Dinâmico',
   },
   {
+    title: 'Fluxos (Canvas)',
+    href: '/fluxos',
+    icon: 'flows',
+    label: 'Fluxos',
+  },
+  {
+    title: 'Playground',
+    href: '/playground',
+    icon: 'playground',
+    label: 'Playground',
+  },
+  {
     title: 'Reativos',
     href: '/reativos',
     icon: 'reactive',
