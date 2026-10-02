@@ -14,28 +14,10 @@ export const navItems: NavItem[] = [
     label: 'Status',
   },
   {
-    title: 'Contatos & Clusters',
-    href: '/contatos',
-    icon: 'contacts',
-    label: 'Contatos',
-  },
-  {
-    title: 'Banco Dinâmico',
-    href: '/banco-dados',
-    icon: 'database',
-    label: 'Banco Dinâmico',
-  },
-  {
     title: 'Fluxos (Canvas)',
     href: '/fluxos',
     icon: 'flows',
     label: 'Fluxos',
-  },
-  {
-    title: 'Playground',
-    href: '/playground',
-    icon: 'playground',
-    label: 'Playground',
   },
   {
     title: 'Reativos',
@@ -48,6 +30,24 @@ export const navItems: NavItem[] = [
     href: '/gatilhos',
     icon: 'trigger',
     label: 'Gatilhos',
+  },
+  {
+    title: 'Playground',
+    href: '/playground',
+    icon: 'playground',
+    label: 'Playground',
+  },
+  {
+    title: 'Contatos & Clusters',
+    href: '/contatos',
+    icon: 'contacts',
+    label: 'Contatos',
+  },
+  {
+    title: 'Banco Dinâmico',
+    href: '/banco-dados',
+    icon: 'database',
+    label: 'Banco Dinâmico',
   },
   {
     title: 'Logs do Sistema',

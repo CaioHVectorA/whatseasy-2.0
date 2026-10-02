@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import PageHead from "@/components/shared/page-head";
 import {
   usePlaygroundSession,
@@ -15,11 +15,9 @@ import {
   User,
   CheckCheck,
   Tag,
-  FolderTree,
   Terminal,
   Activity,
   Layers,
-  ArrowRight,
   Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +28,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 
 export default function PlaygroundPage() {
-  const { data: session, isLoading } = usePlaygroundSession();
+  const { data: session } = usePlaygroundSession();
   const simulateMutation = useSimulateMessage();
   const updateContactMutation = useUpdatePlaygroundContact();
   const resetMutation = useResetPlaygroundSession();

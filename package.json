@@ -10,11 +10,11 @@
     "@types/ws": "^8.5.10",
     "concurrently": "^8.2.2",
     "prisma": "^5.19.1",
-    "tsx": "^4.19.2",
     "typescript": "^5.2.2",
     "vitest": "^4.1.11"
   },
   "scripts": {
+    "start": "npx tsx index.ts",
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue.bold,green.bold\" \"tsx watch index.ts\" \"npm --prefix apps/dashboard run dev\"",
     "dev:server": "tsx watch index.ts",
     "dev:web": "npm --prefix apps/dashboard run dev",
@@ -33,6 +33,7 @@
     "fastify": "^4.28.1",
     "pino": "^9.3.2",
     "qrcode": "^1.5.4",
+    "tsx": "^4.19.2",
     "ws": "^8.18.0"
   },
   "trustedDependencies": [

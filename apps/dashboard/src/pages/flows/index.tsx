@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PageHead from "@/components/shared/page-head";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,8 +17,6 @@ import {
   Clock,
   Tag,
   UserCheck,
-  ArrowRight,
-  Move,
   Settings2,
   Sparkles,
   Layers,
@@ -29,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -110,7 +108,7 @@ const DEFAULT_EDGES: EdgeData[] = [
 
 export default function FlowsPage() {
   const navigate = useNavigate();
-  const { data: flows = [], isLoading } = useFlows();
+  const { data: flows = [] } = useFlows();
   const saveFlowMutation = useSaveFlow();
   const deleteFlowMutation = useDeleteFlow();
 
@@ -154,6 +152,14 @@ export default function FlowsPage() {
     setNodes(DEFAULT_NODES);
     setEdges(DEFAULT_EDGES);
     toast.info("Criando novo fluxo no Canvas");
+  };
+
+  const handleDeleteFlow = (e: any, id: number) => {
+    e.stopPropagation();
+    deleteFlowMutation.mutate(id);
+    if (selectedFlowId === id) {
+      setSelectedFlowId(null);
+    }
   };
 
   const handleAddNode = (type: NodeData["type"]) => {
@@ -341,11 +347,17 @@ export default function FlowsPage() {
                         : "bg-muted/30 border-transparent hover:bg-muted/60 text-slate-300"
                     }`}
                   >
-                    <div className="flex items-center gap-2 truncate">
-                      <GitFork className="h-3.5 w-3.5 shrink-0" />
-                      <span className="truncate">{f.name}</span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span
+                        role="button"
+                        onClick={(e) => handleDeleteFlow(e, f.id)}
+                        className="p-1 rounded hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-colors"
+                        title="Excluir Fluxo"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5 opacity-50 shrink-0" />
                     </div>
-                    <ChevronRight className="h-3.5 w-3.5 opacity-50 shrink-0" />
                   </button>
                 ))
               )}

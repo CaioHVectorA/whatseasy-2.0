@@ -18,5 +18,22 @@ describe("WhatsApp Integration Unit Tests", () => {
     expect(typeof WhatsAppManager.getSession).toBe("function");
     expect(typeof WhatsAppManager.logoutSession).toBe("function");
     expect(typeof WhatsAppManager.sendMessage).toBe("function");
+    expect(typeof WhatsAppManager.getDiagnostics).toBe("function");
+  });
+
+  it("should return the configured or default auths directory and user folder", () => {
+    const authsDir = WhatsAppManager.getAuthsDir();
+    expect(authsDir).toBeDefined();
+    expect(typeof authsDir).toBe("string");
+
+    const userFolder = WhatsAppManager.getUserAuthFolder("user-123");
+    expect(userFolder).toContain("user-123");
+  });
+
+  it("should provide diagnostic data with active session counts", () => {
+    const diagnostics = WhatsAppManager.getDiagnostics();
+    expect(diagnostics).toHaveProperty("activeSessionCount");
+    expect(diagnostics).toHaveProperty("sessions");
+    expect(Array.isArray(diagnostics.sessions)).toBe(true);
   });
 });

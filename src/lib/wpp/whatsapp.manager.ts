@@ -48,6 +48,38 @@ export class WhatsAppManager {
   private static reconnectTimeouts = new Map<string, NodeJS.Timeout>();
 
   /**
+   * Retorna o diretório base de armazenamento de credenciais das sessões (suporta volume montado no Fly.io)
+   */
+  public static getAuthsDir(): string {
+    return process.env.AUTHS_DIR || path.join(process.cwd(), "auths");
+  }
+
+  /**
+   * Retorna a pasta de credenciais específica de um usuário
+   */
+  public static getUserAuthFolder(userId: string): string {
+    return path.join(this.getAuthsDir(), userId);
+  }
+
+  /**
+   * Retorna resumo de instâncias ativas para diagnósticos e health checks
+   */
+  public static getDiagnostics() {
+    const list: Array<{ userId: string; status: WppConnectionStatus; phone?: string }> = [];
+    for (const [userId, session] of this.instances.entries()) {
+      list.push({
+        userId,
+        status: session.status,
+        phone: session.sock?.user?.id ? session.sock.user.id.split(":")[0] : undefined,
+      });
+    }
+    return {
+      activeSessionCount: this.instances.size,
+      sessions: list,
+    };
+  }
+
+  /**
    * Obtém a sessão ativa de um usuário, se houver
    */
   static getSession(userId: string): ActiveSession | undefined {
@@ -148,7 +180,7 @@ export class WhatsAppManager {
 
       // 3.2. Fallback de busca direta no disco (lid-mapping-{lid}_reverse.json)
       try {
-        const authFolder = path.join(process.cwd(), "auths", userId);
+        const authFolder = this.getUserAuthFolder(userId);
         const reverseFile = path.join(authFolder, `lid-mapping-${lidNum}_reverse.json`);
         if (fsSync.existsSync(reverseFile)) {
           const raw = fsSync.readFileSync(reverseFile, "utf-8");
@@ -203,7 +235,7 @@ export class WhatsAppManager {
       this.reconnectTimeouts.delete(userId);
     }
 
-    const authFolder = path.join(process.cwd(), "auths", userId);
+    const authFolder = this.getUserAuthFolder(userId);
     await fs.mkdir(authFolder, { recursive: true });
 
     // Apenas limpa a pasta de credenciais se for explicitamente solicitado (ex: logout)
@@ -391,7 +423,7 @@ export class WhatsAppManager {
         }
         this.instances.delete(userId);
 
-        const authFolder = path.join(process.cwd(), "auths", userId);
+        const authFolder = this.getUserAuthFolder(userId);
         try {
           await fs.rm(authFolder, { recursive: true, force: true });
         } catch {}
@@ -601,7 +633,7 @@ export class WhatsAppManager {
       this.instances.delete(userId);
     }
 
-    const authFolder = path.join(process.cwd(), "auths", userId);
+    const authFolder = this.getUserAuthFolder(userId);
     try {
       await fs.rm(authFolder, { recursive: true, force: true });
     } catch {}
@@ -630,13 +662,14 @@ export class WhatsAppManager {
    */
   static async restoreSavedSessions(): Promise<void> {
     try {
-      const authsDir = path.join(process.cwd(), "auths");
+      const authsDir = this.getAuthsDir();
       const exists = await fs.access(authsDir).then(() => true).catch(() => false);
       if (!exists) return;
 
       const userDirs = await fs.readdir(authsDir);
       for (const userId of userDirs) {
-        const credsFile = path.join(authsDir, userId, "creds.json");
+        const userFolder = this.getUserAuthFolder(userId);
+        const credsFile = path.join(userFolder, "creds.json");
         const credsExists = await fs.access(credsFile).then(() => true).catch(() => false);
         if (!credsExists) continue;
 
@@ -649,10 +682,10 @@ export class WhatsAppManager {
             });
           } else {
             console.log(`[WhatsAppManager] Limpando pasta de sessão sem login para: ${userId}`);
-            await fs.rm(path.join(authsDir, userId), { recursive: true, force: true });
+            await fs.rm(userFolder, { recursive: true, force: true });
           }
         } catch {
-          await fs.rm(path.join(authsDir, userId), { recursive: true, force: true });
+          await fs.rm(userFolder, { recursive: true, force: true });
         }
       }
     } catch (err) {

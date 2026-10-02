@@ -26,6 +26,7 @@ import {
   ArrowRight,
   Sparkles,
   ScrollText,
+  Bot,
 } from "lucide-react";
 import { useDashboardData } from "@/hooks/use-api-queries";
 import { AutomationWhiteboard } from "@/components/flow-canvas/automation-whiteboard";
@@ -102,10 +103,18 @@ export default function DashboardPage() {
             </Button>
 
             <Button
-              onClick={() => navigate("/reativos")}
-              className="h-9 px-4 text-xs font-semibold gap-2 shadow-sm"
+              variant="outline"
+              onClick={() => navigate("/playground")}
+              className="h-9 px-3.5 text-xs font-semibold gap-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"
             >
-              <Zap className="h-4 w-4 text-blue-400" /> Novo Reativo
+              <Bot className="h-4 w-4 fill-cyan-400/20" /> Testar no Playground
+            </Button>
+
+            <Button
+              onClick={() => navigate("/fluxos")}
+              className="h-9 px-4 text-xs font-semibold gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-md shadow-emerald-950/20"
+            >
+              <Zap className="h-4 w-4 fill-white" /> Construtor de Fluxos
             </Button>
           </div>
         </div>

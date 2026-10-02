@@ -14,6 +14,7 @@ import { playgroundController } from "@/controllers/playground.controller";
 import { flowsController } from "@/controllers/flows.controller";
 import { WhatsAppManager } from "@/lib/wpp/whatsapp.manager";
 import { SchedulerService } from "@/lib/engine/scheduler";
+import { prisma } from "@/lib/prisma.client";
 
 async function bootstrap() {
   const fastify = Fastify({
@@ -87,6 +88,7 @@ async function bootstrap() {
     if (
       request.url.startsWith("/auth") ||
       request.url === "/" ||
+      request.url.startsWith("/health") ||
       request.url.startsWith("/ws")
     ) {
       return;
@@ -103,9 +105,47 @@ async function bootstrap() {
     }
   });
 
-  // Health check
+  // Health check básico
   fastify.get("/", async () => {
     return { status: "online", app: "WhatsEasy 2.0 API", version: "2.0.0" };
+  });
+
+  // Health check detalhado para monitoramento de VPS e Fly.io
+  fastify.get("/health", async (request, reply) => {
+    let dbConnected = false;
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      dbConnected = true;
+    } catch {
+      dbConnected = false;
+    }
+
+    const memoryUsage = process.memoryUsage();
+    const wppDiagnostics = WhatsAppManager.getDiagnostics();
+
+    const data = {
+      status: dbConnected ? "healthy" : "degraded",
+      app: "WhatsEasy 2.0 API",
+      version: "2.0.0",
+      uptimeSeconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+      database: {
+        connected: dbConnected,
+        url: process.env.DATABASE_URL ? "configured" : "missing",
+      },
+      whatsapp: {
+        authsDir: WhatsAppManager.getAuthsDir(),
+        activeSessions: wppDiagnostics.activeSessionCount,
+        instances: wppDiagnostics.sessions,
+      },
+      system: {
+        nodeVersion: process.version,
+        memoryRssMb: Math.round(memoryUsage.rss / 1024 / 1024),
+        heapUsedMb: Math.round(memoryUsage.heapUsed / 1024 / 1024),
+      },
+    };
+
+    return reply.status(dbConnected ? 200 : 503).send(data);
   });
 
   // Canal WebSocket para comunicação em tempo real
