@@ -136,8 +136,8 @@ export const contactsController: FastifyPluginAsync = async (
     });
   });
 
-  // Criar novo contato manualmente
-  fastify.post("/contact", async (req, reply) => {
+  // Criar novo contato manualmente (aceita /contact e /contacts)
+  const handleCreateContact = async (req: any, reply: any) => {
     const userId = (req.user as { id: string }).id;
     const { name, phone, clusterIds, clusterId, customFields } = req.body as any;
 
@@ -192,7 +192,10 @@ export const contactsController: FastifyPluginAsync = async (
     });
 
     return mountApiResponse(contact, "Contato criado com sucesso!");
-  });
+  };
+
+  fastify.post("/contact", handleCreateContact);
+  fastify.post("/contacts", handleCreateContact);
 
   // Enviar mensagem direta para um contato específico com interpolação de variáveis
   fastify.post<Body<{ message: string }> & { Params: { id: string } }>(

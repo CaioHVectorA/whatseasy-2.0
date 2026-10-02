@@ -74,9 +74,9 @@ export const reactiveController: FastifyPluginAsync = async (
         actionType: actionType ?? null,
         actionConfig: actionConfig ? JSON.stringify(actionConfig) : null,
         TextTrigger: {
-          create: textTriggers.map((t) => ({
-            text: t.text,
-            type: t.type,
+          create: textTriggers.map((t: any) => ({
+            text: typeof t === "string" ? t : t.text,
+            type: typeof t === "string" ? "CONTAINS" : (t.type || "CONTAINS"),
           })),
         },
       },
@@ -191,9 +191,9 @@ export const reactiveController: FastifyPluginAsync = async (
       if (textTriggers) {
         await prisma.textTrigger.deleteMany({ where: { triggerId: id } });
         await prisma.textTrigger.createMany({
-          data: textTriggers.map((t) => ({
-            text: t.text,
-            type: t.type,
+          data: textTriggers.map((t: any) => ({
+            text: typeof t === "string" ? t : t.text,
+            type: typeof t === "string" ? "CONTAINS" : (t.type || "CONTAINS"),
             triggerId: id,
           })),
         });

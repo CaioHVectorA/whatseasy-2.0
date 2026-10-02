@@ -6,8 +6,8 @@ import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 export const userController: FastifyPluginAsync = async (
   fastify: FastifyInstance
 ) => {
-  // Retorna métricas consolidadas para o dashboard
-  fastify.get("/user/dashboard", async (req, reply) => {
+  // Retorna métricas consolidadas para o dashboard (aceita /user/dashboard e /dashboard)
+  const handleDashboard = async (req: any, reply: any) => {
     const userId = (req.user as { id: string }).id;
 
     const session = WhatsAppManager.getSession(userId);
@@ -94,7 +94,10 @@ export const userController: FastifyPluginAsync = async (
       activityChart,
       recentLogs,
     });
-  });
+  };
+
+  fastify.get("/user/dashboard", handleDashboard);
+  fastify.get("/dashboard", handleDashboard);
 
   // Rota retrocompatível com initial-data
   fastify.get("/user/initial-data", async (req, reply) => {

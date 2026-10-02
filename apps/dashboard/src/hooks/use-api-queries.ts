@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getCookie } from "@/lib/cookies";
 
-const API_BASE = "http://localhost:3333";
+const API_BASE = import.meta.env.VITE_PUBLIC_API_URL || "http://localhost:3333";
 
 function getAuthHeaders(hasBody = false) {
   const token = getCookie("token") || localStorage.getItem("token");
