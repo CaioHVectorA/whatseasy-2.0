@@ -19,15 +19,18 @@ const env = { ...process.env };
 
   // Executa migração do banco no SQLite persistente em /data/dev.db
   try {
-    console.log('[docker-entrypoint] Sincronizando schema Prisma no banco de dados...');
+    console.log('[docker-entrypoint] Sincronizando schema Prisma no banco de dados com migrate deploy...');
     await exec('npx prisma migrate deploy');
   } catch (err) {
-    console.warn('[docker-entrypoint] prisma migrate deploy reportou aviso, executando db push de segurança...');
-    try {
-      await exec('npx prisma db push --skip-generate');
-    } catch (pushErr) {
-      console.error('[docker-entrypoint] Falha ao sincronizar schema:', pushErr);
-    }
+    console.warn('[docker-entrypoint] prisma migrate deploy reportou aviso:', err?.message || err);
+  }
+
+  // Executa db push para garantir que qualquer coluna ou tabela faltante seja criada imediatamente
+  try {
+    console.log('[docker-entrypoint] Garantindo consistência total do schema com prisma db push...');
+    await exec('npx prisma db push --skip-generate');
+  } catch (pushErr) {
+    console.warn('[docker-entrypoint] Aviso no prisma db push:', pushErr?.message || pushErr);
   }
 
   // Executa comando principal da aplicação
