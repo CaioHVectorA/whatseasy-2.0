@@ -2,7 +2,7 @@
 
 baileys_auth_info/
 # Logs
-logs
+/logs/
 auths/*
 # .db files
 *.db
