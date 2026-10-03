@@ -48,9 +48,9 @@ export function useSocket() {
                     title: data.message,
                 })
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error(`Failed to create WebSocket: ${err}`)
-            setError(`Connection error: ${err instanceof Error ? err.message : 'Unknown error'}`)
+            setError(`Connection error: ${err?.message || 'Unknown error'}`)
         }
 
         return () => {

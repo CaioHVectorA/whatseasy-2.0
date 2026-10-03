@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from '.';
 // ---------------------------- Student API ------------------------------------------------- //
 // export async function resendEmail(email: string) {
