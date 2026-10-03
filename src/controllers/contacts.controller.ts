@@ -44,10 +44,12 @@ export const contactsController: FastifyPluginAsync = async (
         whereClause.Clusters = { none: {} };
       } else {
         const cId = Number(clusterId);
-        whereClause.OR = [
-          { clusterId: cId },
-          { Clusters: { some: { clusterId: cId } } },
-        ];
+        if (!isNaN(cId)) {
+          whereClause.OR = [
+            { clusterId: cId },
+            { Clusters: { some: { clusterId: cId } } },
+          ];
+        }
       }
     }
 
@@ -506,8 +508,60 @@ export const contactsController: FastifyPluginAsync = async (
 
   // ================= CLUSTERS ================= //
 
+  // Listar Clusters
+  const handleGetClusters = async (req: any, reply: any) => {
+    const userId = (req.user as { id: string }).id;
+    const clusters = await prisma.contactCluster.findMany({
+      where: { userId },
+      include: {
+        _count: {
+          select: { Contacts: true, ContactRelations: true },
+        },
+      },
+      orderBy: { name: "asc" },
+    });
+
+    return mountApiResponse(
+      clusters.map((c) => ({
+        id: c.id,
+        name: c.name,
+        description: c.description,
+        totalContacts: Math.max(c._count.Contacts, c._count.ContactRelations),
+      }))
+    );
+  };
+
+  fastify.get("/clusters", handleGetClusters);
+  fastify.get("/cluster", handleGetClusters);
+
+  // Mover contatos (alias para batch-clusters com ação SET)
+  fastify.patch<Body<{ contactIds: number[]; clusterId: number }>>(
+    "/move-contacts",
+    async (req, reply) => {
+      const userId = (req.user as { id: string }).id;
+      const { contactIds, clusterId } = req.body;
+
+      if (!contactIds || contactIds.length === 0 || !clusterId) {
+        throw new AppError("Contatos e cluster são obrigatórios!", 400);
+      }
+
+      for (const cId of contactIds) {
+        await prisma.contactClusterRelation.deleteMany({ where: { contactId: cId } });
+        await prisma.contactClusterRelation.create({
+          data: { contactId: cId, clusterId: Number(clusterId) },
+        });
+        await prisma.contacts.update({
+          where: { id: cId },
+          data: { clusterId: Number(clusterId) },
+        });
+      }
+
+      return mountApiResponse({}, "Contatos movidos com sucesso!");
+    }
+  );
+
   // Criar Cluster
-  fastify.post<Body<CreateClusterRequest>>("/clusters", async (req, reply) => {
+  const handleCreateCluster = async (req: any, reply: any) => {
     const userId = (req.user as { id: string }).id;
     const { name, description } = req.body;
 
@@ -538,7 +592,10 @@ export const contactsController: FastifyPluginAsync = async (
     });
 
     return mountApiResponse(cluster, "Cluster criado com sucesso!");
-  });
+  };
+
+  fastify.post("/clusters", handleCreateCluster);
+  fastify.post("/cluster", handleCreateCluster);
 
   // Atualizar Cluster
   fastify.put<Body<UpdateClusterRequest> & { Params: { id: string } }>(
@@ -548,8 +605,11 @@ export const contactsController: FastifyPluginAsync = async (
       const clusterId = Number(req.params.id);
       const { name, description } = req.body;
 
+      const current = await prisma.contactCluster.findFirst({ where: { id: clusterId, userId } });
+      if (!current) throw new AppError("Cluster não encontrado!", 404);
+
       const cluster = await prisma.contactCluster.update({
-        where: { id: clusterId, userId },
+        where: { id: clusterId },
         data: { name, description },
       });
 
@@ -568,6 +628,9 @@ export const contactsController: FastifyPluginAsync = async (
     const userId = (req.user as { id: string }).id;
     const clusterId = Number(req.params.id);
 
+    const current = await prisma.contactCluster.findFirst({ where: { id: clusterId, userId } });
+    if (!current) throw new AppError("Cluster não encontrado!", 404);
+
     await prisma.contactClusterRelation.deleteMany({
       where: { clusterId },
     });
@@ -578,7 +641,7 @@ export const contactsController: FastifyPluginAsync = async (
     });
 
     await prisma.contactCluster.delete({
-      where: { id: clusterId, userId },
+      where: { id: clusterId },
     });
 
     await LoggerService.log({

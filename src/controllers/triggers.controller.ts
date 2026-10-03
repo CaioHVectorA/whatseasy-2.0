@@ -132,7 +132,7 @@ export const triggersController: FastifyPluginAsync = async (
       if (!current) throw new AppError("Gatilho não encontrado!", 404);
 
       const trigger = await prisma.trigger.update({
-        where: { id, userId },
+        where: { id },
         data: { active: !current.active },
       });
 
@@ -150,14 +150,15 @@ export const triggersController: FastifyPluginAsync = async (
       const id = Number(req.params.id);
       let active = req.body?.active;
 
+      const current = await prisma.trigger.findFirst({ where: { id, userId } });
+      if (!current) throw new AppError("Gatilho não encontrado!", 404);
+
       if (active === undefined) {
-        const current = await prisma.trigger.findFirst({ where: { id, userId } });
-        if (!current) throw new AppError("Gatilho não encontrado!", 404);
         active = !current.active;
       }
 
       const trigger = await prisma.trigger.update({
-        where: { id, userId },
+        where: { id },
         data: { active },
       });
 
@@ -173,8 +174,11 @@ export const triggersController: FastifyPluginAsync = async (
     const userId = (req.user as { id: string }).id;
     const id = Number(req.params.id);
 
+    const current = await prisma.trigger.findFirst({ where: { id, userId } });
+    if (!current) throw new AppError("Gatilho não encontrado!", 404);
+
     await prisma.trigger.delete({
-      where: { id, userId },
+      where: { id },
     });
 
     return mountApiResponse({}, "Gatilho excluído com sucesso!");

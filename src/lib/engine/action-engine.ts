@@ -98,6 +98,13 @@ export class ActionEngine {
         const cId = Number(validation.matchedOption.targetClusterId);
         contact.clusterId = cId;
         if (contact.id && contact.id !== 999999) {
+          await prisma.contacts
+            .update({
+              where: { id: contact.id },
+              data: { clusterId: cId },
+            })
+            .catch(() => {});
+
           await prisma.contactClusterRelation
             .upsert({
               where: { contactId_clusterId: { contactId: contact.id, clusterId: cId } },

@@ -69,6 +69,10 @@ export class PlaygroundSimulatorAdapter implements IMessagingChannel {
     this.sessions.delete(userId);
   }
 
+  static reset(userId: string): void {
+    this.resetSession(userId);
+  }
+
   /**
    * Atualiza os dados do contato simulado
    */

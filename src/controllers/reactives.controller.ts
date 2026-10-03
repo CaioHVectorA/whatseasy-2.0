@@ -132,7 +132,7 @@ export const reactiveController: FastifyPluginAsync = async (
       if (!current) throw new AppError("Reativo não encontrado!", 404);
 
       const reactive = await prisma.trigger.update({
-        where: { id, userId },
+        where: { id },
         data: { active: !current.active },
       });
 
@@ -150,14 +150,15 @@ export const reactiveController: FastifyPluginAsync = async (
       const id = Number(req.params.id);
       let active = req.body?.active;
 
+      const current = await prisma.trigger.findFirst({ where: { id, userId } });
+      if (!current) throw new AppError("Reativo não encontrado!", 404);
+
       if (active === undefined) {
-        const current = await prisma.trigger.findFirst({ where: { id, userId } });
-        if (!current) throw new AppError("Reativo não encontrado!", 404);
         active = !current.active;
       }
 
       const reactive = await prisma.trigger.update({
-        where: { id, userId },
+        where: { id },
         data: { active },
       });
 
@@ -176,8 +177,11 @@ export const reactiveController: FastifyPluginAsync = async (
       const id = Number(req.params.id);
       const { name, active, textTriggers, responses, clusterIds = [], delaySeconds = 0, actionType, actionConfig } = req.body;
 
+      const current = await prisma.trigger.findFirst({ where: { id, userId } });
+      if (!current) throw new AppError("Reativo não encontrado!", 404);
+
       const reactive = await prisma.trigger.update({
-        where: { id, userId },
+        where: { id },
         data: {
           name,
           active: active ?? true,
@@ -239,8 +243,11 @@ export const reactiveController: FastifyPluginAsync = async (
     const userId = (req.user as { id: string }).id;
     const id = Number(req.params.id);
 
+    const current = await prisma.trigger.findFirst({ where: { id, userId } });
+    if (!current) throw new AppError("Reativo não encontrado!", 404);
+
     await prisma.trigger.delete({
-      where: { id, userId },
+      where: { id },
     });
 
     return mountApiResponse({}, "Reativo excluído com sucesso!");

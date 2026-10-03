@@ -71,14 +71,7 @@ export const playgroundController: FastifyPluginAsync = async (
     });
   });
 
-  // Atualiza os dados do contato simulado (ex: nome, cargo, empresa, etc.)
-  fastify.put<{
-    Body: {
-      name?: string;
-      phone?: string;
-      customFields?: Record<string, any>;
-    };
-  }>("/playground/contact", async (req, reply) => {
+  const handleUpdateContact = async (req: any, reply: any) => {
     const userId = (req.user as { id: string }).id;
     const { name, phone, customFields } = req.body || {};
 
@@ -90,16 +83,22 @@ export const playgroundController: FastifyPluginAsync = async (
 
     const session = PlaygroundSimulatorAdapter.getSession(userId);
     return mountApiResponse(session);
-  });
+  };
+
+  fastify.put("/playground/contact", handleUpdateContact);
+  fastify.patch("/playground/contact", handleUpdateContact);
 
   // Reseta o histórico de mensagens e estado da conversa do Playground
-  fastify.delete("/playground/session", async (req, reply) => {
+  const handleReset = async (req: any, reply: any) => {
     const userId = (req.user as { id: string }).id;
     const session = PlaygroundSimulatorAdapter.getSession(userId);
 
     ConversationStateManager.clearSession(userId, session.contact.phone);
     PlaygroundSimulatorAdapter.resetSession(userId);
 
-    return mountApiResponse({}, "Sessão do Playground reiniciada com sucesso!");
-  });
+    return mountApiResponse({ messages: [] }, "Sessão do Playground reiniciada com sucesso!");
+  };
+
+  fastify.delete("/playground/session", handleReset);
+  fastify.post("/playground/reset", handleReset);
 };
