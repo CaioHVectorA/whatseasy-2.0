@@ -136,11 +136,11 @@ export class ActionEngine {
       return;
     }
 
-    // ================= 2. VERIFICAÇÃO DE REATIVOS ATIVOS ================= //
+    // ================= 2. VERIFICAÇÃO DE REATIVOS E FLUXOS ATIVOS ================= //
     const reactives = await prisma.trigger.findMany({
       where: {
         userId,
-        kind: "REACTIVE",
+        kind: { in: ["REACTIVE", "CANVAS_FLOW"] },
         active: true,
       },
       include: {

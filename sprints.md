@@ -28,8 +28,8 @@
 |:---:|---|---|:---:|
 | **Sprint 0** | **Fundação & Fly.io Setup** | Arquitetura limpa em camadas, persistência de sessões `/data/auths`, `fly.toml` 24/7, endpoint `/health` e Dockerfile de produção. | ✅ **Concluída & Validada E2E** |
 | **Sprint 1** | **Identidade Visual "Superpower"** | Design System premium (estilo n8n/Linear/Raycast), nova paleta Deep Void + Emerald, nova tipografia, Redesign do Dashboard & Navegação. | ✅ **Concluída & Validada E2E** |
-| **Sprint 2** | **WhatsApp Baileys & Observabilidade VPS** | Sessões blindadas, auto-reconexão com código 515, resolução de LIDs, heartbeat 45s, logs operacionais em tempo real e monitor de VPS. | 🟡 **Atual (Iniciando)** |
-| **Sprint 3** | **Canvas Visual de Reativos (O Diferencial)** | Flow Builder interativo (arrasta-e-solta de nós, conexões bézier, painel de propriedades) + Modo Rápido Plug & Play (I/O instantâneo). | ⏳ Aguardando Sprint 2 |
+| **Sprint 2** | **WhatsApp Baileys & Observabilidade VPS** | Sessões blindadas, auto-reconexão com código 515, resolução de LIDs, heartbeat 45s, logs operacionais em tempo real e monitor de VPS. | ✅ **Concluída & Validada E2E** |
+| **Sprint 3** | **Canvas Visual de Reativos (O Diferencial)** | Flow Builder interativo (arrasta-e-solta de nós, conexões bézier, painel de propriedades) + Modo Rápido Plug & Play (I/O instantâneo). | 🟡 **Atual (Iniciando)** |
 | **Sprint 4** | **Ações Unificadas, Contatos & Clusters** | Telas de Contatos & Clusters com seleção múltipla, operações em massa, Banco de Dados Dinâmico (Custom Fields) e ActionEngine. | ⏳ Aguardando Sprint 3 |
 | **Sprint 5** | **Gatilhos Temporais, Anti-Ban & Playground** | Motor de agendamento por horário/inatividade, proteção anti-ban (delays humanizados), simulador interativo de chat desacoplado. | ⏳ Aguardando Sprint 4 |
 | **Sprint 6** | **Testes E2E, Hardening & Release MVP** | Suite completa de testes automatizados, verificação de carga na VPS, documentação de operação e deploy final do MVP em produção. | ⏳ Aguardando Sprint 5 |
