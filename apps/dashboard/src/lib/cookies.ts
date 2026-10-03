@@ -1,5 +1,4 @@
-// Set a cookie
-function setCookie(name: string, value: string, days: number) {
+function setCookie(name: string, value: string, days = 30) {
   let expires = '';
   if (days) {
     const date = new Date();
@@ -7,9 +6,9 @@ function setCookie(name: string, value: string, days: number) {
     expires = '; expires=' + date.toUTCString();
   }
   document.cookie = name + '=' + (value || '') + expires + '; path=/';
+  localStorage.setItem(name, value);
 }
 
-// Get a cookie
 function getCookie(name: string) {
   const nameEQ = name + '=';
   const ca = document.cookie.split(';');
@@ -18,12 +17,12 @@ function getCookie(name: string) {
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
     if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
-  return null;
+  return localStorage.getItem(name);
 }
 
-// Delete a cookie
 function deleteCookie(name: string) {
-  document.cookie = name + '=; Max-Age=-99999999;';
+  document.cookie = name + '=; Max-Age=-99999999; path=/;';
+  localStorage.removeItem(name);
 }
 
-export { setCookie, getCookie, deleteCookie };
+export { setCookie, getCookie, deleteCookie, deleteCookie as removeCookie };

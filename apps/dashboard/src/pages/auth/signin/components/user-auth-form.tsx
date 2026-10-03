@@ -11,128 +11,58 @@ import { Input } from '@/components/ui/input';
 import { api } from '@/lib/api';
 import { setCookie } from '@/lib/cookies';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { Loader2, Lock, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Digite um e-mail válido' }),
   password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres' }),
-  name: z.string().optional(),
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
-  const [mode, setMode] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
-      name: '',
-    }
+    },
   });
 
-  const onSubmit = async (data: UserFormValue) => {
-    setErrorMessage(null);
-    setLoading(true);
-    try {
-      const endpoint = mode === 'LOGIN' ? '/auth/login' : '/auth/register';
-      const res = await api.post(endpoint, data);
-      const token = res.data?.data?.token;
+  const { isPending: loading, mutate } = useMutation({
+    mutationFn: async (data: UserFormValue) => {
+      const res = await api.post('/auth/login', data);
+      return res.data;
+    },
+    onSuccess: (response) => {
+      const token = response.data?.token;
       if (token) {
         setCookie('token', token, 30);
-        window.location.href = '/';
-      } else {
-        setErrorMessage(res.data?.message || 'Erro ao autenticar');
+        toast.success('Login realizado com sucesso!');
+        navigate('/');
       }
-    } catch (err: any) {
-      console.error(err);
-      setErrorMessage(err.response?.data?.message || 'Erro ao realizar login/cadastro');
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    onError: (err: any) => {
+      const msg = err.response?.data?.message || 'Erro ao realizar login. Verifique suas credenciais.';
+      toast.error(msg);
+    },
+  });
 
-  const handleDevLogin = async () => {
-    setErrorMessage(null);
-    setLoading(true);
-    try {
-      const email = form.getValues('email') || 'dev@whatseasy.com';
-      const res = await api.post('/auth/enter-development', { email });
-      const token = res.data?.data?.token;
-      if (token) {
-        setCookie('token', token, 30);
-        window.location.href = '/';
-      }
-    } catch (err: any) {
-      console.error(err);
-      setErrorMessage(err.response?.data?.message || 'Erro no login dev');
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data: UserFormValue) => {
+    mutate(data);
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex rounded-lg bg-muted p-1">
-        <button
-          type="button"
-          className={`flex-1 rounded-md py-1.5 text-sm font-medium transition-all ${
-            mode === 'LOGIN'
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'
-          }`}
-          onClick={() => { setMode('LOGIN'); setErrorMessage(null); }}
-        >
-          Entrar
-        </button>
-        <button
-          type="button"
-          className={`flex-1 rounded-md py-1.5 text-sm font-medium transition-all ${
-            mode === 'REGISTER'
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'
-          }`}
-          onClick={() => { setMode('REGISTER'); setErrorMessage(null); }}
-        >
-          Criar Conta
-        </button>
-      </div>
-
-      {errorMessage && (
-        <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-          {errorMessage}
-        </div>
-      )}
-
+    <div className="grid gap-6">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-3">
-          {mode === 'REGISTER' && (
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Seu nome..."
-                      disabled={loading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
-
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="email"
@@ -140,12 +70,16 @@ export default function UserAuthForm() {
               <FormItem>
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="seuemail@exemplo.com"
-                    disabled={loading}
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="email"
+                      placeholder="seu.email@exemplo.com"
+                      className="pl-9"
+                      disabled={loading}
+                      {...field}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -159,33 +93,35 @@ export default function UserAuthForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="••••••••"
-                    disabled={loading}
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="password"
+                      placeholder="••••••••"
+                      className="pl-9"
+                      disabled={loading}
+                      {...field}
+                    />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button disabled={loading} className="w-full" type="submit">
-            {loading ? 'Aguarde...' : mode === 'LOGIN' ? 'Entrar' : 'Cadastrar'}
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            disabled={loading}
-            className="w-full border-dashed border-primary text-primary hover:bg-primary/10 mt-2"
-            onClick={handleDevLogin}
-          >
-            ⚡ Entrar Direto (Dev Bypass)
+          <Button disabled={loading} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" type="submit">
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Entrar no WhatsEasy
           </Button>
         </form>
       </Form>
+
+      <div className="text-center text-sm text-muted-foreground">
+        Ainda não possui uma conta?{' '}
+        <Link to="/register" className="font-semibold text-emerald-600 hover:underline">
+          Cadastre-se gratuitamente
+        </Link>
+      </div>
     </div>
   );
 }

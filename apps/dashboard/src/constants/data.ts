@@ -2,155 +2,57 @@ import { NavItem } from '@/types';
 
 export const navItems: NavItem[] = [
   {
-    title: 'Análise',
+    title: 'Dashboard',
     href: '/',
     icon: 'dashboard',
-    label: 'Dashboard'
+    label: 'Dashboard',
   },
   {
-    title: 'Conexão',
+    title: 'Conexão WhatsApp',
     href: '/status',
-    icon: 'connection',
-    label: 'Connection'
+    icon: 'whatsapp',
+    label: 'Status',
   },
   {
-    title: 'Contatos',
-    href: '/contatos',
-    icon: 'user',
-    label: 'Student'
+    title: 'Fluxos (Canvas)',
+    href: '/fluxos',
+    icon: 'flows',
+    label: 'Fluxos',
   },
   {
     title: 'Reativos',
     href: '/reativos',
     icon: 'reactive',
-    label: 'Reativos'
+    label: 'Reativos',
   },
   {
-    title: 'Login',
-    href: '/login',
-    icon: 'login',
-    label: 'Login'
-  }
+    title: 'Gatilhos',
+    href: '/gatilhos',
+    icon: 'trigger',
+    label: 'Gatilhos',
+  },
+  {
+    title: 'Playground',
+    href: '/playground',
+    icon: 'playground',
+    label: 'Playground',
+  },
+  {
+    title: 'Contatos & Clusters',
+    href: '/contatos',
+    icon: 'contacts',
+    label: 'Contatos',
+  },
+  {
+    title: 'Banco Dinâmico',
+    href: '/banco-dados',
+    icon: 'database',
+    label: 'Banco Dinâmico',
+  },
+  {
+    title: 'Logs do Sistema',
+    href: '/logs',
+    icon: 'logs',
+    label: 'Logs',
+  },
 ];
-
-export const users = [
-  {
-    id: 1,
-    name: 'Candice Schiner',
-    company: 'Dell',
-    role: 'Frontend Developer',
-    verified: false,
-    status: 'Active'
-  },
-  {
-    id: 2,
-    name: 'John Doe',
-    company: 'TechCorp',
-    role: 'Backend Developer',
-    verified: true,
-    status: 'Active'
-  },
-  {
-    id: 3,
-    name: 'Alice Johnson',
-    company: 'WebTech',
-    role: 'UI Designer',
-    verified: true,
-    status: 'Active'
-  },
-  {
-    id: 4,
-    name: 'David Smith',
-    company: 'Innovate Inc.',
-    role: 'Fullstack Developer',
-    verified: false,
-    status: 'Inactive'
-  },
-  {
-    id: 5,
-    name: 'Emma Wilson',
-    company: 'TechGuru',
-    role: 'Product Manager',
-    verified: true,
-    status: 'Active'
-  },
-  {
-    id: 6,
-    name: 'James Brown',
-    company: 'CodeGenius',
-    role: 'QA Engineer',
-    verified: false,
-    status: 'Active'
-  },
-  {
-    id: 7,
-    name: 'Laura White',
-    company: 'SoftWorks',
-    role: 'UX Designer',
-    verified: true,
-    status: 'Active'
-  },
-  {
-    id: 8,
-    name: 'Michael Lee',
-    company: 'DevCraft',
-    role: 'DevOps Engineer',
-    verified: false,
-    status: 'Active'
-  },
-  {
-    id: 9,
-    name: 'Olivia Green',
-    company: 'WebSolutions',
-    role: 'Frontend Developer',
-    verified: true,
-    status: 'Active'
-  },
-  {
-    id: 10,
-    name: 'Robert Taylor',
-    company: 'DataTech',
-    role: 'Data Analyst',
-    verified: false,
-    status: 'Active'
-  }
-];
-
-export const dashboardCard = [
-  {
-    date: 'Today',
-    total: 2000,
-    role: 'Students',
-    color: 'bg-[#EC4D61] bg-opacity-40'
-  },
-  {
-    date: 'Today',
-    total: 2000,
-    role: 'Teachers',
-    color: 'bg-[#FFEB95] bg-opacity-100'
-  },
-  {
-    date: 'Today',
-    total: 2000,
-    role: 'Parents',
-    color: 'bg-[#84BD47] bg-opacity-30'
-  },
-  {
-    date: 'Today',
-    total: 2000,
-    role: 'Schools',
-    color: 'bg-[#D289FF] bg-opacity-30'
-  }
-];
-
-export type Contact = {
-  id: number;
-  phone: string;
-  name: string;
-  createdAt: string; // Consider using a proper date type if possible
-  updatedAt: string; // Consider using a proper date type if possible
-  userId: string;
-  clusterId: string | null;
-  Cluster: string | null;
-  clusterName: string;
-};

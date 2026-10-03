@@ -8,8 +8,17 @@ import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import ThemeProvider from './theme-provider';
 import { SidebarProvider } from '@/hooks/use-sidebar';
+import { Toaster } from '@/components/ui/sonner';
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const ErrorFallback = ({ error }: FallbackProps) => {
   const router = useRouter();
@@ -44,7 +53,10 @@ export default function AppProvider({
             <QueryClientProvider client={queryClient}>
               <ReactQueryDevtools />
               <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <SidebarProvider>{children}</SidebarProvider>
+                <SidebarProvider>
+                  {children}
+                  <Toaster richColors position="top-right" />
+                </SidebarProvider>
               </ThemeProvider>
             </QueryClientProvider>
           </ErrorBoundary>
